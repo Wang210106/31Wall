@@ -1,0 +1,18 @@
+<!--pages/my/my.wxml-->
+<view class="wrap">
+    <view class="info">
+        <image src="{{headImage}}" class="headImage" mode="aspectFill"/>
+        <view class="userInfo">
+            <text class="name">{{userName}}</text>
+            <text class="class">{{session}}届{{class}}班</text>
+        </view>
+    </view>
+    <view class="items">
+        <view class="userItems">
+            <view wx:for="{{items0}}" wx:key="{id}">{{item.text}}</view>
+        </view>
+        <view class="sysItems">
+            <view wx:for="{{items1}}" wx:key="item.id">{{item.text}}</view>
+        </view>
+    </view>
+</view>

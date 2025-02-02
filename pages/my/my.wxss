@@ -1,0 +1,29 @@
+/* pages/my/my.wxss */
+.info{
+    display: flex;
+    padding-left: 50rpx;
+    height: 300rpx;
+    border: 1px solid #000;
+}
+.items{
+    display: block;
+}
+.userInfo{
+    display: flex;
+    flex-direction: column;
+}
+.name{
+    padding: 20rpx;
+    font-size: 40rpx;
+}
+.headImage{
+    display: block;
+    border-radius: 15rpx;
+    width: 160rpx;
+    height: 160rpx;
+}
+.userItems,.sysItems{
+    border-top: 1px solid #000; 
+    background-color: #F7F7F7;
+    margin-top: 20rpx;
+}
