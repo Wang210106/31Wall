@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/msg/msg",
-    "pages/lost/lost",
     "pages/my/my",
     "pages/btmBar/btmBar"
   ],
