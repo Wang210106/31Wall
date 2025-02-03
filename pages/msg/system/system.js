@@ -1,4 +1,4 @@
-// pages/btmBar/btmBar.js
+// pages/msg/system/system.js
 Page({
 
   /**

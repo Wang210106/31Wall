@@ -3,7 +3,7 @@
     "pages/index/index",
     "pages/msg/msg",
     "pages/my/my",
-    "pages/btmBar/btmBar"
+    "pages/msg/likeComment/likeComment"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -21,24 +21,24 @@
     "color": "black",
     "selectedColor": "#315EFB",
     "list": [
-        {
-            "pagePath": "pages/index/index",
-            "text": "主页",
-            "iconPath": "image/btnbar/home0.png",
-            "selectedIconPath": "image/btnbar/home1.png"
-        },
-        {
-            "pagePath": "pages/msg/msg",
-            "selectedIconPath": "image/btnbar/msg1.png",
-            "iconPath": "image/btnbar/msg0.png",
-            "text": "消息"
-        },
-        {
-            "pagePath": "pages/my/my",
-            "iconPath": "image/btnbar/gr0.png",
-            "selectedIconPath": "image/btnbar/gr1.png",
-            "text": "个人中心"
-        }
+      {
+        "pagePath": "pages/index/index",
+        "text": "主页",
+        "iconPath": "image/btnbar/home0.png",
+        "selectedIconPath": "image/btnbar/home1.png"
+      },
+      {
+        "pagePath": "pages/msg/msg",
+        "selectedIconPath": "image/btnbar/msg1.png",
+        "iconPath": "image/btnbar/msg0.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "image/btnbar/gr0.png",
+        "selectedIconPath": "image/btnbar/gr1.png",
+        "text": "个人中心"
+      }
     ]
   }
 }
