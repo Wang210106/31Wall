@@ -1,4 +1,6 @@
 /* pages/my/my.wxss */
+@import "/static/wxss/my.wxss";
+
 .info{
     display: flex;
     height: 300rpx;
@@ -35,15 +37,24 @@
     height: 160rpx;
 }
 .userItems,.sysItems{
+    border-top: 1px solid rgb(231, 231, 231);
     width: 100%;
     margin-top: 30rpx;
     display: flex;
     flex-direction: column;
+    transition: 0.5s;
+}
+.userItems>view:hover, .sysItems>view:hover{
+    color: #315EFB;
 }
 .userItems>view,.sysItems>view{
     background-color: rgb(245, 245, 245);
     width: 100%;
     height: 80rpx;
     line-height: 80rpx;
-    border: 1px solid rgb(231, 231, 231);
+    border-bottom: 1px solid rgb(231, 231, 231);
+    padding-left: 30rpx;
+}
+.icon{
+    margin: 0 30rpx;
 }

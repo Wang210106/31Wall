@@ -11,10 +11,16 @@
     </view>
     <view class="items">
         <view class="userItems">
-            <view wx:for="{{items0}}" wx:key="{id}">{{item.text}}</view>
+            <view wx:for="{{items0}}" wx:key="{id}">
+                <text class="gerenzhognxin icon {{item.iconfont}}"></text>
+                {{item.text}}
+            </view>
         </view>
         <view class="sysItems">
-            <view wx:for="{{items1}}" wx:key="item.id">{{item.text}}</view>
+            <view wx:for="{{items1}}" wx:key="item.id">
+                <text class="gerenzhognxin icon {{item.iconfont}}"></text>
+                {{item.text}}
+            </view>
         </view>
     </view>
 </view>
