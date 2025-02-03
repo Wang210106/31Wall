@@ -1,9 +1,19 @@
 /* pages/my/my.wxss */
+.wrap{
+    background-color: rgb(245, 245, 245);
+}
 .info{
     display: flex;
-    padding-left: 50rpx;
     height: 300rpx;
-    border: 1px solid #000;
+    border-bottom: 0.5rpx solid rgb(231, 231, 231);
+    align-items: center;
+    justify-content: center;
+}
+.infoWrap{
+    height: 160rpx;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
 }
 .items{
     display: block;
@@ -11,10 +21,14 @@
 .userInfo{
     display: flex;
     flex-direction: column;
+    align-items: stretch;
 }
 .name{
-    padding: 20rpx;
-    font-size: 40rpx;
+    margin: 20rpx 0;
+    font-size: 50rpx;
+}
+.class{
+    font-size: 30rpx;
 }
 .headImage{
     display: block;
@@ -23,7 +37,6 @@
     height: 160rpx;
 }
 .userItems,.sysItems{
-    border-top: 1px solid #000; 
-    background-color: #F7F7F7;
+    border: 1px solid #000; 
     margin-top: 20rpx;
 }
