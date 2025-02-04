@@ -1,66 +1,41 @@
-// pages/msg/msg.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
-})
+	data: {
+	  systemBadge: 0,
+	  updateBadge: 0,
+	  likeCommentBadge: 0,
+	  hasEnteredLikeComment: false // 新增，用于标记是否进入过点赞&评论页面
+	},
+	navigateToMessages: function (e) {
+	  let type = e.currentTarget.dataset.type;
+	  if (type === 'likeComment') {
+		wx.navigateTo({
+		  url: '/pages/msg/likeComment/likeComment'
+		});
+		this.setData({
+		  likeCommentBadge: 0,
+		  hasEnteredLikeComment: true
+		});
+	  } else {
+		// 其他类型跳转逻辑可在此添加
+		console.log('跳转到', type, '消息详情页面');
+	  }
+	},
+	// 模拟从控制台发送消息的函数，可根据实际情况修改
+	addMessage: function (type) {
+	  if (type ==='system') {
+		this.setData({
+		  systemBadge: Math.min(this.data.systemBadge + 1, 99)
+		});
+	  } else if (type === 'update') {
+		this.setData({
+		  updateBadge: Math.min(this.data.updateBadge + 1, 99)
+		});
+	  } else if (type === 'likeComment') {
+		if (!this.data.hasEnteredLikeComment) {
+		  this.setData({
+			likeCommentBadge: Math.min(this.data.likeCommentBadge + 1, 99)
+		  });
+		}
+	  }
+	}
+  });
