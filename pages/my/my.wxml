@@ -11,14 +11,14 @@
     </view>
     <view class="items">
         <view class="userItems">
-            <view wx:for="{{items0}}" wx:key="{id}">
+            <view wx:for="{{items0}}" wx:key="{{item.id}}">
                 <text class="gerenzhognxin icon {{item.iconfont}}"></text>
                 <text>{{item.text}}</text>
                 <image class='rightIcon' src="/image/right.png" mode="scaleToFill"/>
             </view>
         </view>
         <view class="sysItems">
-            <view wx:for="{{items1}}" wx:key="item.id">
+            <view wx:for="{{items1}}" wx:key="{{item.id}}">
                 <text class="gerenzhognxin icon {{item.iconfont}}"></text>
                 <text>{{item.text}}</text>
                 <image class='rightIcon' src="/image/right.png" mode="scaleToFill"/>
