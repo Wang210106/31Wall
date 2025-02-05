@@ -1,4 +1,3 @@
-
 // pages/msg/system/system.js
 Page({
 

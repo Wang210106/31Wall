@@ -1,29 +1,3 @@
-
 <view class="message-center">
-    <view class="message-type" bindtap="navigateToMessages" data-type="system">
-        <view class="icon-wrapper">
-            <view class="xiaoxi icon-xitongxiaoxi"></view>
-            <view class="badge" wx:if="{{systemBadge > 0}}">{{systemBadge}}</view>
-        </view>
-        <text class="type-name">系统通知</text>
-        <image src="/image/right.png" mode="scaleToFill" class="rightIcon"/>
-    </view>
-
-    <view class="message-type" bindtap="navigateToMessages" data-type="update">
-        <view class="icon-wrapper">
-            <view class="xiaoxi icon-gonggao"></view>
-            <view class="badge" wx:if="{{updateBadge > 0}}">{{updateBadge}}</view>
-        </view>
-        <text class="type-name">公告</text>
-        <image src="/image/right.png" mode="scaleToFill" class="rightIcon"/>
-    </view>
-
-    <view class="message-type" bindtap="navigateToMessages" data-type="likeComment">
-        <view class="icon-wrapper">
-            <view class="xiaoxi icon-shoudaodepinglun"></view>
-            <view class="badge" wx:if="{{likeCommentBadge > 0}}">{{likeCommentBadge}}</view>
-        </view>
-        <text class="type-name">我收到的点赞&评论</text>
-        <image src="/image/right.png" mode="scaleToFill" class="rightIcon"/>
-    </view>
+    <HeadIconTabsWithBadge items="{{items}}" badges="{{badges}}" bind:itemtap="navigateToMessages"/>
 </view>

@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/msg/msg",
     "pages/my/my",
-    "pages/msg/likeComment/likeComment"
+    "pages/msg/likeComment/likeComment",
+    "pages/msg/system/system"
   ],
   "window": {
     "navigationBarTextStyle": "black",
