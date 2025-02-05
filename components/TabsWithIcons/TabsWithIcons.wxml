@@ -1,0 +1,5 @@
+<view wx:for="{{items}}" wx:key="id" class="tab">
+    <text class="iconfont {{item.iconfont}}"></text>
+    {{item.text}}
+    <image src="/image/right.png" mode="scaleToFill" class="rightIcon"/>
+</view>

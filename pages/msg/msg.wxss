@@ -1,8 +1,7 @@
-@import "/static/wxss/msg.wxss";
+@import "/static/wxss/iconfont.wxss";
 
 .message-center {
-	padding: 20rpx;
-	background-color: #f5f5f5;
+    padding: 20rpx;
 }
   
 .message-type {
@@ -12,28 +11,29 @@
 	background-color: #ffffff;
 	border-radius: 10rpx;
 	padding: 20rpx;
-	margin-bottom: 20rpx;
-	cursor: pointer;
+    margin-bottom: 20rpx;
+    cursor: pointer;
 }
   
 .icon-wrapper {
 	width: 100rpx;
 	height: 100rpx;
-	border-radius: 50%;
+	border-radius: 10rpx;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	position: relative;
+    position: relative;
+    background-color: #f5f5f5;
 }
   
-.xiaoxi {
-	transform: scale(1.5);
+.iconfont{
+    transform: scale(1.5);
 }
   
 .badge {
 	position: absolute;
-	top: 0rpx;
-	right: 15rpx;
+	top: -10rpx;
+	right: -10rpx;
 	width: 30rpx;
 	height: 30rpx;
 	border-radius: 50%;
@@ -45,7 +45,8 @@
 }
   
 .type-name {
-	font-size: 32rpx;
+    font-size: 32rpx;
+    padding-left: 20rpx;
 }
 
 .rightIcon{

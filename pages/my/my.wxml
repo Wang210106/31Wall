@@ -11,18 +11,10 @@
     </view>
     <view class="items">
         <view class="userItems">
-            <view wx:for="{{items0}}" wx:key="id">
-                <text class="gerenzhognxin icon {{item.iconfont}}"></text>
-                {{item.text}}
-                <image src="/image/right.png" mode="scaleToFill" class="rightIcon"/>
-            </view>
+            <TabsWithIcons items="{{items0}}"></TabsWithIcons>
         </view>
         <view class="sysItems">
-            <view wx:for="{{items1}}" wx:key="id">
-                <text class="gerenzhognxin icon {{item.iconfont}}"></text>
-                {{item.text}}
-                <image src="/image/right.png" mode="scaleToFill" class="rightIcon"/>
-            </view>
+            <TabsWithIcons items="{{items1}}"></TabsWithIcons>
         </view>
     </view>
 </view>
