@@ -1,4 +1,4 @@
-<view wx:for="{{items}}" wx:key="id" class="tab">
+<view wx:for="{{items}}" wx:key="id" class="tab" data-type="{{item.id}}" bind:tap="handleItemTap">
     <text class="iconfont {{item.iconfont}}"></text>
     {{item.text}}
     <image src="/image/right.png" mode="scaleToFill" class="rightIcon"/>

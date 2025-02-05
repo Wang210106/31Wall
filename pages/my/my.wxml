@@ -11,10 +11,10 @@
     </view>
     <view class="items">
         <view class="userItems">
-            <TabsWithIcons items="{{items0}}"></TabsWithIcons>
+            <TabsWithIcons items="{{items0}}" bind:itemtap="handleTap0"></TabsWithIcons>
         </view>
         <view class="sysItems">
-            <TabsWithIcons items="{{items1}}"></TabsWithIcons>
+            <TabsWithIcons items="{{items1}}" bind:itemtap="handleTap1"></TabsWithIcons>
         </view>
     </view>
 </view>
