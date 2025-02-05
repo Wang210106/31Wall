@@ -1,10 +1,12 @@
+
 <view class="like-comment-container">
-  <view class="page-title">我收到的点赞&评论</view>
-  <view class="message-item" wx:for="{{messages}}" wx:key="id" bindtap="handleMessageTap" data-index="{{index}}">
-    <view class="sender-info">
-      <image class="sender-avatar" src="{{item.avatar}}"></image>
-      <view class="sender-name">{{item.name}}</view>
+    <view class="page-title">我收到的点赞&评论</view>
+    <view class="message-item" wx:for="{{messages}}" wx:key="id" bindtap="handleMessageTap" data-index="{{index}}">
+        <view class="sender-info">
+            <image class="sender-avatar" src="{{item.avatar}}"></image>
+            <view class="sender-name">{{item.name}}</view>
+            <view class="send-time">{{item.time}}</view>
+			<view class="message-content">{{item.content}}</view>
+        </view>
     </view>
-    <view class="send-time">{{item.time}}</view>
-  </view>
 </view>

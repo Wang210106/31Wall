@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "xiaoxi"; /* Project id 4820309 */
+    src: 
+         url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAQMAAsAAAAACFgAAAO9AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHFQGYACDHAqEEINgATYCJAMQCwoABCAFhE8HUxtbBxEVnPPIfi4YN128E6SKGuldEzzgu+VLkzJoznVSJiJS7m8wMdHPjc1phv0kQABlwae7LZvcQ3b8HvIpSicgsAg3AQLmAuCH+xmvfCLPBgDZgR9sliAD67aqE90dCN4wdnEZxyAAi8JUxKhes35zwvp3GT6QJBRapYAwXvTv06sLblaCKokXuBG46s5ViBmYYEw2rgDT3b8Xnykq3GBgSrRNGves0Z0T7+q9Hy6doAPyCXYFAtjfAExAAvlnJhO9yzVdkb4nPxIrz6UoCfg7Nwa8q/eu8/vhwSCirYrj1rVgtP7nCRdabAgAxSFb7hjVJMCAd50JkPB+OO0EDlEAuAEN7ASeIFxKkolExid7tBvkUioiNKmTsoQObAQrb6vAfB2KZWoihOXbrCOzxitngxUi8jSfs26TEBrL7/xyO/8GZ2Ngs2+T9n56nD+mv+U/As5RrXHu3tWB+b5Flv/aKSEGzNWB48L0HRotNAMGykHdtHPybuD+aaGdO3f89+518sNgjOaRLaUvsk4Lo8XcpUs2WBH+TcuWx7eSvlb3dXygxd21x/xyvN4T4aPCB3gL3eovz8kTXtux7WaGKXxUWLM8oRNmjjlhV7rdf+/a6JABtn0iDHqCY6IX2jryCa8zpbP+ebJanNsQT/wLvOGGlBLF27QpXiIkGP8jxP7byfak7snyZE4YkRBedMirFxte9LpY6CDG+PyjyuccVy17k+rZ++WsULx0q05Fwo5FnbF3g1UHVK48sErK8qWZy5amVAnWGFj58w85NXCl283b0ZlRr28Ou8K2k01z1/BWq+atkXuNQcRETIxuxmAAgi/kVZkEIE8Y/6nvgLwtnRffj7zV/uTpFF7+r1sfdNXr80PHu1nBAwrpwIuj1qa8Zm77mohKtoJSeQyT9ut4G2DCbRNh6XJ4rwGI4lkfumgIVQIXS4VgkI1EkLjIQCmcDSaa/CyXzisFwSIfFRZroumNRCi2B7D9AhBCrARDmK0ghTiMUrjzYIrzBy4hPoKl5f96mt3TkVEJWtDfEAwVZzjlKygyo5/RL0lxhGr3e0eeAxUY2j7hv2JBbjph/vCjiAPHlOHSx2GYEkFluqORdhKph65zeQ9pDeXmyKgELdDfIBgqzs6Ur6DI/f4Z/ZIU55aEme/Ic2jdGgxafSnqyik1yo48ef7wIxEHnBRLGVzmwkIUmQjU/F53NNKaWrjqQacjubqcdk28fEmbAIt2K5UhpFDCJOKJFqvIYg3Fp6WsPBXvFe2/gvjUAxA3DQAAAA==') format('woff2'),
+         url('//at.alicdn.com/t/c/font_4820309_zbuoa5s0jpd.woff?t=1738654204401') format('woff'),
+         url('//at.alicdn.com/t/c/font_4820309_zbuoa5s0jpd.ttf?t=1738654204401') format('truetype');
+  }
+  
+  .xiaoxi {
+    font-family: "xiaoxi" !important;
+    font-size: 32spx;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-shoudaodepinglun:before {
+    content: "\e774";
+  }
+  
+  .icon-gonggao:before {
+    content: "\e64b";
+  }
+  
+  .icon-xitongxiaoxi:before {
+    content: "\e660";
+  }
+  
