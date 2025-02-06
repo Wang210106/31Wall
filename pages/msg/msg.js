@@ -13,13 +13,8 @@ Page({
                 { id : 2, text : "我收到的点赞＆评论", iconfont : "icon-shoudaodepinglun", badge : 1},
         ],
 	},
-	navigateToMessages: function (event) {
-        const typeIndex = event.detail.type;
-        const type = pageDic[typeIndex];
-
-        wx.navigateTo({
-            url: `/pages/msg/${type}/${type}`
-        });
+    itemtap: function(e) {
+        const typeIndex = e.detail.type;
 
         const updatedItems = this.data.items;
         const updatedItem = updatedItems[typeIndex]; 
@@ -30,5 +25,11 @@ Page({
             items: updatedItems,
             hasEnteredLikeComment: true,
         });
-	},
+
+        const type = pageDic[typeIndex];
+        
+        wx.navigateTo({
+            url: `/pages/msg/likeComment/likeComment?type=${type}`
+        });
+    },
   });

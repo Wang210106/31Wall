@@ -4,8 +4,6 @@
     "pages/msg/msg",
     "pages/my/my",
     "pages/msg/likeComment/likeComment",
-    "pages/msg/system/system",
-    "pages/msg/notice/notice",
     "pages/my/likes/likes"
   ],
   "window": {
