@@ -1,2 +1,4 @@
 <!--pages/my/likes/likes.wxml-->
-<text>pages/my/likes/likes.wxml</text>
+<view class="wrap">
+    <HeadImageTabs items="{{items}}" bind:itemtap="itemtap"/>
+</view>

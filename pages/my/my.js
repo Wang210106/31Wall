@@ -2,7 +2,8 @@
 const pageDic0 = {
     0 : "posts",
     1 : "likes",
-    2 : "history",
+    2 : "comment",
+    3 : "history"
 }
 
 Page({
@@ -10,7 +11,8 @@ Page({
         items0: [
             { id : 0, text : "我的发帖", iconfont : "icon-wofadetiezi"},
             { id : 1, text : "我的点赞", iconfont : "icon-24px"},
-            { id : 2, text : "浏览历史", iconfont : "icon-lishi"},
+            { id : 2, text : "我的评论", iconfont : "icon-pinglun"},
+            { id : 3, text : "浏览历史", iconfont : "icon-lishi"},
         ],
         items1: [
             { id : 0, text : "设置", iconfont : "icon-shezhi"},
@@ -18,19 +20,24 @@ Page({
             { id : 2, text : "支持一下", iconfont : "icon-juankuanmingxi"},
             { id : 3, text : "问题反馈＆联系我们", iconfont : "icon-jishuzhichi"},
         ],
-        headImage: "/image/hd1.png",
-        userName: "车柏乐",
-        class: 10,
-        session: 26
+        userInfo: {
+            headImage: "/image/hd1.png",
+            userName: "车柏乐",
+            class: 10,
+            session: 26,
+        },
     },
     
-    handleTap0: function(e){
-        console.log(e)
+    handleTap0: e => {
         const typeIndex = e.detail.type;
         const type = pageDic0[typeIndex];
 
         wx.navigateTo({
-            url: `/pages/my/${type}/${type}`
+            url: `/pages/my/likes/likes?type=${type}`
         });
-    }
+    },
+    handleTap1: e => {
+        const typeIndex = e.detail.type;
+        //const type = pageDic1[typeIndex];
+    },
 })

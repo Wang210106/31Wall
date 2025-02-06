@@ -1,7 +1,7 @@
 <view wx:for="{{items}}" wx:key="id" class="wrap"  data-type="{{item.id}}" bindtap="handleItemTap">
     <view class="iconWrap">
         <view class="iconfont {{item.iconfont}}"></view>
-        <view class="badge" wx:if="{{badges[item.id] > 0}}">{{badges[item.id] > 99 ? " ..." : badges[item.id]}}</view>
+        <view class="badge" wx:if="{{item.badge > 0}}">{{item.badge > 99 ? " ..." : item.badge}}</view>
     </view>
     <text class="text">{{item.text}}</text>
     <image src="/image/right.png" mode="scaleToFill" class="rightIcon"/>

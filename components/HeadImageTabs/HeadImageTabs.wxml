@@ -1,8 +1,12 @@
 <view wx:for="{{items}}" wx:key="id" class="wrap"  data-type="{{item.id}}" bindtap="handleItemTap">
     <view class="iconWrap">
-        <view class="iconfont {{item.iconfont}}"></view>
-        <view class="badge" wx:if="{{badges[item.id] > 0}}">{{badges[item.id] > 99 ? " ..." : badges[item.id]}}</view>
+        <image wx:if="{{!item.isIcon}}" src="{{item.imageUrl}}" mode="scaleToFill" class="iconImage"/>
+        <view wx:if='{{item.isIcon || false}}' class="iconfont {{item.iconfont || 'icon-tiezishoucang'}}"></view>
+        <!--默認的圖標為icon-tiezishoucang-->
     </view>
-    <text class="text">{{item.text}}</text>
+    <view class="textWrap">
+        <text class="title">{{item.text}}</text>
+        <text class="text">{{item.subText}}</text>
+    </view>
     <image src="/image/right.png" mode="scaleToFill" class="rightIcon"/>
 </view>

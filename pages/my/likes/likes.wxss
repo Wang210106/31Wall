@@ -1,1 +1,4 @@
 /* pages/my/likes/likes.wxss */
+.wrap{
+    margin: 20rpx;
+}

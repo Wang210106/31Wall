@@ -1,66 +1,26 @@
 // pages/my/likes/likes.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+    data: {
+        "items" : [
+            { id : 10001, text : '消息一車車車', subText : 'chebaile', isIcon : true},
+            { id : 10002, text : '消息2車車車', subText : 'chebaile' , isIcon : false, imageUrl : '/image/hd1.png'},
+            { id : 10003, text : '消息三車車車',subText : '小文字小蚊子' , isIcon : false, imageUrl : '/image/hd1.png'},
+            { id : 10004, text : '消息4車車車',subText : 'chebaile' , isIcon : true},
+            { id : 10005, text : '消息五lll',subText : 'chebaile' , isIcon : true},
+            { id : 10006, text : '消息6lll',subText : 'chebaile' , isIcon : true},
+            { id : 10007, text : '消息7lll',subText : 'chebaile' , isIcon : true},
+            { id : 10008, text : '消息8lll',subText : 'chebaile' , isIcon : true},
+            { id : 10009, text : '消息9lll',subText : 'chebaile' , isIcon : true},
+            { id : 10010, text : '消息10lll',subText : 'chebaile' , isIcon : true},
+            { id : 10011, text : '消息11lll',subText : 'chebaile' , isIcon : true},
+            { id : 10012, text : '消息12lll',subText : 'chebaile' , isIcon : true},
+        ],
+    },
+    itemtap: e => {
+        const id = e.detail.type;
+        console.log("To" + id)
+    },
+    onLoad: options => {
+        console.log(options.type)
+    }
 })

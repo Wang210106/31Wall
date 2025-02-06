@@ -4,10 +4,6 @@ Component({
             type: Array,
             value: [] 
         },
-        'badges' : {
-            type: Array,
-            value: 0,
-        }
     },
     methods: {
         handleItemTap(event) {

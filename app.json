@@ -6,9 +6,7 @@
     "pages/msg/likeComment/likeComment",
     "pages/msg/system/system",
     "pages/msg/notice/notice",
-    "pages/my/history/history",
-    "pages/my/likes/likes",
-    "pages/my/posts/posts"
+    "pages/my/likes/likes"
   ],
   "window": {
     "navigationBarTextStyle": "black",
