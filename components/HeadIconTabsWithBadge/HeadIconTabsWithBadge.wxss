@@ -12,7 +12,6 @@
 	border-radius: 10rpx;
 	padding: 20rpx;
     margin-bottom: 20rpx;
-    cursor: pointer;
 }
   
 .iconWrap {
