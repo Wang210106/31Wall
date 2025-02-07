@@ -1,20 +1,20 @@
 <!--pages/my/my.wxml-->
 <view class="wrap">
-    <view class="info">
+    <view class="info {{'linar' + backColor}}" bind:tap="handleColor">
         <view class="infoWrap">
-            <image src="{{headImage}}" class="headImage" mode="aspectFill"/>
+            <image src="{{userInfo.headImage}}" class="headImage" mode="aspectFill"/>
             <view class="userInfo">
-                <text class="name">{{userName}}</text>
-                <text class="class">{{session}}届{{class}}班</text>
+                <text class="name">{{userInfo.userName}}</text>
+                <text class="class">{{userInfo.session}}届{{userInfo.class}}班</text>
             </view>
         </view>
     </view>
     <view class="items">
         <view class="userItems">
-            <TabsWithIcons items="{{items0}}"></TabsWithIcons>
+            <TabsWithIcons items="{{items0}}" bind:itemtap="handleTap"></TabsWithIcons>
         </view>
         <view class="sysItems">
-            <TabsWithIcons items="{{items1}}"></TabsWithIcons>
+            <TabsWithIcons items="{{items1}}" bind:itemtap="handleTap"></TabsWithIcons>
         </view>
     </view>
 </view>

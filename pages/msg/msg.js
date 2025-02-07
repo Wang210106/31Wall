@@ -6,28 +6,30 @@ const pageDic = {
 
 Page({
 	data: {
-        badges: [0, 100, 1],
         hasEnteredLikeComment: false, // 新增，用于标记是否进入过点赞&评论页面
         items: [
-                { id : 0, text : "系统通知", iconfont : "icon-xitongxiaoxi"},
-                { id : 1, text : "公告", iconfont : "icon-gonggao"},
-                { id : 2, text : "我收到的点赞＆评论", iconfont : "icon-shoudaodepinglun"},
+                { id : 0, text : "系统通知", iconfont : "icon-xitongxiaoxi", badge : 0},
+                { id : 1, text : "公告", iconfont : "icon-gonggao", badge : 100},
+                { id : 2, text : "我收到的点赞＆评论", iconfont : "icon-shoudaodepinglun", badge : 1},
         ],
 	},
-	navigateToMessages: function (event) {
-        const typeIndex = event.detail.type;
-        const type = pageDic[typeIndex];
+    itemtap: function(e) {
+        const typeIndex = e.detail.type;
 
-        wx.navigateTo({
-            url: `/pages/msg/${type}/${type}`
-        });
-
-        const updatedBadges = this.data.badges; 
-        updatedBadges[typeIndex] = 0; 
+        const updatedItems = this.data.items;
+        const updatedItem = updatedItems[typeIndex]; 
+        updatedItem["badge"] = 0; 
+        updatedItems[typeIndex] = updatedItem;
 
         this.setData({
-            badges: updatedBadges,
+            items: updatedItems,
             hasEnteredLikeComment: true,
         });
-	},
+
+        const type = pageDic[typeIndex];
+        
+        wx.navigateTo({
+            url: `/pages/msg/likeComment/likeComment?type=${type}`
+        });
+    },
   });

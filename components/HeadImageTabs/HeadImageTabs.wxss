@@ -13,8 +13,13 @@
 	padding: 20rpx;
     margin-bottom: 20rpx;
 }
+
+.textWrap{
+    display: flex;
+    flex-direction: column;
+}
   
-.iconWrap {
+.iconWrap ,.iconImage{
 	width: 100rpx;
 	height: 100rpx;
 	border-radius: 10rpx;
@@ -29,23 +34,18 @@
     transform: scale(1.5);
 }
   
-.badge {
-	position: absolute;
-	top: -10rpx;
-	right: -10rpx;
-	width: 30rpx;
-	height: 30rpx;
-	border-radius: 50%;
-	background-color: RGB(250,81,81);
-	color: white;
-	font-size: 20rpx;
-	text-align: center;
-	line-height: 30rpx;
+.title,.text{
+    padding-left: 50rpx;
 }
-  
+
+.title{
+    font-size: 34rpx;
+}
+
 .text{
-    font-size: 32rpx;
-    padding-left: 20rpx;
+    padding-top: 15rpx;
+    font-size: 24rpx;
+    color: #a1a1a1;
 }
 
 .rightIcon{

@@ -4,7 +4,9 @@
     "pages/msg/msg",
     "pages/my/my",
     "pages/msg/likeComment/likeComment",
-    "pages/msg/system/system"
+    "pages/my/likes/likes",
+    "pages/my/setting/setting",
+    "pages/my/developer/developer"
   ],
   "window": {
     "navigationBarTextStyle": "black",

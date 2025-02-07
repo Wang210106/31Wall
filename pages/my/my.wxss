@@ -5,7 +5,6 @@
     display: flex;
     height: 27vh;
     border-bottom: 0.5rpx solid rgb(231, 231, 231);
-    background-color: rgb(245, 245, 245);
     align-items: center;
     justify-content: center;
 }
@@ -45,4 +44,35 @@
 }
 .userItems>view:hover, .sysItems>view:hover{
     color: #315EFB;
+}
+.linar0{
+    background-color: rgb(245, 245, 245); 
+}
+.linar1{
+    background: repeating-linear-gradient(
+        45deg,
+        #54d159,
+        #54d159 20px,
+        #b2ebb5 20px,
+        #b2ebb5 40px
+    );
+    color: white;
+}
+.linar2{
+    background: repeating-linear-gradient(
+        45deg, 
+        #a6bce8,
+        #a6bce8 20px, 
+        #ffc7c7 20px,
+        #ffc7c7 40px);
+    color: white;
+}
+.linar3{
+    background: repeating-linear-gradient(
+        45deg, 
+        #6dc1f7,
+        #6dc1f7 20px, 
+        #bcf1f2 20px,
+        #bcf1f2 40px);
+    color: rgb(58, 58, 58);
 }
