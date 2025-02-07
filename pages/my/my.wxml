@@ -1,6 +1,6 @@
 <!--pages/my/my.wxml-->
 <view class="wrap">
-    <view class="info">
+    <view class="info {{'linar' + backColor}}" bind:tap="handleColor">
         <view class="infoWrap">
             <image src="{{userInfo.headImage}}" class="headImage" mode="aspectFill"/>
             <view class="userInfo">
@@ -11,10 +11,10 @@
     </view>
     <view class="items">
         <view class="userItems">
-            <TabsWithIcons items="{{items0}}" bind:itemtap="handleTap0"></TabsWithIcons>
+            <TabsWithIcons items="{{items0}}" bind:itemtap="handleTap"></TabsWithIcons>
         </view>
         <view class="sysItems">
-            <TabsWithIcons items="{{items1}}" bind:itemtap="handleTap1"></TabsWithIcons>
+            <TabsWithIcons items="{{items1}}" bind:itemtap="handleTap"></TabsWithIcons>
         </view>
     </view>
 </view>
