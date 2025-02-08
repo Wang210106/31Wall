@@ -1,8 +1,0 @@
-/**app.wxss**/
-:root{
-    --blue0 : #132843;
-    --blue1 : #315EFB;
-    --blue2 : #6191D3;
-    --grey0 : #D6DEEB;
-    --grey1 : #E6E6FA;
-}

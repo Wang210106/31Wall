@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/msg/msg",
     "pages/my/my",
+    "pages/login/login",
     "pages/msg/likeComment/likeComment",
     "pages/my/likes/likes",
     "pages/my/setting/setting",

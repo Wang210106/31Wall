@@ -8,4 +8,20 @@ Page({
         ],
     },
 
+    itemtap: function(e) {
+        if (e.detail.type === 0){
+            //用户信息
+        }
+        else if (e.detail.type === 1){
+            //退出登录
+            wx.removeStorageSync('storage_info')
+            
+            wx.navigateTo({
+              url: '/pages/login/login',
+              success(){
+                console.log("logout")
+              }
+            })
+        }
+    }
 })
