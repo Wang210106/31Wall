@@ -12,7 +12,7 @@
 }
 .item{
     position: relative;
-    height: 250rpx;
+    height: 220rpx;
     border-bottom: 1px solid rgb(223, 223, 223);
     margin: 10px;
 }

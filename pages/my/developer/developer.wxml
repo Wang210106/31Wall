@@ -1,0 +1,23 @@
+<!-- 页面容器 -->
+<view class="page">
+  <!-- 页面标题 -->
+  <view class="title">开发者名单</view>
+  <view class="comment">（出于多种原因考虑，开发者名单中部分人名字为化名&外号，请注意辨别）</view>
+  <view class="comment">（排名不分先后）</view>
+  <!-- 程序制作分类 -->
+  <view class="category">程序制作</view>
+  <view class="list">
+    <!-- 循环渲染程序制作开发者姓名 -->
+    <view class="item" wx:for="{{programmers}}" wx:key="*this" bindtap="onItemTap" data-name="{{item}}">
+		<view class="{{isRainbowEffect ? 'name rainbow' : 'name'}}">{{item}}</view>
+    </view>
+  </view>
+  <!-- 策划分类 -->
+  <view class="category">策划</view>
+  <view class="list">
+    <!-- 循环渲染策划开发者姓名 -->
+    <view class="item" wx:for="{{planners}}" wx:key="*this" bindtap="onItemTap" data-name="{{item}}">
+		<view class="{{isRainbowEffect ? 'name rainbow' : 'name'}}">{{item}}</view>
+    </view>
+  </view>
+</view>

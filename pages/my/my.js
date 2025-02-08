@@ -5,7 +5,7 @@ const pageDic = {
     2 : { name : "comments", type : "likes"},
     3 : { name : "history", type : "likes"},
     4 : { name : "setting", type : "setting"},
-    5 : { name : "developer", type : "likes"},
+    5 : { name : "developer", type : "developer"},
     6 : { name : "support", type : "likes"},
     7 : { name : "connect", type : "likes"},
 }
