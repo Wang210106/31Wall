@@ -6,11 +6,11 @@ Page({
             '花生酱'
         ],
         planners: [
-            '梁越',
+			'梁越',
+			'谢佳桐',
             '神经病',
             '大糖宝',
-            '张子萱',
-            '谢佳桐'
+            '张子萱'
         ],
         isRainbowEffect: false,
         allNames: [],
@@ -54,7 +54,7 @@ Page({
                 message = '哎呦，不错呦';
                 break;
             case '谢佳桐':
-                message = '你好，我是31彭于晏兼Jay兼彼得帕克，帅气阳光幽默体育生';
+                message = '你好 我是31彭于晏 有点小帅小幽默 •͈ ₃ •͈ ';
                 break;
         }
         wx.showToast({
