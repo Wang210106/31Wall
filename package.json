@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lottie-web": "^5.12.2",
     "weui-miniprogram": "^1.5.6"
   }
 }

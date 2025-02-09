@@ -1,4 +1,4 @@
 <!--pages/my/setting/setting.wxml-->
 <view class="wrap">
-    <TabsWithIcons items="{{items}}"></TabsWithIcons>
+    <TabsWithIcons items="{{items}}" bind:itemtap="itemtap"></TabsWithIcons>
 </view>
