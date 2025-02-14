@@ -1,0 +1,24 @@
+@import "/static/wxss/iconfont.wxss";
+
+.tab{
+    position: relative;
+    width: 100%;
+    height: 7vh;
+    line-height: 7vh;
+    padding-left: 30rpx;
+}
+.iconfont{
+    margin: 0 30rpx;
+}
+.rightIcon{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 100rpx;
+    height: 30rpx;
+    width: 30rpx;
+}
+
+.tab:hover{
+    color: #315EFB;
+}

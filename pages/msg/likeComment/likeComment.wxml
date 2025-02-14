@@ -1,0 +1,12 @@
+<view class="container">
+    <view class="item" wx:for="{{messages}}" wx:key="id" bindtap="handleMessageTap" data-index="{{index}}">
+        <view class="info">
+            <image class="avatar" src="{{item.avatar}}"></image>
+            <view class="textWrap">
+                <view class="sender">{{item.name}}</view>
+                <view class="text">{{item.content}}</view>
+            </view>
+            <view class="time">{{item.time}}</view>
+        </view>
+    </view>
+</view>

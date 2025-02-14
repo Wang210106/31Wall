@@ -1,0 +1,113 @@
+/* 页面整体样式 */
+.page {
+	padding: 20px;
+	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  
+/* 定义 fadeInDown 动画 */
+@keyframes fadeInDown {
+	from {
+	  opacity: 0;
+	  transform: translateY(-20px);
+	}
+	to {
+	  opacity: 1;
+	  transform: translateY(0);
+	}
+  }
+
+  /* 页面标题样式 */
+  .title {
+	font-size: 32px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 10px;
+	color: #333;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+	animation: fadeInDown 2s ease-out;
+  }
+  
+  /* 注释内容样式 */
+  .comment {
+	font-size: 14px;
+	color: #666;
+	text-align: center;
+	margin-bottom: 10px;
+  }
+  
+  /* 开发者列表样式 */
+  .list {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 80%;
+	max-width: 400px;
+  }
+  
+  /* 单个开发者信息项样式 */
+  .item {
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 15px;
+	padding: 18px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+  }
+  
+  /* 开发者信息项悬停效果 */
+  .item:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+	background-color: rgba(255, 255, 255, 0.9);
+  }
+  
+  /* 开发者姓名默认样式 */
+  .name {
+	font-size: 20px;
+	font-family: 'Microsoft YaHei', 'PingFang SC', 'SimHei', sans-serif;
+	font-weight: 500;
+	color: #000; /* 默认黑色 */
+	text-align: center;
+  }
+  
+  /* 彩虹特效样式 */
+  .rainbow {
+	background: linear-gradient(to right, 
+	  #FF6347, 
+	  #FF8C00,
+	  #FFA500, 
+	  #FFFF33,
+	  #90EE90, 
+	  #00BFFF, 
+	  #8A2BE2, 
+	  #FF1493 
+	);
+	background-size: 200% auto;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	animation: rainbow 2.5s linear infinite;  /* 暗藏玄鸡 */
+  }
+  
+  /* 定义彩虹滚动动画 */
+  @keyframes rainbow {
+	0% {
+	  background-position: 0% 50%;
+	}
+	100% {
+	  background-position: 200% 50%;
+	}
+  }
+
+/* 分类标题样式 */
+.category {
+    font-size: 24px;
+    font-weight: 600;
+    color: #555;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}

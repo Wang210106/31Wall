@@ -1,0 +1,5 @@
+@import "/static/wxss/iconfont.wxss";
+
+.message-center {
+    padding: 20rpx;
+}
