@@ -1,2 +1,44 @@
-<!--index.wxml-->
-<view>主页</view>
+<!-- 搜索栏 -->
+<view class="search-bar" style="margin: 20px 8px;">
+  <input type="text" placeholder="搜索" />
+</view>
+
+<!-- 轮播图 -->
+<swiper class="swiper" indicator-dots="true" style="margin: 20px 8px;" autoplay="true" interval="5000" circular="true">
+  <swiper-item>
+    <image src="/image/btnbar/home0.png" mode="aspectFill" />
+  </swiper-item>
+  <swiper-item>
+    <image src="/image/btnbar/msg0.png" mode="aspectFill" />
+  </swiper-item>
+  <swiper-item>
+    <image src="/image/btnbar/gr0.png" mode="aspectFill" />
+  </swiper-item>
+</swiper>
+
+<!-- 金刚区 -->
+
+<scroll-view class="kingkong-area" scroll-x="true" style="margin: 20px 8px;">
+  <view class="kingkong-wrapper">
+    <!-- 循环渲染 -->
+    <view class="kingkong-item" wx:for="{{kingkongList}}" wx:key="index" bindtap="navigateToPage" data-url="{{item.url}}">
+      <!-- 显示图标 -->
+      <image src="{{item.icon}}" mode="aspectFill" />
+      <text>{{item.text}}</text>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 帖子区 -->
+<!--这部分的样式还没做，我直接让AI弄了一个，不是最终版！~胡-->
+<view class="post-area" style="margin: 20px 8px;">
+  <!-- 后端 /post/all -->
+  <view class="post-item" wx:for="{{posts}}" wx:key="post_id">
+    <image src="{{item.images}}" mode="aspectFill" />
+    <view class="post-info">
+      <text>{{item.title}}</text>
+      <text>{{item.content}}</text>
+    </view>
+  </view>
+</view>
+

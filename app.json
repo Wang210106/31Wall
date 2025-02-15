@@ -7,7 +7,11 @@
     "pages/msg/likeComment/likeComment",
     "pages/my/likes/likes",
     "pages/my/setting/setting",
-    "pages/my/developer/developer"
+    "pages/my/developer/developer",
+    "pages/index/confession/confession",
+    "pages/index/study/study",
+    "pages/index/kuolie/kuolie",
+    "pages/index/lost/lost"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -1,1 +1,66 @@
-/**index.wxss**/
+/* 搜索栏样式 */
+.search-bar {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 5px;
+  }
+  
+/* 轮播图样式 */
+  .swiper {
+	height: 200px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  .swiper image {
+	width: 100%;
+	height: 100%;
+  }
+  
+/* 金刚区样式 */
+.kingkong-area {
+    margin: 0px 8px;
+    width: auto;
+    white-space: nowrap;
+    /* 隐藏滚动条 */
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    border: 1px solid #ccc; 
+    padding: 10px; 
+}
+
+/* 金刚区内容包裹层样式 */
+.kingkong-wrapper {
+    display: flex;
+    gap: 16px;
+}
+
+/* 每个金刚区项目样式 */
+.kingkong-item {
+    /* 使用 flex 布局 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 固定每个项目的宽度 */
+    width: 65px; 
+    /* 防止图标被压缩 */
+    flex-shrink: 0; 
+}
+
+/* 金刚区图标样式 */
+.kingkong-item image {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    padding: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* 金刚区文字样式 */
+.kingkong-item text {
+    font-size: 16px;
+    display: block;
+    margin-top: 4px;
+}
+  
+  /* 帖子区样式 */

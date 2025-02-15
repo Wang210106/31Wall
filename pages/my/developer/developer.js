@@ -3,7 +3,7 @@ Page({
         programmers: [
             'Wang210106',
             '姜博然',
-            '花生酱'
+            'rainbow彩笔'
         ],
         planners: [
 			'梁越',
@@ -29,14 +29,14 @@ Page({
             case '梁越':
                 message = '我是人机';
                 break;
-            case '花生酱':
-                message = '你拍了拍花生酱，哇~真的是你啊';
+            case 'rainbow彩笔':
+                message = '再多看一眼就会爆炸，再靠近一点快被融化';
                 if (this.isClickedInOrder()) {
                     this.setData({
                         isRainbowEffect: true
                     });
 				}
-				//彩蛋逻辑：按照从上往下的顺序点遍每个名字，再点击花生酱即可
+				//彩蛋逻辑：按照从上往下的顺序点遍每个名字，再点击rainbow即可
                 break;
             case 'Wang210106':
                 message = 'text3';
@@ -63,7 +63,7 @@ Page({
             duration: 2000
         });
 		// 将点击的名字添加到 clickedNames 数组中
-		//彩蛋逻辑：按照从上往下的顺序点遍每个名字，再点击花生酱即可
+		//彩蛋逻辑：按照从上往下的顺序点遍每个名字，再点击rainbow即可
         if (!this.data.clickedNames.includes(name)) {
             this.data.clickedNames.push(name);
         }
