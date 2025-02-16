@@ -1,0 +1,89 @@
+/* 全局样式 */
+.container {
+	padding: 0 8rpx;
+  }
+  
+
+  /* 头像和用户名样式 */
+  .user-info {
+	display: flex;
+	align-items: center;
+	margin-top: 20rpx;
+  }
+  
+  .avatar {
+	width: 50rpx;
+	height: 50rpx;
+	border-radius: 50%;
+	margin-right: 10rpx;
+  }
+  
+  .username {
+	font-size: 32rpx;
+  }
+  
+ /* 所在分区包裹层样式 */
+.partition-wrapper {
+	display: flex;
+	justify-content: flex-end; /* 让子元素靠右对齐 */
+	margin-top: 20rpx;
+  }
+  
+  /* 所在分区样式 */
+  .partition {
+	font-size: 32rpx;
+	font-weight: bold;
+	margin-right: 8rpx; /* 设置距离右侧为 8rpx */
+  }
+  
+  /* 标题样式 */
+  .title {
+	font-size: 40rpx;
+	font-weight: bold;
+	margin-top: 20rpx;
+  }
+  
+  /* 正文样式 */
+  .content {
+	font-size: 28rpx;
+	margin-top: 20rpx;
+  }
+  
+  /* 图片九宫格样式 */
+  .image-grid {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 20rpx;
+	margin-left: -5rpx; /* 抵消最左边图片的左外边距 */
+    margin-right: -5rpx; /* 抵消最右边图片的右外边距 */
+  }
+  
+  .image-grid image {
+	width: 33.33%;
+	height: auto;
+	box-sizing: border-box;
+	padding: 0 2rpx; /* 左右间距保持不变 */
+	margin-top: 10rpx; /* 调整图片上方间距 */
+	margin-bottom: 10rpx; /* 调整图片下方间距 */
+	min-height: 230rpx; /* 添加最小高度 */
+  }
+  
+  /* 点赞和评论区样式 */
+  .like-comment {
+	display: flex;
+	margin-top: 20rpx;
+  }
+  
+  .like,
+  .comment {
+	display: flex;
+	align-items: center;
+	margin-right: 20rpx;
+  }
+  
+  .like image,
+  .comment image {
+	width: 30rpx;
+	height: 30rpx;
+	margin-right: 5rpx;
+  }

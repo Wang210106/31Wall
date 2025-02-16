@@ -3,11 +3,11 @@ Page({
     data: {
         posts: [], // 存储帖子数据
         kingkongList: [
+			{ icon: '/image/hd1.png', text: '帖子预览', url: '/pages/post/post' },  
             { icon: '/image/btnbar/gr1.png', text: '表白墙', url: '/pages/index/confession/confession' },
             { icon: '/image/btnbar/gr1.png', text: '学习互助', url: '/pages/index/study/study' },
             { icon: '/image/btnbar/gr1.png', text: '扩列专区', url: '/pages/index/kuolie/kuolie' },
             { icon: '/image/btnbar/gr1.png', text: '失物招领', url: '/pages/index/lost/lost' },
-			{ icon: '/image/btnbar/gr1.png', text: '其他分区', url: '' },  //空
 			{ icon: '/image/btnbar/gr1.png', text: '其他分区', url: '' },  //空
 			{ icon: '/image/btnbar/gr1.png', text: '其他分区', url: '' },  //空
 			{ icon: '/image/btnbar/gr1.png', text: '其他分区', url: '' },  //空
