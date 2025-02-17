@@ -128,66 +128,66 @@ Page({
         });
     },
 
-	// 发送帖子
-	sendPost() {
-    const { title, content, mediaList } = this.data;
+    // 发送帖子
+    sendPost() {
+        const { title, content, mediaList } = this.data;
 
-    // 检测
-    if (!content.trim() && mediaList.length === 0) {
-        wx.showToast({
-            title: '空白页面不能发送的哦~',
-            icon: 'none'
-        });
-        return;
-    }
+        // 检测
+        if (!content.trim() && mediaList.length === 0) {
+            wx.showToast({
+                title: '空白页面不能发送的哦~',
+                icon: 'none'
+            });
+            return;
+        }
 
-    const { isAnonymous, partitionList, partitionIndex } = this.data;
+        const { isAnonymous, partitionList, partitionIndex } = this.data;
+        const partition = partitionList[partitionIndex];
 
-    // 用户ID（测试用）
-    const userId = '123';
+        const postData = {
+            title,
+            content,
+            images: mediaList.filter(item => item.type === 'image').map(item => item.path),
+            videos: mediaList.filter(item => item.type === 'video').map(item => item.path),
+            isAnonymous,
+            postTime: new Date().getTime()
+        };
 
-    // 图片和视频的路径
-    const images = mediaList.filter(item => item.type === 'image').map(item => item.path).join(',');
-    const videos = mediaList.filter(item => item.type === 'video').map(item => item.path).join(',');
-    const partition = partitionList[partitionIndex];
+        console.log('即将发送的帖子信息：', postData);
 
-    const postData = {
-        user_id: userId,
-        title,
-        content,
-        images,
-        videos,
-        is_anonymous: isAnonymous? 1 : 0,
-        partition: partition.name
-    };
+        if (partition.name === '其他分区') {
+            // 使用 encodeURIComponent 处理数据，避免特殊字符问题
+            const queryString = Object.keys(postData).map(key => {
+                if (Array.isArray(postData[key])) {
+                    return `${key}=${encodeURIComponent(postData[key].join(','))}`;
+                }
+                return `${key}=${encodeURIComponent(postData[key])}`;
+            }).join('&');
 
-    console.log('即将发送的帖子信息：', postData);
-
-    wx.showToast({
-        title: '发送成功',
-        icon: 'success'
-    });
-
-    // 清空数据
-    this.setData({
-        title: '',
-        content: '',
-        mediaList: [],
-        isAnonymous: false,
-        partitionIndex: 0
-    }, () => {
-        // 数据更新后，输入框会因为 value 绑定自动更新
-
-        // 跳转到对应分区页面
-        if (partition.url) {
             wx.navigateTo({
-                url: partition.url
+                url: `${partition.url}?${queryString}`
             });
         } else {
-            console.log('该分区没有对应的跳转页面');
+            wx.showToast({
+                title: '发送成功',
+                icon:'success'
+            });
+            if (partition.url) {
+                wx.navigateTo({
+                    url: partition.url
+                });
+            }
         }
-    });
-},
+
+        // 清空数据
+        this.setData({
+            title: '',
+            content: '',
+            mediaList: [],
+            isAnonymous: false,
+            partitionIndex: 0
+        });
+    },
 
     // 更新媒体数量
     updateMediaCount() {
