@@ -13,7 +13,8 @@
     "pages/index/kuolie/kuolie",
     "pages/index/lost/lost",
     "pages/write/write",
-    "pages/post/post"
+    "pages/post/post",
+    "pages/my/support/support"
   ],
   "window": {
     "navigationBarTextStyle": "black",

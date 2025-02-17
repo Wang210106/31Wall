@@ -2,7 +2,7 @@ Page({
     data: {
         programmers: [
             'Wang210106',
-            '姜博然',
+            '校长',
             'rainbow彩笔'
         ],
         planners: [
@@ -44,7 +44,7 @@ Page({
             case '神经病':
                 message = '幕后团队来啦，喜欢就支持一下吧';
                 break;
-            case '姜博然':
+            case '校长':
                 message = 'text4';
                 break;
             case '大糖宝':

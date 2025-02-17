@@ -38,7 +38,7 @@
   
   /* 标题样式 */
   .title {
-	font-size: 40rpx;
+	font-size: 64rpx;
 	font-weight: bold;
 	margin-top: 20rpx;
   }
