@@ -5,11 +5,12 @@ Page({
         mediaList: [],
         isAnonymous: false,
         partitionList: [
+			{ name: '帖子预览', url: '/pages/post/post' },
             { name: '表白墙', url: '/pages/index/confession/confession' },
             { name: '学习互助', url: '/pages/index/study/study' },
             { name: '扩列专区', url: '/pages/index/kuolie/kuolie' },
             { name: '失物招领', url: '/pages/index/lost/lost' },
-            { name: '其他分区', url: '/pages/post/post' }
+            //{ name: '帖子预览', url: '/pages/post/post' }
         ],
         partitionIndex: 0,
         partitionNames: [] // 新增属性

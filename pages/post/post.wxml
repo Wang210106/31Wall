@@ -10,7 +10,7 @@
 
   <!-- 所在分区 -->
   <view class="partition-wrapper">
-    <view class="partition">其他分区</view>
+    <view class="partition">帖子预览</view>
   </view>
 
   <!-- 标题 -->
@@ -24,7 +24,7 @@
   <!-- 图片（九宫格形式） -->
   <view class="image-grid">
     <block wx:for="{{images}}" wx:key="index">
-        <image src="{{item}}" mode="aspectFit" bindtap="previewImage" data-index="{{index}}" data-images="{{images}}"></image>
+      <image src="{{item}}" mode="aspectFit" bindtap="previewImage" data-index="{{index}}" data-images="{{images}}"></image>
     </block>
   </view>
 

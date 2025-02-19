@@ -58,9 +58,9 @@
   
   /* 正文样式 */
   .content {
-	font-size: rpx;
+	font-size: 28rpx;
 	margin-top: 20rpx;
-	color: rgb(0, 0, 0);
+	color: #666;
 	line-height: 1.6;
   }
   
@@ -123,12 +123,11 @@
   .input-full-width {
 	width: 100%;
 	border: 1rpx solid #ccc;
-	height: 80rpx; 
-
-	padding: 20rpx 20rpx; 
-	margin-bottom: 15rpx; 
+	height: 80rpx;
+	padding: 20rpx 15rpx;
+	margin-bottom: 15rpx;
 	border-radius: 8rpx;
-	font-size: 28rpx; 
+	font-size: 32rpx;
 	box-sizing: border-box;
   }
   
