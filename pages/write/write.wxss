@@ -1,0 +1,106 @@
+.container {
+	padding: 20px;
+	background-color: #f5f5f5;
+  }
+  
+  .input-wrapper {
+	margin-bottom: 20px;
+	background-color: #fff;
+	border-radius: 8px;
+	padding: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input-wrapper input,
+  .input-wrapper textarea {
+	width: auto;
+	border: none;
+	outline: none;
+	font-size: 16px;
+  }
+  
+  .upload-area {
+	margin-bottom: 20px;
+	display: flex;
+	flex-wrap: wrap;
+  }
+  
+  .media-item {
+	/* 每个元素占据一行宽度的三分之一，减去右边距 */
+	width: calc((100% - 20px) / 3); 
+	height: auto;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	position: relative;
+	aspect-ratio: 1 / 1; /* 确保元素为正方形 */
+  }
+  
+  /* 每三个元素后的元素取消右边距 */
+  .media-item:nth-child(3n) {
+	margin-right: 0;
+  }
+  
+  .media-item image,
+  .media-item video {
+	width: 100%;
+	height: 100%;
+	border-radius: 8px;
+	object-fit: cover; /* 图片或视频覆盖容器 */
+  }
+  
+  .delete-icon {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	width: 20px;
+	height: 20px;
+	background-color: rgba(0, 0, 0, 0.6);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-size: 14px;
+	cursor: pointer;
+  }
+  
+  .add-icon {
+	/* 每个元素占据一行宽度的三分之一，减去右边距 */
+	width: calc((100% - 20px) / 3); 
+	height: auto;
+	border: 2px dashed #ccc;
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 36px;
+	color: #ccc;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	aspect-ratio: 1 / 1; /* 确保元素为正方形 */
+  }
+  
+  /* 添加图标每三个后的图标取消右边距 */
+  .add-icon:nth-child(3n) {
+	margin-right: 0;
+  }
+  
+  .option-wrapper {
+	margin-bottom: 20px;
+	background-color: #fff;
+	border-radius: 8px;
+	padding: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .picker {
+	font-size: 16px;
+  }
+  
+  .send-button {
+	background-color: #007aff;
+	color: #fff;
+	padding: 12px;
+	border-radius: 8px;
+	font-size: 18px;
+  }

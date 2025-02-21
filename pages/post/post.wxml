@@ -1,0 +1,89 @@
+<view class="container">
+  <!-- 头像、用户名和发帖时间 -->
+  <view class="user-info">
+    <image class="avatar" src="/image/hd1.png" mode="aspectFit"></image>
+    <view>
+      <text class="username">用户名</text>
+      <text class="post-time">{{postTime}}</text>
+    </view>
+  </view>
+
+  <!-- 所在分区 -->
+  <view class="partition-wrapper">
+    <view class="partition">帖子预览</view>
+  </view>
+
+  <!-- 标题 -->
+  <view class="title">{{title}}</view>
+
+  <!-- 正文 -->
+  <text class="content">
+    {{content}}
+  </text>
+
+  <!-- 图片（九宫格形式） -->
+  <view class="image-grid">
+    <block wx:for="{{images}}" wx:key="index">
+      <image src="{{item}}" mode="aspectFit" bindtap="previewImage" data-index="{{index}}" data-images="{{images}}"></image>
+    </block>
+  </view>
+
+  <!-- 点赞以及评论区 -->
+  <view class="like-comment">
+    <view class="like" bindtap="likePost">
+      <image src="/image/hd1.png" mode="aspectFit"></image>
+      <text>点赞</text>
+    </view>
+    <view class="like" bindtap="likePostAnonymously">
+      <image src="/image/hd1.png" mode="aspectFit"></image>
+      <text>匿名点赞</text>
+    </view>
+    <view class="comment" bindtap="showCommentInput">
+      <image src="/image/hd1.png" mode="aspectFit"></image>
+      <text>评论</text>
+    </view>
+    <view class="comment" bindtap="forwardPost">
+      <image src="/image/hd1.png" mode="aspectFit"></image>
+      <text>转发</text>
+    </view>
+    <view class="comment" bindtap="reportPost">
+      <image src="/image/hd1.png" mode="aspectFit"></image>
+      <text>举报</text>
+    </view>
+  </view>
+
+  <!-- 评论输入框 -->
+  <view wx:if="{{showComment}}" class="comment-input">
+    <input placeholder="请输入评论内容" bindinput="onCommentInput" value="{{commentContent}}" class="input-full-width"></input>
+    <view class="anonymous-switch">
+      <radio-group bindchange="toggleAnonymous">
+        <label>
+          <radio value="false" checked="{{!isAnonymous}}">实名</radio>
+        </label>
+        <label>
+          <radio value="true" checked="{{isAnonymous}}">匿名</radio>
+        </label>
+      </radio-group>
+    </view>
+    <view class="comment-buttons">
+      <button bindtap="submitComment">发表评论</button>
+      <button bindtap="cancelComment">取消</button>
+    </view>
+  </view>
+
+  <!-- 评论列表 -->
+  <view class="comment-list">
+    <block wx:for="{{comments}}" wx:key="index">
+      <view class="comment-item">
+        <image class="comment-avatar" src="{{item.isAnonymous? '/image/btnbar/gr1.png' : '/image/hd1.png'}}" mode="aspectFit"></image>
+        <view class="comment-info">
+          <view class="comment-header">
+            <text class="comment-username">{{item.isAnonymous? '匿名用户' : item.username}}</text>
+            <text class="comment-time">{{item.time}}</text>
+          </view>
+          <text class="comment-content">{{item.content}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

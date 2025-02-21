@@ -2,15 +2,15 @@ Page({
     data: {
         programmers: [
             'Wang210106',
-            '校长',
-            'rainbow彩笔'
+            '姜博然',
+            '花生酱'
         ],
         planners: [
-			'梁越',
-			'谢佳桐',
+            '梁越',
             '神经病',
             '大糖宝',
-            '张子萱'
+            '张子萱',
+            '谢佳桐'
         ],
         isRainbowEffect: false,
         allNames: [],
@@ -29,14 +29,14 @@ Page({
             case '梁越':
                 message = '我是人机';
                 break;
-            case 'rainbow彩笔':
-                message = '再多看一眼就会爆炸，再靠近一点快被融化';
+            case '花生酱':
+                message = '你拍了拍花生酱，哇~真的是你啊';
                 if (this.isClickedInOrder()) {
                     this.setData({
                         isRainbowEffect: true
                     });
 				}
-				//彩蛋逻辑：按照从上往下的顺序点遍每个名字，再点击rainbow即可
+				//彩蛋逻辑：按照从上往下的顺序点遍每个名字，再点击花生酱即可
                 break;
             case 'Wang210106':
                 message = 'text3';
@@ -44,7 +44,7 @@ Page({
             case '神经病':
                 message = '幕后团队来啦，喜欢就支持一下吧';
                 break;
-            case '校长':
+            case '姜博然':
                 message = 'text4';
                 break;
             case '大糖宝':
@@ -54,7 +54,7 @@ Page({
                 message = '哎呦，不错呦';
                 break;
             case '谢佳桐':
-                message = '你好 我是31彭于晏 有点小帅小幽默 •͈ ₃ •͈ ';
+                message = '你好，我是31彭于晏兼Jay兼彼得帕克，帅气阳光幽默体育生';
                 break;
         }
         wx.showToast({
@@ -63,7 +63,7 @@ Page({
             duration: 2000
         });
 		// 将点击的名字添加到 clickedNames 数组中
-		//彩蛋逻辑：按照从上往下的顺序点遍每个名字，再点击rainbow即可
+		//彩蛋逻辑：按照从上往下的顺序点遍每个名字，再点击花生酱即可
         if (!this.data.clickedNames.includes(name)) {
             this.data.clickedNames.push(name);
         }

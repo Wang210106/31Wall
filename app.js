@@ -5,6 +5,12 @@ App({
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
+
+    if (!wx.getStorageSync('storage_info')) {
+        wx.navigateTo({
+            url: '/pages/login/login',
+        })
+    }
   },
 
   globalData: {

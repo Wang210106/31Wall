@@ -1,2 +1,72 @@
-<!--index.wxml-->
-<view>主页</view>
+<!-- 搜索栏 -->
+<view class="search-bar" style="margin: 20px 8px;">
+  <input type="text" placeholder="搜索" />
+</view>
+
+<!-- 轮播图 -->
+<swiper class="swiper" indicator-dots="true" style="margin: 20px 8px;" autoplay="true" interval="5000" circular="true">
+  <swiper-item>
+    <image class="swiper-image" src="/image/btnbar/home0.png" mode="aspectFill" />
+  </swiper-item>
+  <swiper-item>
+    <image class="swiper-image" src="/image/btnbar/msg0.png" mode="aspectFill" />
+  </swiper-item>
+  <swiper-item>
+    <image class="swiper-image" src="/image/btnbar/gr0.png" mode="aspectFill" />
+  </swiper-item>
+</swiper>
+
+<!-- 金刚区 -->
+<scroll-view class="kingkong-area" scroll-x="true" style="margin: 20px 8px;">
+  <view class="kingkong-wrapper">
+    <!-- 循环渲染 -->
+    <view class="kingkong-item" wx:for="{{kingkongList}}" wx:key="index" bindtap="navigateToPage" data-url="{{item.url}}">
+      <!-- 显示图标 -->
+      <image class="kingkong-icon" src="{{item.icon}}" mode="aspectFill" />
+      <text class="kingkong-text">{{item.text}}</text>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 帖子区 -->
+<view class="post-area" style="margin: 20px 8px;">
+  <!-- 循环渲染每个帖子 -->
+  <view class="post-preview" wx:for="{{posts}}" wx:key="post_id" bindtap="navigateToPost" data-post="{{item}}">
+    <!-- 用户信息：头像、用户名和发帖时间 -->
+    <view class="user-info">
+      <image class="avatar" src="{{item.avatar}}" mode="aspectFill" />
+      <text class="username">{{item.username}}</text>
+      <text class="post-time">{{item.post_time}}</text>
+    </view>
+    <!-- 标题 -->
+    <text class="post-title">{{item.title}}</text>
+    <!-- 正文 -->
+    <text class="post-content">{{item.content}}</text>
+    <!-- 图片/视频预览 -->
+    <view class="media-preview" style="{{item.mediaPreviewStyle}}">
+      <!-- 视频预览 -->
+      <video src="{{item.video}}" autoplay muted loop wx:if="{{item.video}}" bindtap="playVideo"></video>
+      <!-- 单张图片预览 -->
+      <image  src="{{item.images[0]}}" mode="aspectFill" wx:if="{{item.images.length === 1}}" bindtap="previewSingleImage" data-image="{{item.images[0]}}"></image>
+      <!-- 多张图片缩略图预览 -->
+      <view class="thumbnail-grid" wx:if="{{item.images.length > 1}}">
+        <!-- 循环渲染每张缩略图 -->
+        <block wx:for="{{item.images}}" wx:key="*this">
+          <image class="thumbnail-grid" src="{{item}}" mode="aspectFill" bindtap="previewMultiImage" data-images="{{item.images}}" data-index="{{index}}"></image>
+        </block>
+      </view>
+    </view>
+    <!-- 点赞和评论按钮 -->
+    <view class="interaction-buttons">
+      <!-- 点赞按钮，绑定点击事件 toggleLike -->
+      <view class="like-button" bindtap="toggleLike" data-index="{{index}}">
+        <image class="icon-image" src="/image/hd1.png" mode="aspectFill" />
+        <text>{{item.likes_count}}</text>
+      </view>
+      <view class="comment-button">
+        <image class="icon-image" src="/image/hd1.png" mode="aspectFill" />
+        <text>{{item.comments_count}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,1 +1,180 @@
-/**index.wxss**/
+/* 搜索栏样式 */
+.search-bar {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 5px;
+  }
+  
+  /* 轮播图样式 */
+  .swiper {
+	height: 200px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .swiper image {
+	width: 100%;
+	height: 100%;
+  }
+  
+  /* 金刚区样式 */
+  .kingkong-area {
+	margin: 0px 8px;
+	width: auto;
+	white-space: nowrap;
+	/* 隐藏滚动条 */
+	-webkit-overflow-scrolling: touch;
+	overflow-x: auto;
+	border: 1px solid #ccc;
+	padding: 10px;
+  }
+  
+  /* 金刚区内容包裹层样式 */
+  .kingkong-wrapper {
+	display: flex;
+	gap: 16px;
+  }
+  
+  /* 每个金刚区项目样式 */
+  .kingkong-item {
+	/* 使用 flex 布局 */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* 固定每个项目的宽度 */
+	width: 65px;
+	/* 防止图标被压缩 */
+	flex-shrink: 0;
+  }
+  
+  /* 金刚区图标样式 */
+  .kingkong-item image {
+	width: 32px;
+	height: 32px;
+	object-fit: cover;
+	border: 1px solid #ddd;
+	padding: 4px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+  }
+  
+  /* 金刚区文字样式 */
+  .kingkong-item text {
+	font-size: 16px;
+	display: block;
+	margin-top: 4px;
+  }
+  
+  /* 帖子区样式 */
+  .post-area {
+	margin: 20px 8px;
+	overflow: auto;
+  }
+  
+  .post-preview {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	padding: 10px;
+	margin-bottom: 16px;
+	/* 确保内边距和边框包含在元素的总高度内 */
+	box-sizing: border-box; 
+	min-height: 200px;
+  }
+  
+  /* 用户信息样式 */
+  .user-info {
+	display: flex;
+	align-items: center;
+	margin-bottom: 8px;
+	/* 修改布局，让用户名和头像更靠近 */
+	justify-content: flex-start;
+  }
+  
+  /* 头像样式 */
+  .avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 12px; /* 缩小头像和用户名之间的距离 */
+  }
+  
+  /* 用户名样式 */
+  .username {
+	font-weight: bold;
+	margin-right: 8px;
+  }
+  
+  /* 发帖时间样式 */
+  .post-time {
+	color: #999;
+	/* 将发帖时间靠右显示 */
+	margin-left: auto;
+  }
+  
+  /* 标题样式 */
+  .post-title {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 8px; /* 确保标题和内容不在一行 */
+	display: block; /* 确保标题单独一行 */
+  }
+  
+  /* 正文样式 */
+  .post-content {
+	color: #666;
+	margin-bottom: 16px;
+	display: block; /* 确保正文单独一行 */
+	word-break: break-all;
+  }
+  
+  /* 媒体预览区域样式 */
+  .media-preview {
+	margin-bottom: 16px;
+  }
+  
+  /* 视频和单张图片样式 */
+  .media-preview-video,
+  .media-preview-image {
+	width: 100%;
+	height: 100%;
+	border-radius: 8px;
+  }
+  
+  .thumbnail-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+  }
+  
+  .thumbnail-grid image {
+	width: calc((100% - 16px) / 3);
+	height: 100px;
+	border-radius: 8px;
+	/*object-fit: scale-down; */
+	position: relative;
+  }
+  
+  /* 互动按钮区域样式 */
+  .interaction-buttons {
+	display: flex;
+	align-items: center;
+	margin-top: 16px;	
+	z-index: 1;
+  }
+  
+  /* 点赞和评论按钮样式 */
+  .like-button,
+  .comment-button {
+	display: flex;
+	align-items: center;
+	margin-right: 16px;
+  }
+  
+  /* 按钮内图标样式 */
+  .like-button image,
+  .comment-button image {
+	width: 20px;
+	height: 20px;
+	margin-right: 4px;
+  }

@@ -1,0 +1,5 @@
+<view class="container">
+  <text class="top-text">感谢您对我们的大力支持</text>
+  <text class="top-text">长按可以保存图片</text>
+  <image class="center-image" src="{{imageUrl}}" bindlongpress="saveImageToAlbum"></image>
+</view>

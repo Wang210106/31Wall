@@ -1,0 +1,19 @@
+/* pages/my/support/support.wxss */
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100vh;
+  }
+.top-text {
+	margin-bottom: 8px;
+	font-size: 18px;
+	color: #333;
+  }
+
+  .center-image {
+	width: 100%;
+	height: 70%;
+  }
