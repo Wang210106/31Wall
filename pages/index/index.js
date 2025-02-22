@@ -1,83 +1,102 @@
+import { formatDateString } from '../../utils/timeStamp'
+
 Page({
 	data: {
 	  // 存储帖子数据
-	  posts: [
-		{
-		  post_id: 1,
-		  avatar: '/image/hd1.png',
-		  username: '用户名1',
-		  post_time: '2024-10-01 12:00',
-		  title: '帖子标题1',
-		  content: '点进去看不到内容，目前post页面内容只有write页面输入的才能传输',
-		  images: ['/image/money.png'],
-		  video: '',
-		  likes_count: 10,
-		  comments_count: 5,
-		  isLiked: false
-		},
-		{
-		  post_id: 2,
-		  avatar: '/image/hd1.png',
-		  username: '用户名2',
-		  post_time: '2024-10-02 13:30',
-		  title: '帖子标题2',
-		  content: '长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试',
-		  images: ['/image/hd1.png', '/image/hd1.png', '/image/hd1.png', '/image/hd1.png', '/image/money.png', '/image/hd1.png', '/image/hd1.png', '/image/hd1.png', '/image/hd1.png'],
-		  video: '',
-		  likes_count: 20,
-		  comments_count: 8,
-		  isLiked: false
-		},
-		{
-		  post_id: 3,
-		  avatar: '/image/hd1.png',
-		  username: '用户名3',
-		  post_time: '2024-10-03 14:45',
-		  title: '帖子标题3',
-		  content: '帖子正文3',
-		  images: [],
-		  video: '/image/1.mp4',
-		  likes_count: 15,
-		  comments_count: 6,
-		  isLiked: false
-		}
-	  ],
+	  posts: [],
 	  // 金刚区导航列表
 	  kingkongList: [
-		{ icon: '/image/hd1.png', text: '帖子预览', url: '/pages/post/post' },
 		{ icon: '/image/btnbar/gr1.png', text: '表白墙', url: '/pages/index/confession/confession' },
 		{ icon: '/image/btnbar/gr1.png', text: '学习互助', url: '/pages/index/study/study' },
-		{ icon: '/image/btnbar/gr1.png', text: '扩列专区', url: '/pages/index/kuolie/kuolie' },
+		{ icon: '/image/btnbar/gr1.png', text: '扩列', url: '/pages/index/kuolie/kuolie' },
 		{ icon: '/image/btnbar/gr1.png', text: '失物招领', url: '/pages/index/lost/lost' }
 	  ]
 	},
   
-	onReady() {
-	  const query = wx.createSelectorQuery();
-	  query.selectAll('.post-preview').boundingClientRect((rects) => {
-		rects.forEach((rect, index) => {
-		  const postContentQuery = wx.createSelectorQuery();
-		  postContentQuery.select(`.post-preview:nth-child(${index + 1}) .post-content`).boundingClientRect((postContentRect) => {
-			const mediaPreviewQuery = wx.createSelectorQuery();
-			mediaPreviewQuery.select(`.post-preview:nth-child(${index + 1}) .media-preview`).fields({
-			  size: true,
-			  rect: true
-			}, (mediaPreviewRect) => {
-			  if (postContentRect && mediaPreviewRect) {
-				const marginTop = postContentRect.bottom - mediaPreviewRect.top + 20; // 20 为额外的间距
-				const style = `margin-top: ${marginTop}px;`;
-				const posts = this.data.posts;
-				posts[index].mediaPreviewStyle = style;
-				this.setData({
-				  posts
-				});
-			  }
-			}).exec();
-		  }).exec();
-		});
-	  }).exec();
+	async onReady() {
+        const res = await wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/all",
+            "header": {
+                "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+
+        const postsPromises = res.data.map(async data => {
+            const thisData = {
+                post_id: data.post_id,
+                title: data.title,
+                content: data.content,
+                images: JSON.parse(data.images),
+                post_time: formatDateString(data.created_at),
+                isLiked: false,
+                likes_count: 0, // 默认值
+                comments_count: 0, 
+                isLiked: false
+            };
+         
+            const [likeResult, commentResult, userInfoResult] = await Promise.all([
+                this.getLikeAmount(data.post_id),
+                this.getCommentAmount(data.post_id),
+                this.getUserById(data.user_id)
+            ]);
+         
+            thisData.likes_count = likeResult.data[0]['COUNT(*)'];
+            thisData.comments_count = commentResult.data[0]['COUNT(*)'];
+            console.log(userInfoResult.data)
+
+            return thisData;
+        })
+
+        const postsArray = await Promise.all(postsPromises);
+
+        this.setData({
+            posts: postsArray
+        })
 	},
   
+    getLikeAmount(postid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/like/amount?postid="+postid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    getCommentAmount(postid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/comment/amount?postid="+postid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    getUserById(userid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/user/userid?userid=" + userid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
 	// 处理金刚区导航跳转
 	navigateToPage(e) {
 	  const url = e.currentTarget.dataset.url;

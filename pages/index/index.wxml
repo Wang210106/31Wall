@@ -35,7 +35,7 @@
     <!-- 用户信息：头像、用户名和发帖时间 -->
     <view class="user-info">
       <image class="avatar" src="{{item.avatar}}" mode="aspectFill" />
-      <text class="username">{{item.username}}</text>
+      <text class="username">{{item.username || '匿名捏'}}</text>
       <text class="post-time">{{item.post_time}}</text>
     </view>
     <!-- 标题 -->
@@ -60,11 +60,11 @@
     <view class="interaction-buttons">
       <!-- 点赞按钮，绑定点击事件 toggleLike -->
       <view class="like-button" bindtap="toggleLike" data-index="{{index}}">
-        <image class="icon-image" src="/image/hd1.png" mode="aspectFill" />
+        <text class="iconfont icon-24px"></text>
         <text>{{item.likes_count}}</text>
       </view>
       <view class="comment-button">
-        <image class="icon-image" src="/image/hd1.png" mode="aspectFill" />
+        <text class="iconfont icon-pinglunxiao"></text>
         <text>{{item.comments_count}}</text>
       </view>
     </view>

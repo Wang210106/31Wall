@@ -10,7 +10,7 @@ Page({
         items: [
                 { id : 0, text : "系统通知", iconfont : "icon-xitongxiaoxi", badge : 0},
                 { id : 1, text : "公告", iconfont : "icon-gonggao", badge : 100},
-                { id : 2, text : "我收到的点赞＆评论", iconfont : "icon-shoudaodepinglun", badge : 1},
+                { id : 2, text : "我收到的点赞＆评论", iconfont : "icon-pinglun", badge : 1},
         ],
 	},
     itemtap: function(e) {

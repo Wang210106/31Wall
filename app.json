@@ -41,8 +41,8 @@
       {
         "pagePath": "pages/write/write",
         "text": "发帖",
-        "iconPath": "image/btnbar/home1.png",
-        "selectedIconPath": "image/btnbar/home0.png"
+        "iconPath": "image/btnbar/tiezi0.png",
+        "selectedIconPath": "image/btnbar/tiezi1.png"
       },
       {
         "pagePath": "pages/msg/msg",
