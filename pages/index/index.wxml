@@ -44,8 +44,6 @@
     <text class="post-content">{{item.content}}</text>
     <!-- 图片/视频预览 -->
     <view class="media-preview" style="{{item.mediaPreviewStyle}}">
-      <!-- 视频预览 -->
-      <video src="{{item.video}}" autoplay muted loop wx:if="{{item.video}}" bindtap="playVideo"></video>
       <!-- 单张图片预览 -->
       <image  src="{{item.images[0]}}" mode="aspectFill" wx:if="{{item.images.length === 1}}" bindtap="previewSingleImage" data-image="{{item.images[0]}}"></image>
       <!-- 多张图片缩略图预览 -->
