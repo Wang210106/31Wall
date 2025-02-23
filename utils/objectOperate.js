@@ -1,15 +1,16 @@
+function isEmptyValue(value) {
+    return value === null ||
+           value === undefined ||
+           value === '' ||
+           Number.isNaN(value) ||
+           (Array.isArray(value) && value.length === 0) ||
+           (typeof value === 'object' && value !== null && !Array.isArray(value) && Object.keys(value).length === 0);
+}
+
+
 function containsEmptyItem(obj) {
     if (obj === null || typeof obj !== 'object') {
         throw new TypeError('Expected an object');
-    }
- 
-    function isEmptyValue(value) {
-        return value === null ||
-               value === undefined ||
-               value === '' ||
-               Number.isNaN(value) ||
-               (Array.isArray(value) && value.length === 0) ||
-               (typeof value === 'object' && value !== null && !Array.isArray(value) && Object.keys(value).length === 0);
     }
  
     for (const key in obj) {
@@ -23,4 +24,5 @@ function containsEmptyItem(obj) {
 
 module.exports = {
     containsEmptyItem,
+    isEmptyValue
 }

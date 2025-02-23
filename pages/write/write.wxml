@@ -1,7 +1,7 @@
 <view class="container">
 <!-- 标题输入框 -->
 <view class="input-wrapper">
-    <input type="text" placeholder="请输入标题（选填）" bindinput="onTitleInput" value="{{title}}" />
+    <input type="text" placeholder="请输入标题" bindinput="onTitleInput" value="{{title}}" />
 </view>
 
 <!-- 内容输入框 -->
@@ -13,8 +13,7 @@
   <view class="upload-area">
     <block wx:for="{{mediaList}}" wx:key="*this">
       <view class="media-item" bindtap="previewMedia" data-index="{{index}}">
-        <image wx:if="{{item.type === 'image'}}" src="{{item.path}}" mode="aspectFill" />
-        <video wx:else src="{{item.path}}" controls />
+        <image src="{{item.path}}" mode="aspectFill" />
         <view class="delete-icon" bindtap="deleteMedia" data-index="{{index}}">
           <text>×</text>
         </view>
@@ -27,24 +26,24 @@
 
   <!-- 匿名/实名选择 -->
   <view class="option-wrapper">
-    <radio-group bindchange="onAnonymousChange">
+    <radio-group bindchange="onRealnameChange">
       <label>
-        <radio value="0" checked="{{!isAnonymous}}"/> 实名
+        <radio value="0" checked="{{isRealname}}"/> 实名
       </label>
       <label>
-        <radio value="1" checked="{{isAnonymous}}"/> 匿名
+        <radio value="1" checked="{{!isRealname}}"/> 匿名
       </label>
     </radio-group>
   </view>
 
 <!-- 帖子分区选择 -->
-<view class="option-wrapper">
-  <picker mode="selector" bindchange="onPartitionChange" value="{{partitionIndex}}" range="{{partitionNames}}">
+<!-- <view class="option-wrapper">
+  <picker mode="selector" bindchange="onPartitionChange" value="{{partitionIndex}}" range="{{partitionList}}">
     <view class="picker">
-      当前分区选择为: {{partitionNames[partitionIndex]}}
+      当前分区选择为: {{partitionList[0]}}
     </view>
   </picker>
-</view>
+</view> -->
   <!-- 发送按钮 -->
   <button class="send-button" bindtap="sendPost">发送帖子</button>
 </view>
