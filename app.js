@@ -6,6 +6,7 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
+    console.log(wx.getStorageSync('user_info'))
     if (!wx.getStorageSync('user_info')) {
         wx.navigateTo({
             url: '/pages/login/login',

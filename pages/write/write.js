@@ -106,15 +106,15 @@ Page({
     // 匿名/实名选择事件处理
     onRealnameChange(e) {
         this.setData({
-            isRealname: e.detail.value == 0
+            isRealname: e.detail.value
         });
     },
 
     // 发送帖子
     sendPost() {
-        const { title, content, mediaList } = this.data;
+        const { title, content, mediaList, isRealname } = this.data;
 
-        const { isRealname } = this.data;
+        console.log(isRealname)
 
         const postData = {
             title,
@@ -124,18 +124,16 @@ Page({
             realname: isRealname,
         };
 
-        //检测
-        for (const key in postData) {
-            if (Object.prototype.hasOwnProperty.call(postData, key) && isEmptyValue(postData[key])) {
-                if (key === 'images') continue
+        //验证
+        if (this.data.content === '' && this.data.mediaList.length === 0){
+            wx.showToast({
+                title: '图片和内容不能都是空值捏',
+                icon: 'none'
+            })
 
-                wx.showToast({
-                  title: '标题和内容不能是空值捏',
-                  icon: 'none'
-                })
-                return;
-            }
+            return
         }
+        
 
         if(this.data.isUpdating){
             wx.showToast({
@@ -146,8 +144,6 @@ Page({
         }
 
         //upload
-        console.log('即将发送的帖子信息：', postData);
-
         wx.cloud.callContainer({
             "config": {
                 "env": "prod-9ggzinxb5b8ff0c5"
@@ -158,7 +154,14 @@ Page({
             },
             "method": "POST",
             "data": postData,
-        }).then(res => console.log(res))
+        }).then(res => {
+            wx.showToast({
+                title: '上传成功',
+                icon: 'success'
+            })
+            
+            console.log(res)
+        })
 
         // 清空数据
         this.setData({

@@ -14,6 +14,7 @@ Page({
         }
         else if (e.detail.type === 1){
             //退出登录
+            console.log(wx.getStorageSync('user_info'))
             wx.setStorageSync('last_user_info', wx.getStorageSync('user_info'))
             wx.removeStorageSync('user_info')
             

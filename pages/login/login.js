@@ -24,9 +24,9 @@ Page({
             desc: '用于完善会员资料', 
             success: res => {
                 this.isUserExisted()
-                .then(res => res.data.message)
+                .then(res => res.data)
                 .then(isSigned => {//这里是重新登录
-                    if(!isSigned){
+                    if(!isSigned.message){//这里是已经注册的情况
                         this.setData({
                             hasSignedUp: true,
                         })
@@ -34,9 +34,18 @@ Page({
                         this.updateUser({
                             nickName: res.userInfo.nickName,
                             avatar_url: res.userInfo.avatarUrl,
-                            gender: res.userInfo.gender,
-                        }).then(res => {
-                            console.log(res)
+                        })
+
+                        wx.setStorageSync('user_info', {
+                            avatar_url: isSigned.avatar_url,
+                            nickName: res.userInfo.nickName,
+                            avatar_url: res.userInfo.avatarUrl,
+                            userid: isSigned.id,
+                            openid: isSigned.openid,
+                            realName: isSigned.realname,
+                            class: isSigned.class,
+                            grade: isSigned.grade,
+                            gender: isSigned.gender
                         })
 
                         wx.switchTab({
@@ -49,13 +58,10 @@ Page({
                             }
                         })
 
-                        console.log(wx.getStorageSync('last_user_info'))
-                        wx.setStorageSync('user_info', wx.getStorageSync('last_user_info'))
-                        wx.removeStorageSync('last_user_info')
-
                         return
                     }
 
+                    //这里是还没注册的情况
                     this.setData({
                         userInfo: res.userInfo,
                         hasUserInfo: true,

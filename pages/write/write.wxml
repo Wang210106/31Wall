@@ -1,7 +1,7 @@
 <view class="container">
 <!-- 标题输入框 -->
 <view class="input-wrapper">
-    <input type="text" placeholder="请输入标题" bindinput="onTitleInput" value="{{title}}" />
+    <input type="text" placeholder="请输入标题 （选填）" bindinput="onTitleInput" value="{{title}}" />
 </view>
 
 <!-- 内容输入框 -->
@@ -28,10 +28,10 @@
   <view class="option-wrapper">
     <radio-group bindchange="onRealnameChange">
       <label>
-        <radio value="0" checked="{{isRealname}}"/> 实名
+        <radio value="1" checked="{{isRealname == 1}}"/> 实名
       </label>
       <label>
-        <radio value="1" checked="{{!isRealname}}"/> 匿名
+        <radio value="0" checked="{{!(isRealname == 1)}}"/> 匿名
       </label>
     </radio-group>
   </view>
