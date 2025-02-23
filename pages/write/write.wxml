@@ -13,8 +13,8 @@
   <view class="upload-area">
     <block wx:for="{{mediaList}}" wx:key="*this">
       <view class="media-item" bindtap="previewMedia" data-index="{{index}}">
-        <image src="{{item.path}}" mode="aspectFill" />
-        <view class="delete-icon" bindtap="deleteMedia" data-index="{{index}}">
+        <image src="{{item}}" mode="aspectFill" />
+        <view class="delete-icon" bindtap="deleteMedia" data-index="{{index}}" wx:if="{{!isUpdating}}">
           <text>×</text>
         </view>
       </view>

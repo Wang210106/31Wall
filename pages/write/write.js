@@ -1,7 +1,10 @@
 import { isEmptyValue } from '../../utils/objectOperate'
+import { generateUniqueFileName } from '../../utils/randomName'
 
 Page({
     data: {
+        isUpdating: false,
+
         title: '',
         content: '',
         mediaList: [],
@@ -30,13 +33,33 @@ Page({
             sourceType: ['album', 'camera'],
             success: (res) => {
                 const tempFilePath = res.tempFiles;
-                const newMediaList = tempFilePath.map(path => ({ type: 'image', path }));
+                const imageIndex = this.data.mediaList.length
 
                 this.setData({
-                    mediaList: [ ...this.data.mediaList ,newMediaList[0].path.tempFilePath ]
-                },() => {
-                    console.log(this.data.mediaList)
+                    mediaList: [ ...this.data.mediaList ,'/image/hd1.png' ],
+                    isUpdating: true
                 });
+
+                const extension = tempFilePath[0].tempFilePath.split('.')[tempFilePath[0].tempFilePath.split('.').length - 1]
+
+                wx.cloud.uploadFile({
+                    cloudPath: 'postImage/' + generateUniqueFileName(extension),
+                    filePath: tempFilePath[0].tempFilePath,
+                    config: {
+                        env: 'prod-9ggzinxb5b8ff0c5'
+                    }
+                }).then(res => {
+                    this.setData({
+                        isUpdating: false,
+                    })
+
+                    const dataArray = this.data.mediaList
+                    dataArray[imageIndex] = res.fileID
+
+                    this.setData({
+                        mediaList: dataArray
+                    })
+                })
             }
         });
     },
@@ -45,6 +68,19 @@ Page({
     deleteMedia(e) {
         const index = e.currentTarget.dataset.index;
         const newMediaList = this.data.mediaList.filter((_, i) => i !== index);
+
+        this.setData({
+            isUpdating: true
+        })
+    
+        wx.cloud.deleteFile({
+            fileList: [ this.data.mediaList[index] ]
+        }).then(res => {
+            this.setData({
+                isUpdating: false
+            })
+        })
+
         this.setData({
             mediaList: newMediaList
         }, () => {
@@ -101,7 +137,28 @@ Page({
             }
         }
 
+        if(this.data.isUpdating){
+            wx.showToast({
+                title: '有图片未完成上传',
+                icon: 'none'
+              })
+              return;
+        }
+
+        //upload
         console.log('即将发送的帖子信息：', postData);
+
+        wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post",
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "POST",
+            "data": postData,
+        }).then(res => console.log(res))
 
         // 清空数据
         this.setData({
