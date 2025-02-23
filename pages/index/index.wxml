@@ -68,3 +68,8 @@
     </view>
   </view>
 </view>
+
+<!--返回顶端-->
+<view class="back-to-top-btn" bindtap="backToTop" style="{{showBackTop? 'right: 20rpx; opacity: 1;' : 'right: -50rpx; opacity: 0;'}}">
+  <image src="/image/right.png" class="back-to-top-img"></image>
+</view>
