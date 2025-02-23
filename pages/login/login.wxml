@@ -1,12 +1,46 @@
 <view class="container">
-  <view class="userinfo">
-    <block wx:if="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <text wx:else="">您的微信版本过低。</text>
-    </block>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
+    <view class="userinfo">
+        <block wx:if="{{!hasUserInfo}}">
+            <button class="getRight" bindtap="getUserProfile"> 获取头像昵称 </button>
+        </block>
+        <block wx:else>
+            <block wx:if="{{!hasSignedUp}}">
+                <view class="container">
+                    <view class="avatarWrap">
+                        <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFit" bindtap="chooseAvatar"></image>
+                        <text class="nickname">{{userInfo.nickName}}</text>
+                    </view>
+                    
+                    <view class="tips">
+                        <text>个人信息仅小程序可见，一定不会泄露，请务必输入真实信息</text>
+                    </view>
+
+                    <view class="form-group">
+                        <label class="label">真实姓名</label>
+                        <input class="input" type="text" placeholder="请输入真实姓名" bindinput="updateFormData" data-field="realName" />
+                    </view>
+                    
+                    <view class="form-group">
+                        <label class="label">届次</label>
+                        <picker mode="selector" range="{{grade}}" bindchange="updateFormData" data-field="grade" value="{{selectedGrade}}">
+                        <view class="picker-view">{{grade[selectedGrade]}}</view>
+                        </picker>
+                    </view>
+                    
+                    <view class="form-group">
+                        <label class="label">班级</label>
+                        <picker mode="selector" range="{{class}}" bindchange="updateFormData" data-field="class" value="{{selectedClass}}">
+                        <view class="picker-view">{{class[selectedClass]}}</view>
+                        </picker>
+                    </view>
+                    
+                    <button class="submit-button" bindtap="submitForm">提交</button>
+                    
+                    <navigator class="contact-button" url="/pages/index/index">
+                        <button>其他用户请点这里</button>
+                    </navigator>
+                </view>
+            </block>
+        </block>
+    </view>
 </view>

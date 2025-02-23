@@ -49,8 +49,6 @@ Page({
             thisData.comments_count = commentResult.data[0]['COUNT(*)'];
 
             if (data.realname){
-                console.log(userInfoResult.data)
-
                 thisData.avatar = userInfoResult.data.avatar_url
                 thisData.username = userInfoResult.data.nickname
             }

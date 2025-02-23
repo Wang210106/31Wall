@@ -2,10 +2,10 @@
 <view class="wrap">
     <view class="info {{'linar' + backColor}}" bind:tap="handleColor">
         <view class="infoWrap">
-            <image src="{{userInfo.headImage}}" class="headImage" mode="aspectFill"/>
+            <image src="{{userInfo.avatar_url}}" class="headImage" mode="aspectFill"/>
             <view class="userInfo">
-                <text class="name">{{userInfo.userName}}</text>
-                <text class="class">{{userInfo.session}}届{{userInfo.class}}班</text>
+                <text class="name">{{userInfo.nickname}}</text>
+                <text class="class">{{userInfo.grade}}届{{userInfo.class < 10 ? '0' + userInfo.class : userInfo.class}}班</text>
             </view>
         </view>
     </view>
