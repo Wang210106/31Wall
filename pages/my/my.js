@@ -34,7 +34,7 @@ Page({
     },
     
     onLoad() {
-        console.log(wx.getStorageSync('user_info'));
+        //console.log(wx.getStorageSync('user_info'));
 
         this.setData({
             userInfo: wx.getStorageSync('user_info')

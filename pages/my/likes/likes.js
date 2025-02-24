@@ -1,26 +1,77 @@
 // pages/my/likes/likes.js
 Page({
     data: {
-        "items" : [
-            { id : 10001, text : '消息一車車車', subText : 'chebaile', isIcon : true},
-            { id : 10002, text : '消息2車車車', subText : 'chebaile' , isIcon : false, imageUrl : '/image/hd1.png'},
-            { id : 10003, text : '消息三車車車',subText : '小文字小蚊子' , isIcon : false, imageUrl : '/image/hd1.png'},
-            { id : 10004, text : '消息4車車車',subText : 'chebaile' , isIcon : true},
-            { id : 10005, text : '消息五lll',subText : 'chebaile' , isIcon : true},
-            { id : 10006, text : '消息6lll',subText : 'chebaile' , isIcon : true},
-            { id : 10007, text : '消息7lll',subText : 'chebaile' , isIcon : true},
-            { id : 10008, text : '消息8lll',subText : 'chebaile' , isIcon : true},
-            { id : 10009, text : '消息9lll',subText : 'chebaile' , isIcon : true},
-            { id : 10010, text : '消息10lll',subText : 'chebaile' , isIcon : true},
-            { id : 10011, text : '消息11lll',subText : 'chebaile' , isIcon : true},
-            { id : 10012, text : '消息12lll',subText : 'chebaile' , isIcon : true},
-        ],
+        "items" : [],
+        SQLdata: [],
     },
     itemtap: e => {
         const id = e.detail.type;
-        console.log("To" + id)
+        console.log("To " + id)
     },
-    onLoad: options => {
-        console.log(options.type)
-    }
+    onLoad: function(options) {
+        //console.log(options.type)
+        const { userid } = wx.getStorageSync('user_info')
+
+        const methodDic = {
+            'posts' : this.getPostsByUserid,
+            'likes' : this.getLikesByUserid,
+            'comments' : this.getCommentsByUserid,
+        }
+
+        methodDic[options.type](userid)
+        .then(res => res.data)
+        .then(data => {
+            const itemData = data.map(SQLitem => ({
+                id : SQLitem.post_id,
+                text : SQLitem.title || '校园帖子' ,
+                subText : SQLitem.content,
+                imageUrl : JSON.parse(SQLitem.images)[0],
+            }))
+
+            this.setData({
+                items : itemData,
+                SQLdata : data
+            })
+        })
+
+    },
+
+    getPostsByUserid(userid){
+        return wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/userid?userid=" + userid,
+            "header": {
+                "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    getLikesByUserid(userid){
+        return wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/like/userid?userid=" + userid,
+            "header": {
+                "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    getCommentsByUserid(userid){
+        return wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/comment/userid?userid=" + userid,
+            "header": {
+                "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
 })

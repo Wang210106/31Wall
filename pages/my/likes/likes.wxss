@@ -1,4 +1,24 @@
 /* pages/my/likes/likes.wxss */
+@import '/static/wxss/iconfont.wxss';
+
 .wrap{
     margin: 20rpx;
+}
+
+.none{
+    position: relative;
+    margin: 500rpx auto;
+    height: 300rpx;
+    width: 600rpx;
+    text-align: center;
+}
+
+.icon{
+    transform: scale(4);
+    color: rgb(165, 165, 165);
+}
+
+.text{
+    margin-top: 80rpx;
+    color: rgb(165, 165, 165);
 }
