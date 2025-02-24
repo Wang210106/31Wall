@@ -1,4 +1,3 @@
-import { isEmptyValue } from '../../utils/objectOperate'
 import { generateUniqueFileName } from '../../utils/randomName'
 
 Page({
@@ -59,6 +58,16 @@ Page({
                     this.setData({
                         mediaList: dataArray
                     })
+                }).catch(err => {
+                    console.log(err);
+
+                    this.deleteMedia({
+                        currentTarget: {
+                            dataset: {
+                                index: imageIndex
+                            }
+                        }
+                    })//模拟e
                 })
             }
         });

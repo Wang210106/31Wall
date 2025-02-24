@@ -8,7 +8,7 @@ Page({
 
         formData: {
             avatar_url: '',
-            nickname: '',
+            nickName: '',
             realName: '',
             grade: '25',
             class: '1'
@@ -68,7 +68,7 @@ Page({
     
                         formData: { 
                             ...this.data.formData, 
-                            nickname: res.userInfo.nickName,
+                            nickName: res.userInfo.nickName,
                             avatar_url: res.userInfo.avatarUrl,
                             gender: res.userInfo.gender
                         }

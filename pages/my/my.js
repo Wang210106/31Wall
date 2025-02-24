@@ -26,7 +26,7 @@ Page({
         ],
         userInfo: {
             avatar_url: "/image/hd1.png",
-            nickname: "车柏乐",
+            nickName: "车柏乐",
             class: 10,
             grade: 26,
         },
@@ -34,6 +34,8 @@ Page({
     },
     
     onLoad() {
+        console.log(wx.getStorageSync('user_info'));
+
         this.setData({
             userInfo: wx.getStorageSync('user_info')
         })
