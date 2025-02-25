@@ -58,7 +58,7 @@ Page({
             return { ...value, created_at: newTime, avatar_url, nickname };
         }));
      
-        console.log(comments);
+        //console.log(comments);
         this.setData({
             title,
             content,
@@ -72,9 +72,21 @@ Page({
     },
 
 	// 点赞功能
-	likePost() {
-	  // 点赞逻辑
-	    console.log('点赞成功');
+	async likePost() {
+      // 点赞逻辑
+        const like = {
+            userid: wx.getStorageSync('user_info').id,
+            postid: this.data.post_id
+        }
+
+        await this.postLike(like).then(res => {
+            if (res.data.error == "User has already liked this post"){
+                wx.showToast({
+                  title: '已经点赞了哦',
+                })
+            }
+        })
+
 	},
   
 	// 输入评论内容
@@ -94,40 +106,54 @@ Page({
   
 	// 提交评论
     submitComment() {
-	// 获取评论内容并去除首尾空格
-	const commentContent = this.data.commentContent.trim();
-	if (commentContent === '') {
-	  // 若评论内容为空，给出提示
-	  wx.showToast({
-		title: '评论内容不能为空',
-		icon: 'none',
-		duration: 2000
-	  });
-	  return;
-    }
-    
-	const comment = {
-	  userid: wx.getStorageSync('user_info').id,
-	  comment: commentContent,
-      anonymous: this.data.isAnonymous ? 1 : 0,
-      postid : this.data.post_id,
-    };
-    
-	const comments = this.data.comments;
-	comments.push(comment);
-	this.setData({
-        commentContent: '',
-        isAnonymous: false
-    });
+        // 获取评论内容并去除首尾空格
+        const commentContent = this.data.commentContent.trim();
+        if (commentContent === '') {
+            // 若评论内容为空，给出提示
+            wx.showToast({
+                title: '评论内容不能为空',
+                icon: 'none',
+                duration: 2000
+            });
+            return;
+        }
+     
+        const comment = {
+            userid: wx.getStorageSync('user_info').id,
+            comment: commentContent,
+            anonymous: this.data.isAnonymous ? 1 : 0,
+            postid: this.data.post_id,
+        };
+     
+        // 清空输入框和匿名状态
+        this.setData({
+            commentContent: '',
+            isAnonymous: false
+        });
+     
+        // 上传评论
+        this.postComments(comment)
+        .then(async (res) => {
+            console.log('服务器响应:', res);
+     
+            const ocm = await this.getCommentsByPostid(this.data.post_id);
+            const originComments = ocm.data.result;
+     
+            const comments = await Promise.all(originComments.map(async value => {
+                const { created_at, user_id } = value;
+                const newTime = formatDateString(created_at);
+                const userInfo = await this.getUserById(user_id);
+                const { avatar_url, nickname } = userInfo.data;
+        
+                return { ...value, created_at: newTime, avatar_url, nickname };
+            }));
 
-    //upload
-    this.postComments(comment)
-    .then(res => {
-        console.log(res)
-    })
-    
-	//console.log('评论提交成功', comment);
-  },
+            this.setData({
+                comments_count: comments.length,
+                comments,
+            })
+        })
+    },
   
   // 取消评论
   cancelComment() {
@@ -211,6 +237,21 @@ Page({
             "data" : comment,
         })
     },
+
+    postLike(comment){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/like",
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "POST",
+            "data" : comment,
+        })
+    },
+
 
     getCommentsByPostid(postid){
         return wx.cloud.callContainer({
