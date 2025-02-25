@@ -1,4 +1,7 @@
 // pages/my/likes/likes.js
+const ManagerID = 1;//使用该id发送帖子将被识别为系统通知
+const NoticeID = 2;//使用该id发送帖子将被识别为公告
+
 Page({
     data: {
         "items" : [],
@@ -9,16 +12,16 @@ Page({
         console.log("To " + id)
     },
     onLoad: async function(options) {
-        //console.log(options.type)
-        const { id } = wx.getStorageSync('user_info')
+        let userid;
 
-        const methodDic = {
-            'posts' : this.getPostsByUserid,
-            'likes' : this.getLikesByUserid,
-            'comments' : this.getCommentsByUserid,
+        if (options.type == 'system'){
+            userid = ManagerID
+        }
+        else if (options.type == 'notice'){
+            userid = NoticeID
         }
 
-        await methodDic[options.type](id)
+        await this.getPostsByUserid(userid)
         .then(res => res.data)
         .then(data => {
             const itemData = data.map(SQLitem => ({
@@ -42,32 +45,6 @@ Page({
                 "env": "prod-9ggzinxb5b8ff0c5"
             },
             "path": "/post/userid?userid=" + userid,
-            "header": {
-                "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-    },
-
-    getLikesByUserid(userid){
-        return wx.cloud.callContainer({
-            "config": {
-                "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/post/like/userid?userid=" + userid,
-            "header": {
-                "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-    },
-
-    getCommentsByUserid(userid){
-        return wx.cloud.callContainer({
-            "config": {
-                "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/post/comment/userid?userid=" + userid,
             "header": {
                 "X-WX-SERVICE": "express-41pr"
             },

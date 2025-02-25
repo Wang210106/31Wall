@@ -1,3 +1,5 @@
+@import '/static/wxss/iconfont.wxss';
+
 .container{
     padding: 20rpx;
 }
@@ -31,4 +33,22 @@
 }
 .sender,.text{
     margin: 15rpx 0;
+}
+
+.none{
+    position: relative;
+    margin: 500rpx auto;
+    height: 300rpx;
+    width: 600rpx;
+    text-align: center;
+}
+
+.icon{
+    transform: scale(4);
+    color: rgb(165, 165, 165);
+}
+
+.text{
+    margin-top: 80rpx;
+    color: rgb(165, 165, 165);
 }

@@ -27,6 +27,15 @@ Page({
         });
 
         const type = pageDic[typeIndex];
+
+        //系统消息
+        if(type === 'system' || type === 'notice'){
+            wx.navigateTo({
+                url: `/pages/msg/likes/likes?type=` + type
+            });
+            
+            return
+        }
         
         wx.navigateTo({
             url: `/pages/msg/likeComment/likeComment?type=${type}`

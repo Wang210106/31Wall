@@ -136,7 +136,7 @@ Page({
         const postData = {
             title,
             content,
-            userid: wx.getStorageSync('user_info').userid,
+            userid: wx.getStorageSync('user_info').id,
             images: mediaList,
             realname: isRealname,
         };
@@ -197,5 +197,7 @@ Page({
             mediaList: [],
             isRealname: 0,
         });
+
+        wx.setStorageSync('post_image', [])
     },
 });

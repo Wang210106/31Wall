@@ -1,6 +1,8 @@
 // pages/msg/likeComment/likeComment.js
 import { formatTimestamp0 } from "../../../utils/timeStamp"
 
+const ManagerID = 1//这个id发的帖子将被识别为系统通知
+
 Page({
 	data: {
 	  messages: [
@@ -27,26 +29,38 @@ Page({
 		}
 	  ]
 	},
-
-	onShareAppMessage() {
-        return {
-            title: '我收到的点赞&评论',
-            path: '/pages/msg/likeComment/likeComment'
-        };
-    },
     
     onLoad: function (option) {
-        const type = option.type
-        console.log(type)
+        if(option.type === "system"){
+            this.getPostsByUserid(ManagerID)
+            .then(res => res.data)
+            .then(data => {
+                console.log(data)
+                const dataArray = data.map(obj => ({
+                    id: obj.post_id,
+                    avatar: JSON.parse(obj.images)[0],
+                    name: obj.title,
+                    time: obj.created_at,
+                    content: obj.content,
+                }))
 
-        const formattedMessages = this.data.messages.map((message) => {
-          return {
-            ...message,
-            time: formatTimestamp0(message.time)
-          };
-        });
-        this.setData({
-            messages: formattedMessages
-        });
+                this.setData({
+                    messages: dataArray
+                })
+            })
+        }
+    },
+
+    getPostsByUserid(userid){
+        return wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/userid?userid=" + userid,
+            "header": {
+                "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
     },
 });

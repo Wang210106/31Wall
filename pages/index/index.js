@@ -3,7 +3,8 @@ import { formatDateString } from '../../utils/timeStamp'
 Page({
 	data: {
 	  // 存储帖子数据
-	  posts: [],
+      posts: [],
+      chunkPosts: [],
 	  // 金刚区导航列表
 	  kingkongList: [
 		{ icon: '/image/btnbar/gr1.png', text: '表白墙', url: '/pages/index/confession/confession' },
@@ -16,15 +17,101 @@ Page({
 	},
   
 	async onReady() {
-        await this.getPosts()
+        const page0 = await this.getPosts(0)
+
+        this.setData({
+            chunkPosts : [ page0 ],
+            posts : page0
+        })
     },
     
     async onReachBottom(){
-        this.setData({
-            currentPage: this.data.currentPage + 1
+        const cuPage = this.data.currentPage
+
+        const pageNext = await this.getPosts(cuPage + 1)
+        const newChunkPosts = this.data.chunkPosts;
+        const newPageObj = []
+
+        if (!pageNext){
+            const newPage = await this.getPosts(cuPage)
+
+            newChunkPosts[cuPage] = newPage
+            newChunkPosts.forEach((value, index, array) => {
+                newPageObj.push(...value)
+            })
+
+            this.setData({
+                currentPage : cuPage,
+                chunkPosts : newChunkPosts,
+                posts : newPageObj,
+            })
+
+            console.log(this.data)
+            return
+        }
+            
+        newChunkPosts[cuPage + 1] = pageNext
+
+        newChunkPosts.forEach((value, index, array) => {
+            newPageObj.push(...value)
         })
 
-        await this.getPosts()
+        this.setData({
+            currentPage : cuPage + 1,
+            chunkPosts : newChunkPosts,
+            posts : newPageObj,
+        })
+        console.log(this.data)
+    },
+
+    async getPosts(page) {
+        const res = await wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/all?page=" + page,
+            "header": {
+                "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+
+        if (res.statusCode !== 200){
+            return null;
+        }
+
+        const postsPromises = res.data.map(async data => {
+            const thisData = {
+                post_id: data.post_id,
+                title: data.title,
+                content: data.content,
+                avatar: '',//默认
+                images: JSON.parse(data.images),
+                post_time: formatDateString(data.created_at),
+                isLiked: false,
+                likes_count: 0, // 默认值
+                comments_count: 0, 
+                isLiked: false
+            };
+         
+            const [likeResult, commentResult, userInfoResult] = await Promise.all([
+                this.getLikeAmount(data.post_id),
+                this.getCommentAmount(data.post_id),
+                this.getUserById(data.user_id)
+            ]);
+         
+            thisData.likes_count = likeResult.data[0]['COUNT(*)'];
+            thisData.comments_count = commentResult.data[0]['COUNT(*)'];
+
+            if (data.realname == 1){
+                thisData.avatar = userInfoResult.data.avatar_url
+                thisData.username = userInfoResult.data.nickname
+            }
+
+            return thisData;
+        })
+
+        return await Promise.all(postsPromises);
     },
   
     getLikeAmount(postid){
@@ -145,66 +232,5 @@ Page({
             }
         });
     },
-    
-    async getPosts() {
-        const { currentPage } = this.data
 
-        const res = await wx.cloud.callContainer({
-            "config": {
-                "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/post/all?page=" + currentPage,
-            "header": {
-                "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-
-        if(res.statusCode !== 200) {
-            this.setData({
-                nomore : true,
-                currentPage : currentPage - 1,
-            })
-
-            return
-        }
-
-        const postsPromises = res.data.map(async data => {
-            const thisData = {
-                post_id: data.post_id,
-                title: data.title,
-                content: data.content,
-                avatar: '',//默认
-                images: JSON.parse(data.images),
-                post_time: formatDateString(data.created_at),
-                isLiked: false,
-                likes_count: 0, // 默认值
-                comments_count: 0, 
-                isLiked: false
-            };
-         
-            const [likeResult, commentResult, userInfoResult] = await Promise.all([
-                this.getLikeAmount(data.post_id),
-                this.getCommentAmount(data.post_id),
-                this.getUserById(data.user_id)
-            ]);
-         
-            thisData.likes_count = likeResult.data[0]['COUNT(*)'];
-            thisData.comments_count = commentResult.data[0]['COUNT(*)'];
-
-            if (data.realname == 1){
-                thisData.avatar = userInfoResult.data.avatar_url
-                thisData.username = userInfoResult.data.nickname
-            }
-
-            return thisData;
-        })
-
-        const postsArray = await Promise.all(postsPromises);
-
-        this.setData({
-            posts: [ ...this.data.posts , ...postsArray ],
-            nomore: false,
-        })
-    }
 })

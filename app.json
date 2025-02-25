@@ -5,6 +5,7 @@
     "pages/my/my",
     "pages/login/login",
     "pages/msg/likeComment/likeComment",
+    "pages/msg/likes/likes",
     "pages/my/likes/likes",
     "pages/my/setting/setting",
     "pages/my/developer/developer",
