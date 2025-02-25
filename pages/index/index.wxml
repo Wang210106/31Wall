@@ -69,6 +69,10 @@
   </view>
 </view>
 
+<view class="back-to-top-btn" bindtap="backToTop" style="{{showBackTop? 'right: 20rpx; opacity: 1;' : 'right: -50rpx; opacity: 0;'}}"> 
+    <image src="/image/right.png" class="back-to-top-img"></image> 
+</view>
+
 <block wx:if="{{nomore}}">
     <view class="none">没有更多了捏...</view>
 </block>

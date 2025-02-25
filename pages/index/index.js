@@ -14,6 +14,7 @@ Page({
       ],
       currentPage: 0,
       nomore: true,
+      showBackTop: false,
 	},
   
 	async onReady() {
@@ -231,6 +232,25 @@ Page({
             console.error('多张图片预览失败:', err);
             }
         });
+    },
+
+    onPageScroll(e) {
+        if (e.scrollTop > 300){
+            this.setData({
+                showBackTop: true
+            })
+        } else {
+            this.setData({
+                showBackTop: false
+            })
+        }
+    },
+
+    backToTop(){
+        wx.pageScrollTo({
+            scrollTop: 0,
+            duration: 1000
+        })
     },
 
 })
