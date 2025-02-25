@@ -10,58 +10,22 @@ Page({
 		{ icon: '/image/btnbar/gr1.png', text: '学习互助', url: '/pages/index/study/study' },
 		{ icon: '/image/btnbar/gr1.png', text: '扩列', url: '/pages/index/kuolie/kuolie' },
 		{ icon: '/image/btnbar/gr1.png', text: '失物招领', url: '/pages/index/lost/lost' }
-	  ]
+      ],
+      currentPage: 0,
+      nomore: true,
 	},
   
 	async onReady() {
-        const res = await wx.cloud.callContainer({
-            "config": {
-                "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/post/all",
-            "header": {
-                "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-
-        const postsPromises = res.data.map(async data => {
-            const thisData = {
-                post_id: data.post_id,
-                title: data.title,
-                content: data.content,
-                avatar: '',//默认
-                images: JSON.parse(data.images),
-                post_time: formatDateString(data.created_at),
-                isLiked: false,
-                likes_count: 0, // 默认值
-                comments_count: 0, 
-                isLiked: false
-            };
-         
-            const [likeResult, commentResult, userInfoResult] = await Promise.all([
-                this.getLikeAmount(data.post_id),
-                this.getCommentAmount(data.post_id),
-                this.getUserById(data.user_id)
-            ]);
-         
-            thisData.likes_count = likeResult.data[0]['COUNT(*)'];
-            thisData.comments_count = commentResult.data[0]['COUNT(*)'];
-
-            if (data.realname == 1){
-                thisData.avatar = userInfoResult.data.avatar_url
-                thisData.username = userInfoResult.data.nickname
-            }
-
-            return thisData;
-        })
-
-        const postsArray = await Promise.all(postsPromises);
-
+        await this.getPosts()
+    },
+    
+    async onReachBottom(){
         this.setData({
-            posts: postsArray
+            currentPage: this.data.currentPage + 1
         })
-	},
+
+        await this.getPosts()
+    },
   
     getLikeAmount(postid){
         return wx.cloud.callContainer({
@@ -180,5 +144,66 @@ Page({
             console.error('多张图片预览失败:', err);
             }
         });
-	},
+    },
+    
+    async getPosts() {
+        const { currentPage } = this.data
+
+        const res = await wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/all?page=" + currentPage,
+            "header": {
+                "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+
+        if(res.statusCode !== 200) {
+            this.setData({
+                nomore : true,
+            })
+
+            return
+        }
+
+        const postsPromises = res.data.map(async data => {
+            const thisData = {
+                post_id: data.post_id,
+                title: data.title,
+                content: data.content,
+                avatar: '',//默认
+                images: JSON.parse(data.images),
+                post_time: formatDateString(data.created_at),
+                isLiked: false,
+                likes_count: 0, // 默认值
+                comments_count: 0, 
+                isLiked: false
+            };
+         
+            const [likeResult, commentResult, userInfoResult] = await Promise.all([
+                this.getLikeAmount(data.post_id),
+                this.getCommentAmount(data.post_id),
+                this.getUserById(data.user_id)
+            ]);
+         
+            thisData.likes_count = likeResult.data[0]['COUNT(*)'];
+            thisData.comments_count = commentResult.data[0]['COUNT(*)'];
+
+            if (data.realname == 1){
+                thisData.avatar = userInfoResult.data.avatar_url
+                thisData.username = userInfoResult.data.nickname
+            }
+
+            return thisData;
+        })
+
+        const postsArray = await Promise.all(postsPromises);
+
+        this.setData({
+            posts: [ ...this.data.posts , ...postsArray ],
+            nomore: false,
+        })
+    }
 })

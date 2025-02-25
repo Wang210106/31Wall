@@ -68,3 +68,7 @@
     </view>
   </view>
 </view>
+
+<block wx:if="{{nomore}}">
+    <view class="none">没有更多了捏...</view>
+</block>
