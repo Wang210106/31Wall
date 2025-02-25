@@ -5,13 +5,17 @@
     "pages/my/my",
     "pages/login/login",
     "pages/msg/likeComment/likeComment",
+    "pages/msg/likes/likes",
     "pages/my/likes/likes",
     "pages/my/setting/setting",
     "pages/my/developer/developer",
     "pages/index/confession/confession",
     "pages/index/study/study",
     "pages/index/kuolie/kuolie",
-    "pages/index/lost/lost"
+    "pages/index/lost/lost",
+    "pages/write/write",
+    "pages/post/post",
+    "pages/my/support/support"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -34,6 +38,12 @@
         "text": "主页",
         "iconPath": "image/btnbar/home0.png",
         "selectedIconPath": "image/btnbar/home1.png"
+      },
+      {
+        "pagePath": "pages/write/write",
+        "text": "发帖",
+        "iconPath": "image/btnbar/tiezi0.png",
+        "selectedIconPath": "image/btnbar/tiezi1.png"
       },
       {
         "pagePath": "pages/msg/msg",

@@ -1,7 +1,3 @@
-function getCurrentTimestamp() {
-    return Date.now();
-}
-  
 function formatTimestamp0(timestamp) {
     const date = new Date(timestamp);
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -22,8 +18,13 @@ function formatTimestamp1(timestamp) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
   
+function formatDateString(isoString) {
+    const [datePart, timePart] = isoString.replace(/:\d{2}\.\d{3}Z$/, '').split('T');
+    return `${datePart} ${timePart}`;
+}
+
 module.exports = {
     formatTimestamp0,
     formatTimestamp1,
-    getCurrentTimestamp,
+    formatDateString,
 }

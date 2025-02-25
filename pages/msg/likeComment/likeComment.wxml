@@ -9,4 +9,14 @@
             <view class="time">{{item.time}}</view>
         </view>
     </view>
+
+    <block wx:if="{{items.length <= 0}}">
+        <view class="none">
+            <view class="icon">
+                <text class="iconfont icon-ico_meiyoushuju"></text>
+            </view>
+            
+            <view class="text">这里什么都没有呀</view>
+        </view>
+    </block>
 </view>

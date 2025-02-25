@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+      "HeadImageTabs" : "/components/HeadImageTabs/HeadImageTabs"
+  }
+}

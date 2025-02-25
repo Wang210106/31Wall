@@ -2,7 +2,7 @@ Page({
     data: {
         programmers: [
             'Wang210106',
-            '姜博然',
+            '校长',
             'rainbow彩笔'
         ],
         planners: [
@@ -10,7 +10,8 @@ Page({
 			'谢佳桐',
             '神经病',
             '大糖宝',
-            '张子萱'
+			'张子萱',
+			'睘 羽'
         ],
         isRainbowEffect: false,
         allNames: [],
@@ -44,7 +45,7 @@ Page({
             case '神经病':
                 message = '幕后团队来啦，喜欢就支持一下吧';
                 break;
-            case '姜博然':
+            case '校长':
                 message = 'text4';
                 break;
             case '大糖宝':
@@ -55,7 +56,10 @@ Page({
                 break;
             case '谢佳桐':
                 message = '你好 我是31彭于晏 有点小帅小幽默 •͈ ₃ •͈ ';
-                break;
+				break;
+			case '睘 羽':
+				message = '去定义世界，而不是被世界定义';
+				break;	
         }
         wx.showToast({
             title: message,

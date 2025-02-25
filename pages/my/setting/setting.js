@@ -14,7 +14,7 @@ Page({
         }
         else if (e.detail.type === 1){
             //退出登录
-            wx.removeStorageSync('storage_info')
+            wx.removeStorageSync('user_info')
             
             wx.navigateTo({
               url: '/pages/login/login',

@@ -1,7 +1,7 @@
 <view wx:for="{{items}}" wx:key="id" class="wrap"  data-type="{{item.id}}" bindtap="handleItemTap">
     <view class="iconWrap">
-        <image wx:if="{{!item.isIcon}}" src="{{item.imageUrl}}" mode="scaleToFill" class="iconImage"/>
-        <view wx:if='{{item.isIcon || false}}' class="iconfont {{item.iconfont || 'icon-tiezishoucang'}}"></view>
+        <image wx:if="{{!!item.imageUrl}}" src="{{item.imageUrl}}" mode="scaleToFill" class="iconImage"/>
+        <view wx:if='{{!item.imageUrl || false}}' class="iconfont {{item.iconfont || 'icon-tiezishoucang'}}"></view>
         <!--默認的圖標為icon-tiezishoucang-->
     </view>
     <view class="textWrap">
