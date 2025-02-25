@@ -1,9 +1,9 @@
 <view class="container">
   <!-- 头像、用户名和发帖时间 -->
   <view class="user-info">
-    <image class="avatar" src="/image/hd1.png" mode="aspectFit"></image>
+    <image class="avatar" src="{{userinfo.avatar_url}}" mode="aspectFit"></image>
     <view>
-      <text class="username">用户名</text>
+      <text class="username">{{userinfo.nickname}}</text>
       <text class="post-time">{{postTime}}</text>
     </view>
   </view>
@@ -31,29 +31,21 @@
   <!-- 点赞以及评论区 -->
   <view class="like-comment">
     <view class="like" bindtap="likePost">
-      <image src="/image/hd1.png" mode="aspectFit"></image>
-      <text>点赞</text>
-    </view>
-    <view class="like" bindtap="likePostAnonymously">
-      <image src="/image/hd1.png" mode="aspectFit"></image>
-      <text>匿名点赞</text>
-    </view>
-    <view class="comment" bindtap="showCommentInput">
-      <image src="/image/hd1.png" mode="aspectFit"></image>
-      <text>评论</text>
+      <text class="iconfont icon-24px">{{likes_count}}</text>
     </view>
     <view class="comment" bindtap="forwardPost">
-      <image src="/image/hd1.png" mode="aspectFit"></image>
-      <text>转发</text>
+        <text class="iconfont icon-pinglunxiao"> {{comments_count}}</text>
+    </view>
+    <view class="comment" bindtap="forwardPost">
+        <text class="iconfont icon-zhuanfa"></text>
     </view>
     <view class="comment" bindtap="reportPost">
-      <image src="/image/hd1.png" mode="aspectFit"></image>
-      <text>举报</text>
+        <text class="iconfont icon-jubao"></text>
     </view>
   </view>
 
   <!-- 评论输入框 -->
-  <view wx:if="{{showComment}}" class="comment-input">
+  <view class="comment-input">
     <input placeholder="请输入评论内容" bindinput="onCommentInput" value="{{commentContent}}" class="input-full-width"></input>
     <view class="anonymous-switch">
       <radio-group bindchange="toggleAnonymous">
@@ -67,7 +59,7 @@
     </view>
     <view class="comment-buttons">
       <button bindtap="submitComment">发表评论</button>
-      <button bindtap="cancelComment">取消</button>
+      <text class="iconfont icon-guanbi" bindtap="cancelComment"></text>
     </view>
   </view>
 

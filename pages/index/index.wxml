@@ -20,7 +20,7 @@
 <scroll-view class="kingkong-area" scroll-x="true" style="margin: 20px 8px;">
   <view class="kingkong-wrapper">
     <!-- 循环渲染 -->
-    <view class="kingkong-item" wx:for="{{kingkongList}}" wx:key="index" bindtap="navigateToPage" data-url="{{item.url}}">
+    <view class="kingkong-item" wx:for="{{kingkongList}}" wx:key="index" bindtap="navigateToPage"  data-url="{{item.url}}">
       <!-- 显示图标 -->
       <image class="kingkong-icon" src="{{item.icon}}" mode="aspectFill" />
       <text class="kingkong-text">{{item.text}}</text>
@@ -31,7 +31,7 @@
 <!-- 帖子区 -->
 <view class="post-area" style="margin: 20px 8px;">
   <!-- 循环渲染每个帖子 -->
-  <view class="post-preview" wx:for="{{posts}}" wx:key="post_id" bindtap="navigateToPost">
+  <view class="post-preview" wx:for="{{posts}}" wx:key="post_id" bindtap="navigateToPost" data-post="{{item.post_id}}">
     <!-- 用户信息：头像、用户名和发帖时间 -->
     <view class="user-info">
       <image class="avatar" src="{{item.avatar}}" mode="aspectFill" />
@@ -50,7 +50,7 @@
       <view class="thumbnail-grid" wx:if="{{item.images.length > 1}}">
         <!-- 循环渲染每张缩略图 -->
         <block wx:for="{{item.images}}" wx:key="*this">
-          <image class="thumbnail-grid" src="{{item}}" mode="aspectFill" bindtap="previewMultiImage" data-images="{{item.images}}" data-index="{{index}}"></image>
+          <image class="thumbnail-grid" src="{{item}}" mode="aspectFill" data-images="{{item.images}}" data-index="{{index}}"></image>
         </block>
       </view>
     </view>

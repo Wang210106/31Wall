@@ -208,7 +208,7 @@
     align-items: center; 
     transition: all 0.3s ease; 
     z-index: 999;
-    border: 2rpx solid rgba (0,0,0,0.4)
+     border: 2rpx solid rgba (0,0,0,0.4)
 } 
     
 .back-to-top-img {

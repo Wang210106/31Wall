@@ -6,7 +6,9 @@ Page({
     },
     itemtap: e => {
         const id = e.detail.type;
-        console.log("To " + id)
+        wx.navigateTo({
+            url: `/pages/post/post?postid=` + id,
+        });
     },
     onLoad: async function(options) {
         //console.log(options.type)
@@ -23,8 +25,8 @@ Page({
         .then(data => {
             const itemData = data.map(SQLitem => ({
                 id : SQLitem.post_id,
-                text : SQLitem.title || '校园帖子' ,
-                subText : SQLitem.content,
+                text : SQLitem.title.slice(0,20) || '校园帖子' ,
+                subText : SQLitem.content.slice(0,20),
                 imageUrl : JSON.parse(SQLitem.images)[0],
             }))
 

@@ -1,83 +1,94 @@
+import { formatDateString } from '../../utils/timeStamp'
+
 Page({
 	data: {
-	  title: '',
-	  content: '',
-	  images: [],
-	  postTime: '',
-	  showComment: false,
-	  commentContent: '',
-	  comments: [],
-	  isAnonymous: false
+        title: '',
+        content: '',
+        images: [],
+        postTime: '',
+        commentContent: '',
+        isAnonymous: false,
+
+        comments: [],
+        likes_count: 0,
+        comments_count: 0,
+        post_id: -1,
+
+        userinfo: {
+            nickname: '匿名捏',
+            avatar_url: '/image/hd1.png'
+        },
 	},
   
-	// 格式化时间
-	formatTime(date) {
-	  const year = date.getFullYear();
-	  const month = date.getMonth() + 1;
-	  const day = date.getDate();
-	  const hour = date.getHours();
-	  const minute = date.getMinutes();
-	  return `${year}-${month}-${day} ${hour}:${minute}`;
+	async onLoad(option) {
+        const postInfo = option.postid ? 
+        (await this.getPostById(option.postid)).data.result[0] :  JSON.parse(wx.getStorageSync('_post'))
+        console.log(postInfo)
+
+        const { title, content, realname, user_id, post_id } = postInfo;
+        let images = postInfo.images
+
+        if(typeof images === 'string'){
+            images = JSON.parse(images)
+        }
+
+        if(realname){
+            const userinfo = await this.getUserById(user_id)
+
+            this.setData({
+                userinfo: userinfo.data,
+            })
+        }
+
+        const [likeResult, commentResult] = await Promise.all([
+            this.getLikeAmount(post_id),
+            this.getCommentAmount(post_id)
+        ]);
+     
+        const likes_count = likeResult.data[0]['COUNT(*)'];
+        const comments_count = commentResult.data[0]['COUNT(*)'];
+
+        this.setData({
+            title,
+            content,
+            images,
+            postTime: postInfo.post_time || formatDateString(postInfo.created_at),
+            post_id,
+            likes_count,
+            comments_count,
+        });
 	},
-  
-	onLoad(options) {
-	  console.log('接收到的参数:', options);
-	  const { title, content, images, isAnonymous, postTime } = options;
-  
-	  this.setData({
-		title: decodeURIComponent(title),
-		content: decodeURIComponent(content),
-		images: decodeURIComponent(images).split(','),
-		isAnonymous: isAnonymous === 'true',
-		postTime: this.formatTime(new Date(parseInt(decodeURIComponent(postTime))))
-	  }, () => {
-		console.log('数据更新后:', this.data);
-	  });
-	},
-  
-	// 返回上一页
-	goBack() {
-	  wx.navigateBack({
-		delta: 1
-	  });
-	},
-  
+
 	// 点赞功能
 	likePost() {
 	  // 点赞逻辑
-	  console.log('点赞成功');
-	},
-  
-	// 匿名点赞功能
-	likePostAnonymously() {
-	  // 匿名点赞逻辑
-	  console.log('匿名点赞成功');
+	    console.log('点赞成功');
 	},
   
 	// 显示评论输入框
 	showCommentInput() {
-	  this.setData({
-		showComment: true
-	  });
+        this.setData({
+            showComment: true
+        });
 	},
   
 	// 输入评论内容
 	onCommentInput(e) {
-	  this.setData({
-		commentContent: e.detail.value
-	  });
+        this.setData({
+            commentContent: e.detail.value
+        });
 	},
   
 	// 切换实名/匿名
 	toggleAnonymous(e) {
-	  const value = e.detail.value === 'true';
-	  this.setData({
-		isAnonymous: value
-	  });
+        const value = e.detail.value === 'true';
+        this.setData({
+            isAnonymous: value
+        });
 	},
   
 	// 提交评论
-submitComment() {
+    submitComment() {
 	// 获取评论内容并去除首尾空格
 	const commentContent = this.data.commentContent.trim();
 	if (commentContent === '') {
@@ -88,12 +99,13 @@ submitComment() {
 		duration: 2000
 	  });
 	  return;
-	}
+    }
+    
 	const comment = {
-	  username: '用户名',
-	  time: this.formatTime(new Date()),
+	  user_id: wx.getStorageSync('user_info').id,
 	  content: commentContent,
-	  isAnonymous: this.data.isAnonymous
+      anonymous: this.data.isAnonymous,
+      post_id : this.data.post_id,
 	};
 	const comments = this.data.comments;
 	comments.push(comment);
@@ -109,7 +121,6 @@ submitComment() {
   // 取消评论
   cancelComment() {
 	this.setData({
-	  showComment: false,
 	  commentContent: '',
 	  isAnonymous: false
 	});
@@ -135,5 +146,58 @@ submitComment() {
 		current: current,
 		urls: urls
 	  });
-	}
-  });
+    },
+    
+    getLikeAmount(postid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/like/amount?postid="+postid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    getCommentAmount(postid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/comment/amount?postid="+postid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    getUserById(userid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/user/userid?userid=" + userid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    getPostById(postid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post?postid=" + postid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+});

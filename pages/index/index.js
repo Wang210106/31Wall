@@ -28,13 +28,14 @@ Page({
     
     async onReachBottom(){
         const cuPage = this.data.currentPage
-
         const pageNext = await this.getPosts(cuPage + 1)
+
         const newChunkPosts = this.data.chunkPosts;
         const newPageObj = []
 
         if (!pageNext){
             const newPage = await this.getPosts(cuPage)
+            //console.log(newPage)
 
             newChunkPosts[cuPage] = newPage
             newChunkPosts.forEach((value, index, array) => {
@@ -47,7 +48,6 @@ Page({
                 posts : newPageObj,
             })
 
-            console.log(this.data)
             return
         }
             
@@ -62,7 +62,6 @@ Page({
             chunkPosts : newChunkPosts,
             posts : newPageObj,
         })
-        console.log(this.data)
     },
 
     async getPosts(page) {
@@ -86,13 +85,13 @@ Page({
                 post_id: data.post_id,
                 title: data.title,
                 content: data.content,
-                avatar: '',//默认
                 images: JSON.parse(data.images),
                 post_time: formatDateString(data.created_at),
                 isLiked: false,
                 likes_count: 0, // 默认值
                 comments_count: 0, 
-                isLiked: false
+                realname: data.realname,
+                user_id: data.user_id,
             };
          
             const [likeResult, commentResult, userInfoResult] = await Promise.all([
@@ -172,17 +171,14 @@ Page({
   
 	// 跳转到帖子详情页
 	navigateToPost(e) {
-	  const post = e.currentTarget.dataset.post;
-	  const postStr = JSON.stringify(post);
-	  wx.navigateTo({
-		url: `/pages/post/post?post=${postStr}`,
-		success: () => {
-		    console.log('跳转到帖子详情页成功');
-		},
-		fail: (err) => {
-		    console.error('跳转到帖子详情页失败:', err);
-		}
-	  });
+        const post = this.data.posts.find(obj => obj.post_id === e.currentTarget.dataset.post);
+        const postStr = JSON.stringify(post);
+        
+        wx.setStorageSync('_post', postStr)
+
+        wx.navigateTo({
+            url: `/pages/post/post`,
+        });
 	},
   
 	// 点赞/取消点赞功能
@@ -203,37 +199,6 @@ Page({
         });
 	},
   
-	// 单张图片预览
-	previewSingleImage(e) {
-        const image = e.currentTarget.dataset.image;
-        wx.previewImage({
-            current: image,
-            urls: [image],
-            success: () => {
-                console.log('单张图片预览成功');
-            },
-            fail: (err) => {
-                console.error('单张图片预览失败:', err);
-            }
-        });
-	},
-  
-	// 多张图片预览
-	previewMultiImage(e) {
-        const current = e.currentTarget.dataset.images[e.currentTarget.dataset.index];
-        const urls = e.currentTarget.dataset.images;
-        wx.previewImage({
-            current: current,
-            urls: urls,
-            success: () => {
-            console.log('多张图片预览成功');
-            },
-            fail: (err) => {
-            console.error('多张图片预览失败:', err);
-            }
-        });
-    },
-
     onPageScroll(e) {
         if (e.scrollTop > 300){
             this.setData({
