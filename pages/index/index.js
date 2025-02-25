@@ -163,6 +163,7 @@ Page({
         if(res.statusCode !== 200) {
             this.setData({
                 nomore : true,
+                currentPage : currentPage - 1,
             })
 
             return

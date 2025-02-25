@@ -1,18 +1,24 @@
 <view class="container">
     <view class="userinfo">
         <block wx:if="{{!hasUserInfo}}">
-            <button class="getRight" bindtap="getUserProfile"> 获取头像昵称 </button>
+            <button class="getRight" bindtap="getUserProfile"> 请您先登录 </button>
         </block>
         <block wx:else>
             <block wx:if="{{!hasSignedUp}}">
                 <view class="container">
                     <view class="avatarWrap">
-                        <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFit" bindtap="chooseAvatar"></image>
-                        <text class="nickname">{{userInfo.nickName}}</text>
+                        <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+                            <image class="avatar" src="{{AvatarUrl}}" mode="aspectFit"></image>
+                        </button>
                     </view>
-                    
+
                     <view class="tips">
                         <text>个人信息仅小程序可见，一定不会泄露，请务必输入真实信息</text>
+                    </view>
+
+                    <view class="form-group">
+                        <label class="label">昵称</label>
+                        <input class="input" type="nickname" placeholder="请输入昵称" bindinput="updateFormData" data-field="nickname" />
                     </view>
 
                     <view class="form-group">
