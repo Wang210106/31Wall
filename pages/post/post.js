@@ -21,33 +21,44 @@ Page({
 	},
   
 	async onLoad(option) {
-        const postInfo = option.postid ? 
-        (await this.getPostById(option.postid)).data.result[0] :  JSON.parse(wx.getStorageSync('_post'))
-        console.log(postInfo)
-
+        const postInfo = option.postid ?
+            (await this.getPostById(option.postid)).data.result[0] :
+            JSON.parse(wx.getStorageSync('_post'));
+     
         const { title, content, realname, user_id, post_id } = postInfo;
-        let images = postInfo.images
-
-        if(typeof images === 'string'){
-            images = JSON.parse(images)
+        let images = postInfo.images;
+     
+        if (typeof images === 'string') {
+            images = JSON.parse(images);
         }
-
-        if(realname){
-            const userinfo = await this.getUserById(user_id)
-
-            this.setData({
-                userinfo: userinfo.data,
-            })
+     
+        let userinfo = {};
+        if (realname) {
+            userinfo = (await this.getUserById(user_id)).data;
         }
-
+     
+        this.setData({
+            userinfo,
+        });
+     
         const [likeResult, commentResult] = await Promise.all([
             this.getLikeAmount(post_id),
-            this.getCommentAmount(post_id)
+            this.getCommentsByPostid(post_id)
         ]);
      
         const likes_count = likeResult.data[0]['COUNT(*)'];
-        const comments_count = commentResult.data[0]['COUNT(*)'];
-
+        const originComments = commentResult.data.result;
+     
+        const comments = await Promise.all(originComments.map(async value => {
+            const { created_at, user_id } = value;
+            const newTime = formatDateString(created_at);
+            const userInfo = await this.getUserById(user_id);
+            const { avatar_url, nickname } = userInfo.data;
+     
+            return { ...value, created_at: newTime, avatar_url, nickname };
+        }));
+     
+        console.log(comments);
         this.setData({
             title,
             content,
@@ -55,21 +66,15 @@ Page({
             postTime: postInfo.post_time || formatDateString(postInfo.created_at),
             post_id,
             likes_count,
-            comments_count,
+            comments_count: comments.length,
+            comments,
         });
-	},
+    },
 
 	// 点赞功能
 	likePost() {
 	  // 点赞逻辑
 	    console.log('点赞成功');
-	},
-  
-	// 显示评论输入框
-	showCommentInput() {
-        this.setData({
-            showComment: true
-        });
 	},
   
 	// 输入评论内容
@@ -102,20 +107,26 @@ Page({
     }
     
 	const comment = {
-	  user_id: wx.getStorageSync('user_info').id,
-	  content: commentContent,
-      anonymous: this.data.isAnonymous,
-      post_id : this.data.post_id,
-	};
+	  userid: wx.getStorageSync('user_info').id,
+	  comment: commentContent,
+      anonymous: this.data.isAnonymous ? 1 : 0,
+      postid : this.data.post_id,
+    };
+    
 	const comments = this.data.comments;
 	comments.push(comment);
 	this.setData({
-	  comments: comments,
-	  showComment: false,
-	  commentContent: '',
-	  isAnonymous: false
-	});
-	console.log('评论提交成功');
+        commentContent: '',
+        isAnonymous: false
+    });
+
+    //upload
+    this.postComments(comment)
+    .then(res => {
+        console.log(res)
+    })
+    
+	//console.log('评论提交成功', comment);
   },
   
   // 取消评论
@@ -161,19 +172,6 @@ Page({
         })
     },
 
-    getCommentAmount(postid){
-        return wx.cloud.callContainer({
-            "config": {
-            "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/post/comment/amount?postid="+postid,
-            "header": {
-            "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-    },
-
     getUserById(userid){
         return wx.cloud.callContainer({
             "config": {
@@ -193,6 +191,33 @@ Page({
             "env": "prod-9ggzinxb5b8ff0c5"
             },
             "path": "/post?postid=" + postid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    postComments(comment){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/comment",
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "POST",
+            "data" : comment,
+        })
+    },
+
+    getCommentsByPostid(postid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/comment/postid?postid=" + postid,
             "header": {
             "X-WX-SERVICE": "express-41pr"
             },

@@ -58,24 +58,29 @@
       </radio-group>
     </view>
     <view class="comment-buttons">
-      <button bindtap="submitComment">发表评论</button>
-      <text class="iconfont icon-guanbi" bindtap="cancelComment"></text>
+        <view>
+            <button bindtap="submitComment">发表评论</button>
+        </view>
+      
+        <view>
+            <text class="iconfont icon-guanbi" bindtap="cancelComment">取消</text>
+        </view>
     </view>
   </view>
 
   <!-- 评论列表 -->
-  <view class="comment-list">
-    <block wx:for="{{comments}}" wx:key="index">
-      <view class="comment-item">
-        <image class="comment-avatar" src="{{item.isAnonymous? '/image/btnbar/gr1.png' : '/image/hd1.png'}}" mode="aspectFit"></image>
-        <view class="comment-info">
-          <view class="comment-header">
-            <text class="comment-username">{{item.isAnonymous? '匿名用户' : item.username}}</text>
-            <text class="comment-time">{{item.time}}</text>
-          </view>
-          <text class="comment-content">{{item.content}}</text>
+    <view class="comment-list">
+        <block wx:for="{{comments}}" wx:key="index">
+        <view class="comment-item">
+            <image class="comment-avatar" src="{{item.anonymous ? '/image/btnbar/gr1.png' : item.avatar_url}}" mode="aspectFit"></image>
+            <view class="comment-info">
+                <view class="comment-header">
+                    <text class="comment-username">{{item.anonymous ? '匿名用户' : item.nickname}}</text>
+                    <text class="comment-time">{{item.created_at}}</text>
+                </view>
+                <text class="comment-content">{{item.comment}}</text>
+            </view>
         </view>
-      </view>
-    </block>
-  </view>
+        </block>
+    </view>
 </view>
