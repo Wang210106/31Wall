@@ -76,8 +76,6 @@
   }
   
   .image-grid image {
-	width: 33.33%;
-	height: auto;
 	box-sizing: border-box;
 	padding: 0 5rpx; /* 左右间距保持不变 */
 	margin-top: 10rpx; /* 调整图片上方间距 */

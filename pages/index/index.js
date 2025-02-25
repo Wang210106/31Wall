@@ -181,24 +181,6 @@ Page({
         });
 	},
   
-	// 点赞/取消点赞功能
-	toggleLike(e) {
-        // 阻止默认跳转行为
-        e.stopPropagation(); 
-        const index = e.currentTarget.dataset.index;
-        const posts = this.data.posts;
-        const post = posts[index];
-        post.isLiked = !post.isLiked;
-        if (post.isLiked) {
-            post.likes_count++;
-        } else {
-            post.likes_count--;
-        }
-        this.setData({
-            posts: posts
-        });
-	},
-  
     onPageScroll(e) {
         if (e.scrollTop > 300){
             this.setData({
