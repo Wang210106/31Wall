@@ -8,7 +8,7 @@ Page({
 
         formData: {
             avatar_url: '',
-            nickName: '',
+            nickname: '',
             realName: '',
             grade: '25',
             class: '1'
@@ -32,7 +32,7 @@ Page({
                         })
 
                         this.updateUser({
-                            nickName: res.userInfo.nickName,
+                            nickname: res.userInfo.nickName,
                             avatar_url: res.userInfo.avatarUrl,
                         })
 
@@ -68,7 +68,7 @@ Page({
     
                         formData: { 
                             ...this.data.formData, 
-                            nickName: res.userInfo.nickName,
+                            nickname: res.userInfo.nickName,
                             avatar_url: res.userInfo.avatarUrl,
                             gender: res.userInfo.gender
                         }
@@ -109,6 +109,7 @@ Page({
             return;
         }
 
+        //提交网络请求
         this.postUser(formData)
         .then(res => {
             console.log(res)

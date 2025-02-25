@@ -6,7 +6,7 @@ const pageDic = {
     4 : { name : "setting", type : "setting"},
     5 : { name : "developer", type : "developer"},
     6 : { name : "support", type : "support"},
-    7 : { name : "connect", type : "likes"},
+    7 : { name : "connect", type : ""},
 }
 
 const maxColor = 3;

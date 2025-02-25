@@ -29,7 +29,7 @@
 	/* 每个元素占据一行宽度的三分之一，减去右边距 */
 	width: calc((100% - 20px) / 3); 
 	height: auto;
-	margin-right: 10px;
+	margin-right: 8px;
 	margin-bottom: 10px;
 	position: relative;
 	aspect-ratio: 1 / 1; /* 确保元素为正方形 */

@@ -31,7 +31,7 @@
 <!-- 帖子区 -->
 <view class="post-area" style="margin: 20px 8px;">
   <!-- 循环渲染每个帖子 -->
-  <view class="post-preview" wx:for="{{posts}}" wx:key="post_id" bindtap="navigateToPost" data-post="{{item}}">
+  <view class="post-preview" wx:for="{{posts}}" wx:key="post_id" bindtap="navigateToPost">
     <!-- 用户信息：头像、用户名和发帖时间 -->
     <view class="user-info">
       <image class="avatar" src="{{item.avatar}}" mode="aspectFill" />

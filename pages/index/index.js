@@ -48,7 +48,7 @@ Page({
             thisData.likes_count = likeResult.data[0]['COUNT(*)'];
             thisData.comments_count = commentResult.data[0]['COUNT(*)'];
 
-            if (data.realname){
+            if (data.realname == 1){
                 thisData.avatar = userInfoResult.data.avatar_url
                 thisData.username = userInfoResult.data.nickname
             }

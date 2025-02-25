@@ -10,6 +10,14 @@ Page({
         isRealname: 0, //1实名 0匿名
     },
 
+    onLoad(){
+        if(wx.getStorageSync('post_image')){
+            this.setData({
+                mediaList: wx.getStorageSync('post_image')
+            })
+        }
+    },
+
     // 标题输入事件处理
     onTitleInput(e) {
         this.setData({
@@ -30,47 +38,49 @@ Page({
             mediaType: ['image'],
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
-            success: (res) => {
-                const tempFilePath = res.tempFiles;
-                const imageIndex = this.data.mediaList.length
+        })
+        .then(res => {
+            const tempFilePath = res.tempFiles;
+            const imageIndex = this.data.mediaList.length
+
+            this.setData({
+                mediaList: [ ...this.data.mediaList ,'/image/hd1.png' ],
+                isUpdating: true
+            });
+
+            const extension = tempFilePath[0].tempFilePath.split('.')[tempFilePath[0].tempFilePath.split('.').length - 1]
+
+            wx.cloud.uploadFile({
+                cloudPath: 'postImage/' + generateUniqueFileName(extension),
+                filePath: tempFilePath[0].tempFilePath,
+                config: {
+                    env: 'prod-9ggzinxb5b8ff0c5'
+                }
+            }).then(res => {
+                this.setData({
+                    isUpdating: false,
+                })
+
+                const dataArray = this.data.mediaList
+                dataArray[imageIndex] = res.fileID
 
                 this.setData({
-                    mediaList: [ ...this.data.mediaList ,'/image/hd1.png' ],
-                    isUpdating: true
-                });
-
-                const extension = tempFilePath[0].tempFilePath.split('.')[tempFilePath[0].tempFilePath.split('.').length - 1]
-
-                wx.cloud.uploadFile({
-                    cloudPath: 'postImage/' + generateUniqueFileName(extension),
-                    filePath: tempFilePath[0].tempFilePath,
-                    config: {
-                        env: 'prod-9ggzinxb5b8ff0c5'
-                    }
-                }).then(res => {
-                    this.setData({
-                        isUpdating: false,
-                    })
-
-                    const dataArray = this.data.mediaList
-                    dataArray[imageIndex] = res.fileID
-
-                    this.setData({
-                        mediaList: dataArray
-                    })
-                }).catch(err => {
-                    console.log(err);
-
-                    this.deleteMedia({
-                        currentTarget: {
-                            dataset: {
-                                index: imageIndex
-                            }
-                        }
-                    })//模拟e
+                    mediaList: dataArray
                 })
-            }
-        });
+
+                wx.setStorageSync('post_image', dataArray)
+            }).catch(err => {
+                console.log(err);
+
+                this.deleteMedia({
+                    currentTarget: {
+                        dataset: {
+                            index: imageIndex
+                        }
+                    }
+                })//模拟e
+            })
+        })
     },
 
     // 删除媒体文件
@@ -92,9 +102,9 @@ Page({
 
         this.setData({
             mediaList: newMediaList
-        }, () => {
-            this.updateMediaCount();
         });
+
+        wx.setStorageSync('post_image', newMediaList)
     },
 
     // 预览媒体文件
@@ -123,8 +133,6 @@ Page({
     sendPost() {
         const { title, content, mediaList, isRealname } = this.data;
 
-        console.log(isRealname)
-
         const postData = {
             title,
             content,
@@ -132,6 +140,16 @@ Page({
             images: mediaList,
             realname: isRealname,
         };
+
+        //限制字数
+        if (postData.title.length > 40 || postData.content > 4000){
+            wx.showToast({
+                title: '字数太多了',
+                icon: 'none'
+            })
+
+            return
+        }
 
         //验证
         if (this.data.content === '' && this.data.mediaList.length === 0){
@@ -180,17 +198,4 @@ Page({
             isRealname: 0,
         });
     },
-
-    // 更新媒体数量
-    updateMediaCount() {
-        const query = wx.createSelectorQuery();
-        query.select('.upload-area').fields({ dataset: true }, (res) => {
-            if (res) {
-                res.dataset.mediaCount = this.data.mediaList.length;
-                this.setData({
-                    'uploadAreaDataset': res.dataset
-                });
-            }
-        }).exec();
-    }
 });

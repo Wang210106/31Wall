@@ -8,7 +8,7 @@ Page({
         const id = e.detail.type;
         console.log("To " + id)
     },
-    onLoad: function(options) {
+    onLoad: async function(options) {
         //console.log(options.type)
         const { userid } = wx.getStorageSync('user_info')
 
@@ -18,7 +18,7 @@ Page({
             'comments' : this.getCommentsByUserid,
         }
 
-        methodDic[options.type](userid)
+        await methodDic[options.type](userid)
         .then(res => res.data)
         .then(data => {
             const itemData = data.map(SQLitem => ({

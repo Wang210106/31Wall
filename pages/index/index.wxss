@@ -107,28 +107,38 @@
 	margin-right: 8px;
 }
   
-  /* 发帖时间样式 */
-  .post-time {
+/* 发帖时间样式 */
+.post-time {
 	color: #999;
 	/* 将发帖时间靠右显示 */
 	margin-left: auto;
-  }
+}
   
-  /* 标题样式 */
-  .post-title {
+/* 标题样式 */
+.post-title {
 	font-size: 18px;
 	font-weight: bold;
 	margin-bottom: 8px; /* 确保标题和内容不在一行 */
-	display: block; /* 确保标题单独一行 */
-  }
+    display: block; /* 确保标题单独一行 */
+    overflow: hidden; /* 确保多余的内容被隐藏 */
+    text-overflow: ellipsis; /* 使用省略号表示有更多内容 */
+    display: -webkit-box; /* 使用 WebKit 的 box 模型 */
+    -webkit-line-clamp: 1; /* 结合 lines 属性使用，限制显示的行数 */
+    -webkit-box-orient: vertical; /* 设置盒子的方向为垂直 */
+}
   
-  /* 正文样式 */
-  .post-content {
+ /* 正文样式 */
+.post-content {
 	color: #666;
 	margin-bottom: 16px;
 	display: block; /* 确保正文单独一行 */
     word-break: break-all;
-  }
+    overflow: hidden; /* 确保多余的内容被隐藏 */
+    text-overflow: ellipsis; /* 使用省略号表示有更多内容 */
+    display: -webkit-box; /* 使用 WebKit 的 box 模型 */
+    -webkit-line-clamp: 6; /* 结合 lines 属性使用，限制显示的行数 */
+    -webkit-box-orient: vertical; /* 设置盒子的方向为垂直 */
+}
   
   /* 媒体预览区域样式 */
   .media-preview {

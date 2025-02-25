@@ -19,7 +19,7 @@
         </view>
       </view>
     </block>
-    <view class="add-icon" bindtap="chooseMedia">
+    <view class="add-icon" bindtap="chooseMedia" wx:if="{{mediaList.length <= 9}}">
       <text>+</text>
     </view>
   </view>
