@@ -79,12 +79,17 @@ Page({
             postid: this.data.post_id
         }
 
-        await this.postLike(like).then(res => {
+        await this.postLike(like).then(async res => {
             if (res.data.error == "User has already liked this post"){
                 wx.showToast({
                   title: '已经点赞了哦',
                 })
             }
+
+            const likeAmount = await this.getLikeAmount(this.data.post_id)
+            this.setData({
+                likes_count: likeAmount.data[0]['COUNT(*)'],
+            })
         })
 
 	},
