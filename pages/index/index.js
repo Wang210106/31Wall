@@ -7,10 +7,10 @@ Page({
       chunkPosts: [],
 	  // 金刚区导航列表
 	  kingkongList: [
-		{ icon: '/image/btnbar/gr1.png', text: '表白墙', url: '/pages/index/confession/confession' },
-		{ icon: '/image/btnbar/gr1.png', text: '学习互助', url: '/pages/index/study/study' },
-		{ icon: '/image/btnbar/gr1.png', text: '扩列', url: '/pages/index/kuolie/kuolie' },
-		{ icon: '/image/btnbar/gr1.png', text: '失物招领', url: '/pages/index/lost/lost' }
+		{ icon: 'icon-biaobaiqiangpinglunqudianzan', text: '表白墙' },
+		{ icon: 'icon-zizhuxuexi', text: '学习互助'},
+		{ icon: 'icon-a-ziyuan5', text: '扩列' },
+		{ icon: 'icon-shiwuzhaoling', text: '失物招领' }
       ],
       currentPage: 0,
       nomore: true,

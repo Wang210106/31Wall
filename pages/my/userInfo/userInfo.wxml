@@ -1,0 +1,38 @@
+<!--pages/my/userInof/userInfo.wxml-->
+<view class="container">
+    <view class="avatarWrap">
+        <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+            <image class="avatar" src="{{AvatarUrl}}" mode="aspectFit"></image>
+        </button>
+    </view>
+
+    <view class="tips">
+        <text>个人信息仅小程序可见，一定不会泄露，请务必输入真实信息</text>
+    </view>
+
+    <view class="form-group">
+        <label class="label">昵称</label>
+        <input class="input" type="nickname" value="{{nickname}}" placeholder="请输入昵称" bindinput="updateFormData" data-field="nickname" />
+    </view>
+
+    <view class="form-group">
+        <label class="label">真实姓名</label>
+        <input class="input" type="text" value="{{realname}}" placeholder="请务必输入真实姓名，一定安全" bindinput="updateFormData" data-field="realname" />
+    </view>
+    
+    <view class="form-group">
+        <label class="label">届次</label>
+        <picker mode="selector" range="{{Grade}}" bindchange="updateFormData" data-field="Grade" value="{{selectedGrade}}">
+        <view class="picker-view">{{Grade[selectedGrade]}}</view>
+        </picker>
+    </view>
+    
+    <view class="form-group">
+        <label class="label">班级</label>
+        <picker mode="selector" range="{{Class}}" bindchange="updateFormData" data-field="Class" value="{{selectedClass}}">
+        <view class="picker-view">{{Class[selectedClass]}}</view>
+        </picker>
+    </view>
+    
+    <button class="submit-button" bindtap="submitForm">提交更改</button>
+</view>

@@ -104,7 +104,7 @@ Page({
             self_likes.splice(self_likes.indexOf(postid), 1)
             wx.setStorageSync('self_like', self_likes)
 
-            const likeres = await this.deleteLike(postid, userid)
+            await this.deleteLike(postid, userid)
 
             const likeAmount = await this.getLikeAmount(postid)
             this.setData({
@@ -222,17 +222,33 @@ Page({
   
 	// 举报帖子
 	reportPost() {
+        const { post_id } = this.data
+        const deletePostById = this.deletePostById
+
 	  if(this.data.selfPost){
         wx.showModal({
             title: '删除帖子',
             content: '您真的要删除这个帖子吗？',
             success(res) {
                 if (res.confirm) {
-                    this.delete
+                    deletePostById(post_id)
+                    .then(res => {
+                        wx.showToast({
+                          title: '已删除',
+                        })
+
+                        wx.switchTab({
+                          url: '/pages/index/index',
+                        })
+                    })
                 } 
             }
         });
+
+        return
       }
+
+      //举报
 	  console.log('举报成功');
 	},
   

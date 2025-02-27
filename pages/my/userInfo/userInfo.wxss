@@ -1,14 +1,7 @@
-/* pages/login/login.wxss */
+/* pages/my/userInof/userInfo.wxss *//* pages/login/login.wxss */
 .container{
     scroll-behavior: none;
-}
-
-.container {
-    padding: 20px;
-}
-
-.getRight{
-    margin-top: 500rpx;
+    padding: 40px;
 }
    
 .tips{
@@ -83,7 +76,7 @@
     background-color: #f9f9f9;
 }
    
-.submit-button {
+.submit-button{
     width: 100%;
     padding: 10px;
     background-color: #315EFB;

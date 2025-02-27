@@ -17,16 +17,16 @@
 </swiper>
 
 <!-- 金刚区 -->
-<scroll-view class="kingkong-area" scroll-x="true" style="margin: 20px 8px;">
+<view class="kingkong-area" style="margin: 20px 8px;">
   <view class="kingkong-wrapper">
     <!-- 循环渲染 -->
     <view class="kingkong-item" wx:for="{{kingkongList}}" wx:key="index" bindtap="navigateToPage"  data-url="{{item.url}}">
       <!-- 显示图标 -->
-      <image class="kingkong-icon" src="{{item.icon}}" mode="aspectFill" />
+      <image class="kingkong-icon iconfont {{item.icon}}"mode="aspectFill" />
       <text class="kingkong-text">{{item.text}}</text>
     </view>
   </view>
-</scroll-view>
+</view>
 
 <!-- 帖子区 -->
 <view class="post-area" style="margin: 20px 8px;">

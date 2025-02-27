@@ -11,6 +11,9 @@ Page({
     itemtap: function(e) {
         if (e.detail.type === 0){
             //用户信息
+            wx.navigateTo({
+                url: '/pages/my/userInfo/userInfo',
+            })
         }
         else if (e.detail.type === 1){
             //退出登录

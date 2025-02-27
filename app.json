@@ -8,6 +8,7 @@
     "pages/msg/likes/likes",
     "pages/my/likes/likes",
     "pages/my/setting/setting",
+    "pages/my/userInfo/userInfo",
     "pages/my/developer/developer",
     "pages/index/study/study",
     "pages/write/write",

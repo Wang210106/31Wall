@@ -24,16 +24,17 @@
 	width: auto;
 	white-space: nowrap;
     /* 隐藏滚动条 */
-	-webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 20rpx;
 	overflow-x: auto;
-	border: 1px solid #ccc;
 	padding: 10px;
 }
   
 /* 金刚区内容包裹层样式 */
 .kingkong-wrapper {
-	display: flex;
-	gap: 16px;
+    display: flex;
+    justify-content: space-around;
 }
   
 /* 每个金刚区项目样式 */
@@ -45,16 +46,20 @@
 	/* 固定每个项目的宽度 */
 	width: 65px;
 	/* 防止图标被压缩 */
-	flex-shrink: 0;
+    flex-shrink: 0;
 }
   
 /* 金刚区图标样式 */
-.kingkong-item image {
+.kingkong-icon {
 	width: 32px;
-	height: 32px;
+    height: 32px;
+    color: #007aff;
 	object-fit: cover;
 	border: 1px solid #ddd;
-	padding: 4px;
+    padding: 4px;
+    font-size: 45rpx;
+    text-align: center;
+    line-height: 65rpx;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	border-radius: 8px;
 }
@@ -81,7 +86,6 @@
 	margin-bottom: 16px;
 	/* 确保内边距和边框包含在元素的总高度内 */
 	box-sizing: border-box; 
-	min-height: 200px;
 }
   
 /* 用户信息样式 */
