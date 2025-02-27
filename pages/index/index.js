@@ -15,86 +15,50 @@ Page({
       currentPage: 0,
       nomore: true,
       showBackTop: false,
-
-      selfliks: [],
+      initializing: true,
+      loading: false,
 	},
   
 	async onReady() {
         const page0 = await this.getPosts(0)
 
         this.setData({
-            chunkPosts : [ page0 ],
-            posts : page0
+            posts : page0,
+            initializing: false,
         })
-
-        const selfLikeLists = await this.getLikeByUserid(wx.getStorageSync('user_info').userid)
-
-        wx.setStorageSync('self_like', selfLikeLists.data.result.map(value => value.post_id))
     },
 
     async onShow(){
-        const { chunkPosts } = this.data
+        if (this.data.initializing) return
 
-        const processedChunks = await Promise.all(chunkPosts.map(async chunk => {
-            const processedInnerValues = await Promise.all(chunk.map(async innerValue => {
-                const [likeResult, commentResult] = await Promise.all([
-                    this.getLikeAmount(innerValue.post_id),
-                    this.getCommentAmount(innerValue.post_id),
-                ]);
-     
-                // 创建一个新对象以避免直接修改原始对象
-                const newInnerValue = { ...innerValue };
-                newInnerValue.likes_count = likeResult.data[0]['COUNT(*)'];
-                newInnerValue.comments_count = commentResult.data[0]['COUNT(*)'];
-     
-                return newInnerValue;
-            }));
-     
-            return processedInnerValues;
-        }));
+        const page0 = await this.getPosts(0)
 
         this.setData({
-            chunkPosts: processedChunks,
-            posts: processedChunks.flat(),
+            posts : page0,
+            currentPage : 0,
         })
     },
     
     async onReachBottom(){
+        if(this.data.loading) return
+
+        this.setData({
+            loading : true,
+        })
+
         const cuPage = this.data.currentPage
         const pageNext = await this.getPosts(cuPage + 1)
 
-        const newChunkPosts = this.data.chunkPosts;
-        const newPageObj = []
-
-        if (!pageNext){
-            const newPage = await this.getPosts(cuPage)
-            //console.log(newPage)
-
-            newChunkPosts[cuPage] = newPage
-            newChunkPosts.forEach((value, index, array) => {
-                newPageObj.push(...value)
-            })
-
-            this.setData({
-                currentPage : cuPage,
-                chunkPosts : newChunkPosts,
-                posts : newPageObj,
-            })
-
-            return
-        }
-            
-        newChunkPosts[cuPage + 1] = pageNext
-
-        newChunkPosts.forEach((value, index, array) => {
-            newPageObj.push(...value)
-        })
-
         this.setData({
             currentPage : cuPage + 1,
-            chunkPosts : newChunkPosts,
-            posts : newPageObj,
+            posts : pageNext,
         })
+
+        setTimeout(() => {
+            this.setData({
+                loading : false,
+            })
+        }, 1500);//1.5秒之后才能刷新
     },
 
     async getPosts(page) {
@@ -145,6 +109,22 @@ Page({
         })
 
         return await Promise.all(postsPromises);
+    },
+
+    onPullDownRefresh:async  function() {
+        wx.showNavigationBarLoading(); 
+
+        const page0 = await this.getPosts(0)
+
+        this.setData({
+            posts : page0,
+            currentPage : 0,
+        })
+
+        setTimeout(() => {
+          wx.stopPullDownRefresh();
+          wx.hideNavigationBarLoading(); 
+        }, 1000);
     },
   
     getLikeAmount(postid){

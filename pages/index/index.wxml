@@ -74,5 +74,5 @@
 </view>
 
 <block wx:if="{{nomore}}">
-    <view class="none">没有更多了捏...</view>
+    <view class="none">{{ loading ? '加载中加载中...' :  '没有更多了捏...'}}</view>
 </block>

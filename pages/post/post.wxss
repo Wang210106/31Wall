@@ -38,7 +38,7 @@
   .partition-wrapper {
 	display: flex;
     justify-content: flex-end; /* 让子元素靠右对齐 */
-    margin-bottom: 40rpx;
+    margin-bottom: 24rpx;
   }
   
   /* 所在分区样式 */
@@ -63,8 +63,8 @@
   
   /* 正文样式 */
   .content {
-	font-size: 28rpx;
-	margin-top: 20rpx;
+	font-size: 36rpx;
+	margin-top: 24rpx;
 	color: #666;
 	line-height: 1.6;
   }
@@ -91,9 +91,11 @@
   /* 点赞和评论区样式 */
   .like-comment {
 	display: flex;
-	margin-top: 30rpx;
+	margin-top: 24rpx;
 	flex-wrap: wrap; /* 允许换行 */
-	justify-content: space-around; /* 均匀分布按钮 */
+    justify-content: space-around; /* 均匀分布按钮 */
+    padding-bottom: 24rpx;
+    border-bottom: 1px solid rgb(241, 241, 241);
   }
   
   .like,
@@ -124,7 +126,7 @@
   
   /* 评论输入框样式 */
   .comment-input {
-	margin-top: 30rpx;
+	margin: 36rpx 0;
   }
   
   .input-full-width {
@@ -150,8 +152,9 @@
   }
   
   .anonymous-switch label {
+      transform: scale(.8);
 	margin-right: 30rpx;
-	font-size: 28rpx;
+	font-size: 36rpx;
 	color: #666;
 	display: flex;
 	align-items: center;
@@ -164,6 +167,7 @@
 .comment-buttons {
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
 }
   
   .comment-input button {
@@ -228,11 +232,11 @@
 	line-height: 1.6;
 }
 
-.icon-guanbi{
+.icon-quxiao{
     color: #666;
     font-size: 24rpx;
 }
 
-.icon-guanbi:hover{
-    color: rgb(122, 87, 87);
+.icon-quxiao{
+    color: #74b7ff;
 }

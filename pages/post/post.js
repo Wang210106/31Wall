@@ -218,13 +218,21 @@ Page({
           title: '微信不让转发，哈哈哈',
           icon: "none"
         })
-
-	  console.log('转发成功');
 	},
   
 	// 举报帖子
 	reportPost() {
-	  // 举报逻辑
+	  if(this.data.selfPost){
+        wx.showModal({
+            title: '删除帖子',
+            content: '您真的要删除这个帖子吗？',
+            success(res) {
+                if (res.confirm) {
+                    this.delete
+                } 
+            }
+        });
+      }
 	  console.log('举报成功');
 	},
   
@@ -274,6 +282,19 @@ Page({
             "X-WX-SERVICE": "express-41pr"
             },
             "method": "GET",
+        })
+    },
+
+    deletePostById(postid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post?postid=" + postid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "DELETE",
         })
     },
 

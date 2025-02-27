@@ -40,13 +40,13 @@
         <text class="iconfont icon-zhuanfa"></text>
     </view>
     <view class="comment" bindtap="reportPost">
-        <text class="iconfont icon-jubao"></text>
+        <text class="iconfont {{ selfPost ? 'icon-shanchu' : 'icon-jubao'}}"></text>
     </view>
   </view>
 
   <!-- 评论输入框 -->
   <view class="comment-input">
-    <input placeholder="请输入评论内容" bindinput="onCommentInput" value="{{commentContent}}" class="input-full-width"></input>
+    <input placeholder="说说你想说的吧~" bindinput="onCommentInput" value="{{commentContent}}" class="input-full-width"></input>
     <view class="anonymous-switch">
       <radio-group bindchange="toggleAnonymous">
         <label>
@@ -63,7 +63,7 @@
         </view>
       
         <view>
-            <text class="iconfont icon-guanbi" bindtap="cancelComment">取消</text>
+            <text class="iconfont icon-quxiao" bindtap="cancelComment"> 取消</text>
         </view>
     </view>
   </view>
