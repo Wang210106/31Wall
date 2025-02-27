@@ -1,6 +1,25 @@
 import { formatDateString } from '../../utils/timeStamp'
 
 Page({
+    data: {
+        // 存储帖子数据
+        posts: [],
+        chunkPosts: [],
+        // 金刚区导航列表
+        kingkongList: [
+            { icon: 'icon-biaobaiqiangpinglunqudianzan', text: '表白墙' },
+            { icon: 'icon-zizhuxuexi', text: '学习互助' },
+            { icon: 'icon-a-ziyuan5', text: '扩列' },
+            { icon: 'icon-shiwuzhaoling', text: '失物招领' }
+        ],
+        currentPage: 0,
+        nomore: true,
+        showBackTop: false,
+        initializing: true,
+        loading: false,
+        floatingBtnIcon: '/image/btnbar/tiezi0.png' // 悬浮窗按钮初始图标
+    },
+
   // 轮播图跳转
   handleImageTap: function (event) {
     const targetUrl = event.currentTarget.dataset.url;
@@ -13,25 +32,6 @@ Page({
         console.log('页面跳转失败', err);
       }
     });
-  },
-
-  data: {
-    // 存储帖子数据
-    posts: [],
-    chunkPosts: [],
-    // 金刚区导航列表
-    kingkongList: [
-      { icon: 'icon-biaobaiqiangpinglunqudianzan', text: '表白墙' },
-      { icon: 'icon-zizhuxuexi', text: '学习互助' },
-      { icon: 'icon-a-ziyuan5', text: '扩列' },
-      { icon: 'icon-shiwuzhaoling', text: '失物招领' }
-    ],
-    currentPage: 0,
-    nomore: true,
-    showBackTop: false,
-    initializing: true,
-    loading: false,
-    floatingBtnIcon: '/image/btnbar/tiezi0.png' // 悬浮窗按钮初始图标
   },
 
   async onReady() {
@@ -104,6 +104,7 @@ Page({
         comments_count: 0,
         realname: data.realname,
         user_id: data.user_id,
+        tab: data.tab,
       };
 
       const [likeResult, commentResult, userInfoResult] = await Promise.all([
@@ -248,7 +249,7 @@ Page({
 
 		// 切换图标
 		this.setData({
-			floatingBtnIcon: this.data.floatingBtnIcon === '/image/btnbar/tiezi0.png' ? '/image/btnbar/tiezi1.png' : '/image/btnbar/tiezi0.png'
+			floatingBtnIcon: this.data.floatingBtnIcon === '/image/add0.png' ? '/image/btnbar/tiezi1.png' : '/image/btnbar/tiezi0.png'
 		});
 	
 

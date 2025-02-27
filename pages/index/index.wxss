@@ -93,7 +93,7 @@
     flex-direction: column;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 10px;
+    padding: 10px 20px;
     margin-bottom: 16px;
     box-sizing: border-box;
     transition: all 0.3s ease;
@@ -200,8 +200,13 @@
 .interaction-buttons {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-top: 16px;
     z-index: 1;
+}
+
+.likeandcomment{
+    display: flex;
 }
 
 /* 点赞和评论按钮样式 */
@@ -227,6 +232,10 @@
     margin-right: 4px;
 }
 
+.tab{
+    color:#38a5ff;
+}
+
 .none {
     text-align: center;
     color: #ccc;
@@ -240,13 +249,13 @@
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(221, 221, 221, 0.116);
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
     z-index: 999;
-    border: 2rpx solid rgba(0, 0, 0, 0.4);
+    border: 2rpx solid rgba(0, 0, 0, 0.13);
     cursor: pointer;
 }
 
@@ -263,7 +272,7 @@
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(221, 221, 221, 0.116);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -271,11 +280,11 @@
     transition: all 0.3s ease;
     z-index: 999;
 	cursor: pointer;
-	border: 2rpx solid rgba(0, 0, 0, 0.4);
+	border: 2rpx solid rgba(0, 0, 0, 0.13);
 }
 
 .floating-btn image {
-    width: 60rpx;
-    height: 60rpx;
+    width: 40rpx;
+    height: 40rpx;
     object-fit: cover;
 }

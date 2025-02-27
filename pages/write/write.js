@@ -8,6 +8,15 @@ Page({
         content: '',
         mediaList: [],
         isRealname: 0, //1实名 0匿名
+
+        tabsList: [
+            { id : 1, text : '表白墙' },
+            { id : 2, text : '学习互助' },
+            { id : 3, text : '扩列' },
+            { id : 4, text : '失物招领' },
+        ],
+
+        tabed: 0,
     },
 
     onLoad(){
@@ -131,7 +140,7 @@ Page({
 
     // 发送帖子
     sendPost() {
-        const { title, content, mediaList, isRealname } = this.data;
+        const { title, content, mediaList, isRealname, tabsList, tabed } = this.data;
 
         const postData = {
             title,
@@ -139,6 +148,7 @@ Page({
             userid: wx.getStorageSync('user_info').userid,
             images: mediaList,
             realname: isRealname,
+            tab: tabsList[tabed - 1].text,
         };
 
         //限制字数
@@ -208,5 +218,24 @@ Page({
         });
 
         wx.setStorageSync('post_image', [])
+
+        wx.switchTab({
+          url: '/pages/index/index',
+        })
+    },
+
+    onTab(e){
+        const tapId = e.currentTarget.dataset.id
+
+        if(tapId === this.data.tabed){
+            this.setData({
+                tabed: 0,
+            })
+        }
+        else{
+            this.setData({
+                tabed: tapId,
+            })
+        }
     },
 });

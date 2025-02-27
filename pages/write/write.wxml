@@ -28,22 +28,20 @@
   <view class="option-wrapper">
     <radio-group bindchange="onRealnameChange">
       <label>
-        <radio value="1" checked="{{isRealname == 1}}"/> 实名
+        <radio class="radio" value="1" checked="{{isRealname == 1}}"/> 实名
       </label>
       <label>
-        <radio value="0" checked="{{!(isRealname == 1)}}"/> 匿名
+        <radio class="radio" value="0" checked="{{!(isRealname == 1)}}"/> 匿名
       </label>
     </radio-group>
   </view>
 
 <!-- 帖子分区选择 -->
-<!-- <view class="option-wrapper">
-  <picker mode="selector" bindchange="onPartitionChange" value="{{partitionIndex}}" range="{{partitionList}}">
-    <view class="picker">
-      当前分区选择为: {{partitionList[0]}}
+<view class="tabs-wrapper">
+    <view class="tabs {{ item.id === tabed ? 'ontabs' : '' }}" wx:for="{{tabsList}}" wx:key="id" data-id="{{item.id}}" bind:tap="onTab">
+        <text>#{{item.text}}</text>
     </view>
-  </picker>
-</view> -->
+</view>
   <!-- 发送按钮 -->
   <button class="send-button" bindtap="sendPost">发送帖子</button>
 </view>

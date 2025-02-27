@@ -87,16 +87,43 @@
   }
   
   .option-wrapper {
+      display: flex;
 	margin-bottom: 20px;
 	background-color: #fff;
 	border-radius: 8px;
 	padding: 10px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
-  .picker {
-	font-size: 16px;
+
+  .tabs-wrapper {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-around;
   }
+
+  .radio{
+      transform: scale(0.8);
+  }
+
+  .tabs{
+      padding: 8rpx 20rpx;
+      background-color: rgb(255, 255, 255);
+      color: rgb(0, 0, 0);
+      border-radius: 50rpx;
+      font-size: 30rpx;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: 0.5s;
+  }
+
+  .ontabs{
+    padding: 8rpx 20rpx;
+    color: #fff;
+    background-color: rgb(148, 221, 255);
+    border: 0;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.897);
+    border-radius: 50rpx;
+    font-size: 30rpx;
+}
   
   .send-button {
 	background-color: #007aff;
