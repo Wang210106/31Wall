@@ -6,27 +6,27 @@
 <!-- 轮播图 -->
 <swiper class="swiper" indicator-dots="true" style="margin: 20px 8px;" autoplay="true" interval="5000" circular="true">
   <swiper-item>
-    <image class="swiper-image" src="/image/btnbar/home0.png" mode="aspectFill" />
+    <image class="swiper-image" src="/image/btnbar/home0.png" mode="aspectFill" bindtap="handleImageTap" data-url="/pages/activities/band/band" />
   </swiper-item>
   <swiper-item>
-    <image class="swiper-image" src="/image/btnbar/msg0.png" mode="aspectFill" />
+    <image class="swiper-image" src="/image/btnbar/msg0.png" mode="aspectFill" bindtap="handleImageTap" data-url="页面路径2" />
   </swiper-item>
   <swiper-item>
-    <image class="swiper-image" src="/image/btnbar/gr0.png" mode="aspectFill" />
+    <image class="swiper-image" src="/image/btnbar/gr0.png" mode="aspectFill" bindtap="handleImageTap" data-url="页面路径3" />
   </swiper-item>
 </swiper>
 
 <!-- 金刚区 -->
-<scroll-view class="kingkong-area" scroll-x="true" style="margin: 20px 8px;">
+<view class="kingkong-area" style="margin: 20px 8px;">
   <view class="kingkong-wrapper">
     <!-- 循环渲染 -->
     <view class="kingkong-item" wx:for="{{kingkongList}}" wx:key="index" bindtap="navigateToPage"  data-url="{{item.url}}">
       <!-- 显示图标 -->
-      <image class="kingkong-icon" src="{{item.icon}}" mode="aspectFill" />
+      <image class="kingkong-icon iconfont {{item.icon}}"mode="aspectFill" />
       <text class="kingkong-text">{{item.text}}</text>
     </view>
   </view>
-</scroll-view>
+</view>
 
 <!-- 帖子区 -->
 <view class="post-area" style="margin: 20px 8px;">
@@ -58,7 +58,7 @@
     <view class="interaction-buttons">
       <!-- 点赞按钮，绑定点击事件 toggleLike -->
       <view class="like-button" data-index="{{index}}">
-        <text class="iconfont icon-24px"></text>
+        <text class="iconfont icon-24px" ></text>
         <text>{{item.likes_count}}</text>
       </view>
       <view class="comment-button">
@@ -73,6 +73,11 @@
     <image src="/image/right.png" class="back-to-top-img"></image> 
 </view>
 
+<!-- 悬浮窗按钮 -->
+<view class="floating-btn" style="{{showBackTop? 'bottom: 150rpx;' : 'bottom: 50rpx;'}}" bindtap="handleFloatingBtnTap">
+  <image src="{{floatingBtnIcon}}" mode="aspectFill"></image>
+</view>
+
 <block wx:if="{{nomore}}">
-    <view class="none">没有更多了捏...</view>
+    <view class="none">{{ loading ? '加载中加载中...' :  '没有更多了捏...'}}</view>
 </block>

@@ -12,7 +12,7 @@ Page({
     },
     onLoad: async function(options) {
         //console.log(options.type)
-        const { id } = wx.getStorageSync('user_info')
+        const { userid } = wx.getStorageSync('user_info')
 
         const methodDic = {
             'posts' : this.getPostsByUserid,
@@ -20,7 +20,7 @@ Page({
             'comments' : this.getCommentsByUserid,
         }
 
-        await methodDic[options.type](id)
+        await methodDic[options.type](userid)
         .then(res => res.data)
         .then(data => {
             const itemData = data.map(SQLitem => ({

@@ -5,11 +5,12 @@ Page({
     data: {
         hasUserInfo: false,
         hasSignedUp: false,
+        isOut: false,
 
         formData: {
             avatar_url: 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132',
             nickname: '',
-            realName: '',
+            realname: '',
             grade: '25',
             class: '1',
             gender: 0
@@ -67,7 +68,7 @@ Page({
      
         if (e.type === 'input') {
             formData[field] = e.detail.value;
-        } else if (e.type === 'change') {
+        } else if (e.type === 'change') { 
             formData[field] = this.data[field][e.detail.value];
             if (field === 'grade') {
                 this.setData({ selectedGrade: e.detail.value });
@@ -107,7 +108,7 @@ Page({
         //检验姓名合法性
         const regex = /^[\u4E00-\u9FFF]{2,4}$/;
 
-        if(!regex.test(formData.realName)){
+        if(!regex.test(formData.realname)){
             wx.showToast({
                 title: '真的是你的名字吗',
                 icon: 'none',

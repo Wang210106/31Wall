@@ -6,15 +6,16 @@ const pageDic = {
 
 Page({
 	data: {
-        hasEnteredLikeComment: false, // 新增，用于标记是否进入过点赞&评论页面
         items: [
-                { id : 0, text : "系统通知", iconfont : "icon-xitongxiaoxi", badge : 0},
-                { id : 1, text : "公告", iconfont : "icon-gonggao", badge : 100},
-                { id : 2, text : "我收到的点赞＆评论", iconfont : "icon-pinglun", badge : 1},
+                { id : 0, text : "系统通知", iconfont : "icon-xitongxiaoxi"},
+                { id : 1, text : "公告", iconfont : "icon-gonggao"},
+                { id : 2, text : "我收到的点赞＆评论", iconfont : "icon-pinglun"},
         ],
 	},
     itemtap: function(e) {
         const typeIndex = e.detail.type;
+        const type = pageDic[typeIndex];
+        //wx.setStorageSync(type + '_time', )
 
         const updatedItems = this.data.items;
         const updatedItem = updatedItems[typeIndex]; 
@@ -23,10 +24,7 @@ Page({
 
         this.setData({
             items: updatedItems,
-            hasEnteredLikeComment: true,
         });
-
-        const type = pageDic[typeIndex];
 
         //系统消息
         if(type === 'system' || type === 'notice'){

@@ -20,7 +20,7 @@ Page({
         ],
         items1: [
             { id : 4, text : "设置", iconfont : "icon-shezhi"},
-            { id : 5, text : "开发者名单", iconfont : "icon-kaifazheguanli"},
+            { id : 5, text : "关于我们", iconfont : "icon-kaifazheguanli"},
             { id : 6, text : "支持一下", iconfont : "icon-juankuanmingxi"},
             { id : 7, text : "问题反馈＆联系我们", iconfont : "icon-jishuzhichi"},
         ],

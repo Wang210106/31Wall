@@ -26,6 +26,7 @@
 	font-weight: bold;
 	text-align: center;
 	margin-bottom: 10px;
+	margin-top: 10px;
 	color: #333;
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 	animation: fadeInDown 2s ease-out;
@@ -111,3 +112,30 @@
     margin-bottom: 10px;
     text-align: center;
 }
+
+.words {
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 15px;
+	padding: 18px;
+	padding-top: 0px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+	font-size: 18px;
+	font-family: 'Microsoft YaHei', 'PingFang SC', 'SimHei', sans-serif;
+	font-weight: 500;
+  }
+
+
+.logo-container {
+	width: 300px;
+	height: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+  
+  .logo {
+	width: 300px;
+	height: 300px;
+	object-fit: cover; 
+  }

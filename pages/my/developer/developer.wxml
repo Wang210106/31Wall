@@ -1,8 +1,55 @@
 <!-- 页面容器 -->
 <view class="page">
+  <view class="comment">（出于多种原因考虑，本页面中部分人名字为化名&外号，请注意辨别）</view>
   <!-- 页面标题 -->
+  <view class="title">写在前面</view>
+  <view class="comment">(by：睘 羽)</view>
+  <text class="words">
+	　　我们见证了无数校园墙的成立
+	　　它们于精神的荒漠中拔地而起，借万千学子沸腾的热血烧出一刻短暂的传奇。
+	　　而后，某一个不经意的瞬间，它们悄然离去
+	　　像是一场不存在的梦，讲述着自由意志在时代面前的不堪一击。
+
+
+	　　而今日，我们将建立起一个最为坚不可摧的平台，一座31历史的改革丰碑。
+	　　作为仅有九人的学生团队，我们没有专业的支援，更没有过硬的技术，我们只有时间与勇气，和从零开始的决心。我们一次又一次地碰撞着自由的壁垒，一次又一次点燃着希望的波涛。我们从不畏惧失败，并且坚信着我们一定能够成功，我们改变不了世界，但至少能让你成为你自己。
+	　　作为实际性科创的先河，它将是一座现实意义上不朽的科技之墙，即便我们和31再无联系，它也会一直为后人服务，一年，五年，甚至数十年。命运将理想的云林洗作了平野，我们为此镀满梦的光芒。
+
+
+	　　我们无意成长，我们不吝峥嵘，
+	　　但求一方瀚海，逐笔成虹。
+
+
+	　　31校园墙的故事才刚刚开始，愿诸位都能在这面空白的记忆中，涂上属于自己的泼天异彩。
+  </text>
+
+  <view class="title">小程序简介</view>
+  <view class="comment">(by：谢佳桐)</view>
+  <text class="words">
+	跨入新时代的校园墙
+	源于本校学子为爱发电
+	团队从策划到开发独立耕耘
+	旨在提供可互动、智慧化的优质交流平台
+	在这里 表达很简单!
+  </text>
+
+  <view class="title">小程序头像</view>
+  <view class="comment">(by：张子萱)</view>
+  <view class="logo-container">
+  <image src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/logo.jpg" class="logo"></image>
+  <text></text>
+  </view>
+
+<!--
+  <view class="title">开发历程</view>
+  <text class="words">
+	2025.02.01　　　　项目组创立
+  </text>
+-->
+<!--想整个时间轴啥的...不知道咋整。-->
+
   <view class="title">开发者名单</view>
-  <view class="comment">（出于多种原因考虑，开发者名单中部分人名字为化名&外号，请注意辨别）</view>
+
   <view class="comment">（排名不分先后）</view>
   <!-- 程序制作分类 -->
   <view class="category">程序制作</view>
