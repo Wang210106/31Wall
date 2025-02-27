@@ -18,6 +18,9 @@ Page({
             nickname: '匿名捏',
             avatar_url: '/image/hd1.png'
         },
+
+        selfPost: false,
+        isLiked: false,
 	},
   
 	async onLoad(option) {
@@ -32,14 +35,24 @@ Page({
             images = JSON.parse(images);
         }
      
-        let userinfo = {};
         if (realname) {
-            userinfo = (await this.getUserById(user_id)).data;
+            let userinfo = (await this.getUserById(user_id)).data;
+
+            this.setData({
+                userinfo,
+            });
         }
-     
+
+        //自己发的
+        if (wx.getStorageSync('user_info').userid === user_id){
+            this.setData({
+                selfPost: true,
+            })
+        }
+
         this.setData({
-            userinfo,
-        });
+            isLiked: wx.getStorageSync('self_like').indexOf(post_id) >= 0,
+        })
      
         const [likeResult, commentResult] = await Promise.all([
             this.getLikeAmount(post_id),
@@ -73,11 +86,41 @@ Page({
 
 	// 点赞功能
 	async likePost() {
-      // 点赞逻辑
+        const userid = wx.getStorageSync('user_info').userid;
+        const postid = this.data.post_id;
+
         const like = {
-            userid: wx.getStorageSync('user_info').id,
-            postid: this.data.post_id
+            userid,
+            postid,
         }
+
+        //取消点赞
+        if (this.data.isLiked){
+            this.setData({
+                isLiked: false
+            })
+    
+            const self_likes = wx.getStorageSync('self_like')
+            self_likes.splice(self_likes.indexOf(postid), 1)
+            wx.setStorageSync('self_like', self_likes)
+
+            const likeres = await this.deleteLike(postid, userid)
+
+            const likeAmount = await this.getLikeAmount(postid)
+            this.setData({
+                likes_count: likeAmount.data[0]['COUNT(*)'],
+            })
+
+            return
+        }
+
+        this.setData({
+            isLiked: true
+        })
+
+        wx.setStorageSync('self_like', 
+            [ ...wx.getStorageSync('self_like') , postid ]
+        )
 
         await this.postLike(like).then(async res => {
             if (res.data.error == "User has already liked this post"){
@@ -86,7 +129,7 @@ Page({
                 })
             }
 
-            const likeAmount = await this.getLikeAmount(this.data.post_id)
+            const likeAmount = await this.getLikeAmount(postid)
             this.setData({
                 likes_count: likeAmount.data[0]['COUNT(*)'],
             })
@@ -124,7 +167,7 @@ Page({
         }
      
         const comment = {
-            userid: wx.getStorageSync('user_info').id,
+            userid: wx.getStorageSync('user_info').userid,
             comment: commentContent,
             anonymous: this.data.isAnonymous ? 1 : 0,
             postid: this.data.post_id,
@@ -170,7 +213,12 @@ Page({
   
 	// 转发帖子
 	forwardPost() {
-	  // 转发逻辑
+      // 转发逻辑
+        wx.showToast({
+          title: '微信不让转发，哈哈哈',
+          icon: "none"
+        })
+
 	  console.log('转发成功');
 	},
   
@@ -268,6 +316,19 @@ Page({
             "X-WX-SERVICE": "express-41pr"
             },
             "method": "GET",
+        })
+    },
+
+    deleteLike(postid, userid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/like?postid=" + postid + "&userid=" + userid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "DELETE",
         })
     },
 

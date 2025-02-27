@@ -139,6 +139,10 @@
     -webkit-line-clamp: 6; /* 结合 lines 属性使用，限制显示的行数 */
     -webkit-box-orient: vertical; /* 设置盒子的方向为垂直 */
 }
+
+.redlike{
+    color: rgb(55,176,238);
+}
   
   /* 媒体预览区域样式 */
   .media-preview {

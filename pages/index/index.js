@@ -15,6 +15,8 @@ Page({
       currentPage: 0,
       nomore: true,
       showBackTop: false,
+
+      selfliks: [],
 	},
   
 	async onReady() {
@@ -23,6 +25,37 @@ Page({
         this.setData({
             chunkPosts : [ page0 ],
             posts : page0
+        })
+
+        const selfLikeLists = await this.getLikeByUserid(wx.getStorageSync('user_info').userid)
+
+        wx.setStorageSync('self_like', selfLikeLists.data.result.map(value => value.post_id))
+    },
+
+    async onShow(){
+        const { chunkPosts } = this.data
+
+        const processedChunks = await Promise.all(chunkPosts.map(async chunk => {
+            const processedInnerValues = await Promise.all(chunk.map(async innerValue => {
+                const [likeResult, commentResult] = await Promise.all([
+                    this.getLikeAmount(innerValue.post_id),
+                    this.getCommentAmount(innerValue.post_id),
+                ]);
+     
+                // 创建一个新对象以避免直接修改原始对象
+                const newInnerValue = { ...innerValue };
+                newInnerValue.likes_count = likeResult.data[0]['COUNT(*)'];
+                newInnerValue.comments_count = commentResult.data[0]['COUNT(*)'];
+     
+                return newInnerValue;
+            }));
+     
+            return processedInnerValues;
+        }));
+
+        this.setData({
+            chunkPosts: processedChunks,
+            posts: processedChunks.flat(),
         })
     },
     
@@ -153,6 +186,19 @@ Page({
         })
     },
 
+    getLikeByUserid (userid){
+        return wx.cloud.callContainer({
+            "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/post/like/userid?userid=" + userid,
+            "header": {
+            "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
 	// 处理金刚区导航跳转
 	navigateToPage(e) {
         const url = e.currentTarget.dataset.url;
@@ -182,7 +228,7 @@ Page({
 	},
   
     onPageScroll(e) {
-        if (e.scrollTop > 300){
+        if (e.scrollTop > 800){
             this.setData({
                 showBackTop: true
             })

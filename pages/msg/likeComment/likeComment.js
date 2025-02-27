@@ -5,14 +5,14 @@ Page({
 	data: {
 	    messages: []
 	},
-    
-    onLoad: async function () {
+
+    async onShow(){
         await this.update()
     },
 
     async update(){
         const userInfo = wx.getStorageSync('user_info');
-        const posts = await this.getPostsByUserid(userInfo.id);
+        const posts = await this.getPostsByUserid(userInfo.userid);
         const postsID = posts.data.map(post => post.post_id);
  
         const likesPromises = postsID.map(postId => 
@@ -27,7 +27,7 @@ Page({
         const commentsData = await Promise.all(commentsPromises);
         
         const lists = [ ...likesData, ...commentsData ].flat()
-        lists.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        lists.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
         const userPromises = lists.map(value => this.getUserById(value.user_id).then(res => res.data))
 

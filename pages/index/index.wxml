@@ -58,7 +58,7 @@
     <view class="interaction-buttons">
       <!-- 点赞按钮，绑定点击事件 toggleLike -->
       <view class="like-button" data-index="{{index}}">
-        <text class="iconfont icon-24px"></text>
+        <text class="iconfont icon-24px" ></text>
         <text>{{item.likes_count}}</text>
       </view>
       <view class="comment-button">

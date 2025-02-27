@@ -136,7 +136,7 @@ Page({
         const postData = {
             title,
             content,
-            userid: wx.getStorageSync('user_info').id,
+            userid: wx.getStorageSync('user_info').userid,
             images: mediaList,
             realname: isRealname,
         };
@@ -171,6 +171,7 @@ Page({
         }
 
         //upload
+        console.log(postData)
         wx.cloud.callContainer({
             "config": {
                 "env": "prod-9ggzinxb5b8ff0c5"
@@ -182,10 +183,18 @@ Page({
             "method": "POST",
             "data": postData,
         }).then(res => {
-            wx.showToast({
-                title: '上传成功',
-                icon: 'success'
-            })
+            if( res.statusCode === 200 ){
+                wx.showToast({
+                    title: '上传成功',
+                    icon: 'success'
+                })
+            }
+            else{
+                wx.showToast({
+                    title: '上传失败',
+                    icon: 'error'
+                })
+            }
             
             console.log(res)
         })
