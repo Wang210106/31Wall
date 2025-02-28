@@ -272,8 +272,8 @@
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;
-    background-color: rgba(221, 221, 221, 0.116);
-    display: flex;
+	background-color: #4066f1;
+	display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

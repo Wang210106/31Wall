@@ -31,7 +31,7 @@ Page({
                 message = '我是人机';
                 break;
             case 'rainbow彩笔':
-                message = '再多看一眼就会爆炸，再靠近一点快被融化';
+                message = '我与我，我或我，我非我';
                 if (this.isClickedInOrder()) {
                     this.setData({
                         isRainbowEffect: true

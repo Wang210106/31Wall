@@ -17,7 +17,7 @@ Page({
         showBackTop: false,
         initializing: true,
         loading: false,
-        floatingBtnIcon: '/image/btnbar/tiezi0.png' // 悬浮窗按钮初始图标
+        floatingBtnIcon: '/image/btnbar/tiezi2.png' // 悬浮窗按钮初始图标
     },
 
   // 轮播图跳转
