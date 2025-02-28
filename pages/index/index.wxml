@@ -34,7 +34,7 @@
   <view class="post-preview" wx:for="{{posts}}" wx:key="post_id" bindtap="navigateToPost" data-post="{{item.post_id}}">
     <!-- 用户信息：头像、用户名和发帖时间 -->
     <view class="user-info">
-      <image class="avatar" src="{{item.avatar}}" mode="aspectFill" />
+      <image class="avatar" src="{{item.avatar || '/image/hd1.png'}}" mode="aspectFill" />
       <text class="username">{{item.username || '匿名捏'}}</text>
       <text class="post-time">{{item.post_time}}</text>
     </view>

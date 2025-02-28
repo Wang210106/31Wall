@@ -10,6 +10,14 @@ Page({
         await this.update()
     },
 
+    handleMessageTap(e){
+        const index = e.currentTarget.dataset.index
+
+        wx.navigateTo({
+          url: '/pages/post/post?postid=' + this.data.messages[index].post_id,
+        })
+    },
+
     async update(){
         const userInfo = wx.getStorageSync('user_info');
         const posts = await this.getPostsByUserid(userInfo.userid);
@@ -40,6 +48,7 @@ Page({
             time: formatDateString(value.created_at),
             content: userlists[index].nickname + (value.like_id ? '点赞' : '评论') + '了你的帖子',
             avatar: userlists[index].avatar_url,
+            post_id: value.post_id,
         }))
 
         this.setData({

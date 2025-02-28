@@ -142,13 +142,15 @@ Page({
     sendPost() {
         const { title, content, mediaList, isRealname, tabsList, tabed } = this.data;
 
+        const tab = tabed === 0 ? '' : tabsList[tabed - 1]
+
         const postData = {
             title,
             content,
             userid: wx.getStorageSync('user_info').userid,
             images: mediaList,
             realname: isRealname,
-            tab: tabsList[tabed - 1].text,
+            tab,
         };
 
         //限制字数
