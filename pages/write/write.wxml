@@ -19,7 +19,7 @@
         </view>
       </view>
     </block>
-    <view class="add-icon" bindtap="chooseMedia" wx:if="{{mediaList.length <= 9}}">
+    <view class="add-icon" bindtap="chooseMedia" wx:if="{{mediaList.length < 9}}">
       <text>+</text>
     </view>
   </view>
@@ -27,11 +27,14 @@
   <!-- 匿名/实名选择 -->
   <view class="option-wrapper">
     <radio-group bindchange="onRealnameChange">
-      <label>
-        <radio class="radio" value="1" checked="{{isRealname == 1}}"/> 实名
+        <label>
+        <radio class="radio" value="2" checked="{{isRealname == 2}}"/> 展示真实姓名
       </label>
       <label>
-        <radio class="radio" value="0" checked="{{!(isRealname == 1)}}"/> 匿名
+        <radio class="radio" value="1" checked="{{isRealname == 1}}"/> 展示昵称
+      </label>
+      <label>
+        <radio class="radio" value="0" checked="{{isRealname == 0}}"/> 匿名
       </label>
     </radio-group>
   </view>

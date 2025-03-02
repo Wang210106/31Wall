@@ -69,8 +69,7 @@ Page({
             nickname: this.data.nickname,
             realname: this.data.realname,
             grade: this.data.Grade[this.data.selectedGrade],
-           class: this.data.Class[this.data.selectedClass],
-           gender: 0,
+            class: this.data.Class[this.data.selectedClass],
         }
 
         //检验空白项
@@ -136,7 +135,7 @@ Page({
             const userid = wx.getStorageSync('user_info').userid
             wx.setStorageSync('user_info',{ ...formData, userid, });
 
-            console.log('成功修改：',wx.getStorageSync('user_info'))
+            console.log('成功修改：',data)
         })
 
         //回调地狱 

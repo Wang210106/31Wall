@@ -42,7 +42,7 @@ Page({
         const userlists = await Promise.all(userPromises)
 
         const itemList = lists.map((value, index, array) => ({
-            id : value.like_id || value.comments_id,
+            id : value.like_id ? 'like' + value.like_id : 'comment' + value.comments_id,
             name : userlists[index].nickname,
             type: value.like_id ? '点赞' : '评论',
             time: formatDateString(value.created_at),
