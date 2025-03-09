@@ -67,7 +67,7 @@ Page({
 
                     return {
                         id : SQLitem.post_id,
-                        text : SQLitem.text,
+                        text : SQLitem.title,
                         subText : SQLitem.content,
                         imageUrl ,
                     }

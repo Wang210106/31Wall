@@ -1,5 +1,6 @@
 {
     "usingComponents": {
         "HeadIconTabsWithBadge" : "/components/HeadIconTabsWithBadge/HeadIconTabsWithBadge"
-    }
+    },
+    "enablePullDownRefresh": true
 }

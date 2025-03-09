@@ -253,8 +253,10 @@ Page({
             return;
         }
 
-        // 举报
-        console.log('举报成功');
+        // 举报 
+        wx.navigateTo({
+          url: '/pages/report/report?type=posts&id=' + this.data.post_id,
+        })
     },
 
     // 预览图片

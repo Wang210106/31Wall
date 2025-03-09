@@ -19,6 +19,21 @@ Page({
     },
 
     async onShow(){
+        await this.update()
+    },
+
+    onPullDownRefresh: async function () {
+        wx.showNavigationBarLoading();
+    
+        await this.update()
+    
+        setTimeout(() => {
+          wx.stopPullDownRefresh();
+          wx.hideNavigationBarLoading();
+        }, 1000);
+    },
+
+    async update(){
         const systemRes = (await this.getPostsByUserid(ManagerID)).data
         const noticeRes = (await this.getPostsByUserid(NoticeID)).data
 

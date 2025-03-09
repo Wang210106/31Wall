@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="prompt-text">请详细描述您要举报的内容：</view>
+  <textarea class="input-area" placeholder="输入举报内容" bindinput="handleInput" value="{{reportContent}}"></textarea>
+ 
+  <view class="prompt-text">选择举报原因：</view>
+  <picker class="picker" mode="selector" range="{{reportReasons}}" bindchange="handleReasonChange" value="{{selectedReasonIndex}}">
+    <view class="picker-view">{{reportReasons[selectedReasonIndex]}}</view>
+  </picker>
+ 
+  <button class="submit-button" bindtap="submitReport">提交举报</button>
+ 
+  <view class="hint-text" wx:if="{{errorMessage}}">{{errorMessage}}</view>
+</view>

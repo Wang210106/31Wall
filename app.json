@@ -1,19 +1,20 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/study/study",
     "pages/msg/msg",
     "pages/my/my",
-    "pages/login/login",
-    "pages/msg/likeComment/likeComment",
-    "pages/msg/likes/likes",
-    "pages/my/likes/likes",
     "pages/my/setting/setting",
     "pages/my/userInfo/userInfo",
     "pages/my/developer/developer",
-    "pages/index/study/study",
+    "pages/my/support/support",
+    "pages/msg/likeComment/likeComment",
+    "pages/msg/likes/likes",
+    "pages/my/likes/likes",
     "pages/write/write",
     "pages/post/post",
-    "pages/my/support/support",
+    "pages/login/login",
+    "pages/report/report",
     "pages/activities/band/band"
   ],
   "window": {

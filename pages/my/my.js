@@ -24,12 +24,7 @@ Page({
             { id : 6, text : "支持一下", iconfont : "icon-juankuanmingxi"},
             { id : 7, text : "问题反馈＆联系我们", iconfont : "icon-jishuzhichi"},
         ],
-        userInfo: {
-            avatar_url: "/image/hd1.png",
-            nickName: "车柏乐",
-            class: 10,
-            grade: 26,
-        },
+        userInfo: {},
         backColor: 0,
     },
     
@@ -38,6 +33,15 @@ Page({
 
         this.setData({
             userInfo: wx.getStorageSync('user_info')
+        })
+    },
+
+    async onShow(){
+        const userInfo = await this.getUserById(wx.getStorageSync('user_info').userid)
+    
+        wx.setStorageSync('user_info', userInfo.data)
+        this.setData({
+            userInfo: userInfo.data,
         })
     },
 
@@ -53,6 +57,35 @@ Page({
     handleColor: function() {
         this.setData({
             backColor: this.data.backColor < maxColor ? this.data.backColor + 1 : 0,
+        })
+    },
+
+    onPullDownRefresh: async function () {
+        wx.showNavigationBarLoading();
+    
+        const userInfo = await this.getUserById(wx.getStorageSync('user_info').userid)
+    
+        wx.setStorageSync('user_info', userInfo.data)
+        this.setData({
+            userInfo: userInfo.data,
+        })
+    
+        setTimeout(() => {
+          wx.stopPullDownRefresh();
+          wx.hideNavigationBarLoading();
+        }, 1000);
+    },
+
+    getUserById(userid) {
+        return wx.cloud.callContainer({
+          "config": {
+            "env": "prod-9ggzinxb5b8ff0c5"
+          },
+          "path": "/user/userid?userid=" + userid,
+          "header": {
+            "X-WX-SERVICE": "express-41pr"
+          },
+          "method": "GET",
         })
     },
 })

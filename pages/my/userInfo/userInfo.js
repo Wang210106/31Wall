@@ -29,18 +29,24 @@ Page({
     onChooseAvatar(e) {
         const { avatarUrl } = e.detail 
         
-        const extension = avatarUrl.split('.')[avatarUrl.split('.').length - 1]
+        wx.cropImage({
+            cropScale: '1:1',
+            src: avatarUrl,
+            success: (res) => {
+                const extension = res.tempFilePath.split('.')[res.tempFilePath.split('.').length - 1]
 
-        wx.cloud.uploadFile({
-            cloudPath: 'avatarImage/' + generateUniqueFileName(extension),
-            filePath: avatarUrl,
-            config: {
-                env: 'prod-9ggzinxb5b8ff0c5'
+                wx.cloud.uploadFile({
+                    cloudPath: 'avatarImage/' + generateUniqueFileName(extension),
+                    filePath: res.tempFilePath,
+                    config: {
+                        env: 'prod-9ggzinxb5b8ff0c5'
+                    }
+                }).then(res => {
+                    this.setData({
+                        AvatarUrl: res.fileID,
+                    })
+                })
             }
-        }).then(res => {
-            this.setData({
-                AvatarUrl: res.fileID,
-            })
         })
     },
 
