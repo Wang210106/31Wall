@@ -29,7 +29,7 @@ Page({
     },
    
     submitReport() {
-        const { reportContent, selectedReasonIndex, type, id } = this.data;
+        const { reportContent, reportReasons, selectedReasonIndex, type, id } = this.data;
     
         if (!reportContent) {
             this.setData({
@@ -38,15 +38,9 @@ Page({
             return;
         }
 
-        console.log({
-            user_id: wx.getStorageSync('user_info').userid,
-            content: this.data.reportContent,
-            type,
-            marked_id: id,
-        })
         this.postReport({
             user_id: wx.getStorageSync('user_info').userid,
-            content: this.data.reportContent,
+            content: '#' + reportReasons[selectedReasonIndex] + '\'' + this.data.reportContent,
             type,
             marked_id: id,
         }).then(res => {

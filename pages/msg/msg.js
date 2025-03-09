@@ -6,7 +6,6 @@ const pageDic = {
     2 : "likeComment",
 }
 
-const ManagerID = 1;//使用该id发送帖子将被识别为系统通知
 const NoticeID = 2;//使用该id发送帖子将被识别为公告
 
 Page({
@@ -34,7 +33,7 @@ Page({
     },
 
     async update(){
-        const systemRes = (await this.getPostsByUserid(ManagerID)).data
+        const systemRes = (await this.getNoticeByUserid(wx.getStorageSync('user_info').userid)).data
         const noticeRes = (await this.getPostsByUserid(NoticeID)).data
 
         const userInfo = wx.getStorageSync('user_info');
@@ -155,6 +154,19 @@ Page({
                 "env": "prod-9ggzinxb5b8ff0c5"
             },
             "path": "/post/comment/postid?postid=" + postid,
+            "header": {
+                "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    getNoticeByUserid(userid){
+        return wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/report/notice?userid=" + userid,
             "header": {
                 "X-WX-SERVICE": "express-41pr"
             },

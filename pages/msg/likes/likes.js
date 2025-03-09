@@ -1,5 +1,4 @@
 // pages/my/likes/likes.js
-const ManagerID = 1;//使用该id发送帖子将被识别为系统通知
 const NoticeID = 2;//使用该id发送帖子将被识别为公告
 
 Page({
@@ -9,35 +8,53 @@ Page({
     },
     itemtap: e => {
         const id = e.detail.type;
+
+        if (id.includes('notification')){
+            return
+        }
+
         wx.navigateTo({
             url: `/pages/post/post?postid=` + id,
         });
     },
     onLoad: async function(options) {
-        let userid;
-
         if (options.type == 'system'){
-            userid = ManagerID
-        }
-        else if (options.type == 'notice'){
-            userid = NoticeID
-        }
+            const res = await this.getNoticeByUserid(wx.getStorageSync('user_info').userid)
+            
+            if (res.statusCode !== 200){
+                console.log(res.message)
+                return 
+            }
 
-        await this.getPostsByUserid(userid)
-        .then(res => res.data)
-        .then(data => {
-            const itemData = data.map(SQLitem => ({
-                id : SQLitem.post_id,
-                text : SQLitem.title.slice(0,20) || '校园帖子' ,
-                subText : SQLitem.content.slice(0,20),
+            const itemData = res.data.map(SQLitem => ({
+                id : 'notification' + SQLitem.noid,
+                text : SQLitem.title.slice(0,15) || '校园帖子' ,
+                subText : SQLitem.content.slice(0,15),
                 imageUrl : JSON.parse(SQLitem.images)[0],
             }))
 
             this.setData({
                 items : itemData,
-                SQLdata : data
+                SQLdata : res.data
             })
-        })
+        }
+        else if (options.type == 'notice'){
+            await this.getPostsByUserid(NoticeID)
+            .then(res => res.data)
+            .then(data => {
+                const itemData = data.map(SQLitem => ({
+                    id : SQLitem.post_id,
+                    text : SQLitem.title.slice(0,15) || '校园帖子' ,
+                    subText : SQLitem.content.slice(0,15),
+                    imageUrl : JSON.parse(SQLitem.images)[0],
+                }))
+
+                this.setData({
+                    items : itemData,
+                    SQLdata : data
+                })
+            })
+        }
 
     },
 
@@ -47,6 +64,19 @@ Page({
                 "env": "prod-9ggzinxb5b8ff0c5"
             },
             "path": "/post/userid?userid=" + userid,
+            "header": {
+                "X-WX-SERVICE": "express-41pr"
+            },
+            "method": "GET",
+        })
+    },
+
+    getNoticeByUserid(userid){
+        return wx.cloud.callContainer({
+            "config": {
+                "env": "prod-9ggzinxb5b8ff0c5"
+            },
+            "path": "/report/notice?userid=" + userid,
             "header": {
                 "X-WX-SERVICE": "express-41pr"
             },
