@@ -1,2 +1,6 @@
 <!--pages/activities/band/band.wxml-->
 <text>这个页面用来放张子萱他们乐队的宣传内容</text>
+
+<text>现在暂时用来进行背景测试</text>
+
+<canvas canvas-id="particleCanvas" id="particleCanvas" style="width: 100%; height: 100vh;"></canvas>

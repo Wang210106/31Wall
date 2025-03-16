@@ -100,22 +100,25 @@ Page({
         images: JSON.parse(data.images),
         post_time: formatDateString(data.created_at),
         isLiked: false,
-        likes_count: data.likeAmount, 
-        comments_count: data.commentAmount,
+        likes_count: 0, // 默认值
+        comments_count: 0,
         realname: data.realname,
         user_id: data.user_id,
         tab: data.tab,
       };
 
-      if (data.realname == '1') {
-        thisData.avatar = data.userInfo.avatar_url 
-        thisData.username = data.userInfo.nickname
-      }
-      else if (data.realname == '2') {
-        const classNum = data.userInfo.class < 10 ? '0' + data.userInfo.class : data.userInfo.class
+      const [likeResult, commentResult, userInfoResult] = await Promise.all([
+        this.getLikeAmount(data.post_id),
+        this.getCommentAmount(data.post_id),
+        this.getUserById(data.user_id)
+      ]);
 
-        thisData.avatar = data.userInfo.avatar_url 
-        thisData.username = data.userInfo.grade + '' + classNum + ' ' +  data.userInfo.realname
+      thisData.likes_count = likeResult.data[0]['COUNT(*)'];
+      thisData.comments_count = commentResult.data[0]['COUNT(*)'];
+
+      if (data.realname == 1) {
+        thisData.avatar = userInfoResult.data.avatar_url
+        thisData.username = userInfoResult.data.nickname
       }
 
       return thisData;
@@ -138,6 +141,58 @@ Page({
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
     }, 1000);
+  },
+
+  getLikeAmount(postid) {
+    return wx.cloud.callContainer({
+      "config": {
+        "env": "prod-9ggzinxb5b8ff0c5"
+      },
+      "path": "/post/like/amount?postid=" + postid,
+      "header": {
+        "X-WX-SERVICE": "express-41pr"
+      },
+      "method": "GET",
+    })
+  },
+
+  getCommentAmount(postid) {
+    return wx.cloud.callContainer({
+      "config": {
+        "env": "prod-9ggzinxb5b8ff0c5"
+      },
+      "path": "/post/comment/amount?postid=" + postid,
+      "header": {
+        "X-WX-SERVICE": "express-41pr"
+      },
+      "method": "GET",
+    })
+  },
+
+  getUserById(userid) {
+    return wx.cloud.callContainer({
+      "config": {
+        "env": "prod-9ggzinxb5b8ff0c5"
+      },
+      "path": "/user/userid?userid=" + userid,
+      "header": {
+        "X-WX-SERVICE": "express-41pr"
+      },
+      "method": "GET",
+    })
+  },
+
+  getLikeByUserid(userid) {
+    return wx.cloud.callContainer({
+      "config": {
+        "env": "prod-9ggzinxb5b8ff0c5"
+      },
+      "path": "/post/like/userid?userid=" + userid,
+      "header": {
+        "X-WX-SERVICE": "express-41pr"
+      },
+      "method": "GET",
+    })
   },
 
   // 处理金刚区导航跳转
