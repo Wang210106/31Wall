@@ -1,5 +1,6 @@
 {
     "usingComponents": {
-        "HeadImageTabs" : "/components/HeadImageTabs/HeadImageTabs"
-    }
+
+    },
+    "enablePullDownRefresh": true
   }

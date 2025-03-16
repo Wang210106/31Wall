@@ -7,7 +7,10 @@ Page({
 	},
 
     async onShow(){
-        await this.update()
+        const lists = wx.getStorageSync('_lac')[2]
+        lists.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        await this.update(lists)
     },
 
     handleMessageTap(e){
@@ -18,25 +21,7 @@ Page({
         })
     },
 
-    async update(){
-        const userInfo = wx.getStorageSync('user_info');
-        const posts = await this.getPostsByUserid(userInfo.userid);
-        const postsID = posts.data.map(post => post.post_id);
- 
-        const likesPromises = postsID.map(postId => 
-            this.getLikesByPostid(postId).then(response => response.data.result)
-        );
-
-        const commentsPromises = postsID.map(
-            postId => this.getCommentsByPostid(postId).then(response => response.data.result)
-        );
- 
-        const likesData = await Promise.all(likesPromises);
-        const commentsData = await Promise.all(commentsPromises);
-        
-        const lists = [ ...likesData, ...commentsData ].flat()
-        lists.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
+    async update(lists){
         const userPromises = lists.map(value => this.getUserById(value.user_id).then(res => res.data))
 
         const userlists = await Promise.all(userPromises)
@@ -56,8 +41,33 @@ Page({
         })
     },
 
-    async onReachBottom(){
-        await this.update()
+    onPullDownRefresh: async function () {
+        wx.showNavigationBarLoading();
+    
+        const userInfo = wx.getStorageSync('user_info');
+        const posts = await this.getPostsByUserid(userInfo.userid);
+        const postsID = posts.data.map(post => post.post_id);
+ 
+        const likesPromises = postsID.map(postId => 
+            this.getLikesByPostid(postId).then(response => response.data.result)
+        );
+
+        const commentsPromises = postsID.map(
+            postId => this.getCommentsByPostid(postId).then(response => response.data.result)
+        );
+ 
+        const likesData = await Promise.all(likesPromises);
+        const commentsData = await Promise.all(commentsPromises);
+
+        const lists = [ ...likesData, ...commentsData ].flat()
+        lists.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        
+        await this.update(lists)
+
+        setTimeout(() => {
+          wx.stopPullDownRefresh();
+          wx.hideNavigationBarLoading();
+        }, 1000);
     },
 
     getPostsByUserid(userid){

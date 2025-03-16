@@ -140,32 +140,6 @@ Page({
     }, 1000);
   },
 
-  getUserById(userid) {
-    return wx.cloud.callContainer({
-      "config": {
-        "env": "prod-9ggzinxb5b8ff0c5"
-      },
-      "path": "/user/userid?userid=" + userid,
-      "header": {
-        "X-WX-SERVICE": "express-41pr"
-      },
-      "method": "GET",
-    })
-  },
-
-  getLikeByUserid(userid) {
-    return wx.cloud.callContainer({
-      "config": {
-        "env": "prod-9ggzinxb5b8ff0c5"
-      },
-      "path": "/post/like/userid?userid=" + userid,
-      "header": {
-        "X-WX-SERVICE": "express-41pr"
-      },
-      "method": "GET",
-    })
-  },
-
   // 处理金刚区导航跳转
   navigateToPage(e) {
     const url = e.currentTarget.dataset.url;

@@ -6,7 +6,7 @@ const pageDic = {
     4 : { name : "setting", type : "setting"},
     5 : { name : "developer", type : "developer"},
     6 : { name : "support", type : "support"},
-    7 : { name : "connect", type : ""},
+    7 : { name : "connect", type : "report"},
 }
 
 const maxColor = 3;
@@ -48,6 +48,15 @@ Page({
     handleTap: e => {
         const typeIndex = e.detail.type;
         const type = pageDic[typeIndex];
+
+        //反馈问题
+        if (type.type === 'report'){
+            wx.navigateTo({
+                url: `/pages/report/report?type=${type.name}`
+            });
+            
+            return
+        }
 
         wx.navigateTo({
             url: `/pages/my/${type.type}/${type.type}?type=${type.name}`

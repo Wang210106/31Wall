@@ -53,6 +53,8 @@ Page({
         
         const LaCList = [ ...likesData, ...commentsData ].flat()
         
+        wx.setStorageSync('_lac', [systemRes,noticeRes,LaCList])
+
         const items = this.data.items;
 
         items[0].badge = this.countLaterThanTimestamp(systemRes,wx.getStorageSync('system_time'))

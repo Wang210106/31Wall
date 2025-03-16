@@ -1,18 +1,24 @@
+const reasons = {
+    postsReasons: ['不当言论', '虚假信息', '暴力内容', '违规信息', '恶意攻击', '散布谣言'],
+    connectReasons: ['功能问题','界面与用户体验','信息错误','安全与隐私','改进与建议','其他']
+}
+
 Page({
     data: {
         reportContent: '',
-        reportReasons: ['不当言论', '虚假信息', '暴力内容', '违规信息', '恶意攻击', '散布谣言'],
         selectedReasonIndex: 0,
         errorMessage: '',
+        reportReasons: [],
 
         type: '',
-        id: 0,
+        id: -1,
     },
    
     onLoad(op){
         this.setData({
             type: op.type,
             id: +op.id,
+            reportReasons: reasons[op.type+'Reasons']
         })
     },
 
@@ -33,11 +39,11 @@ Page({
     
         if (!reportContent) {
             this.setData({
-                errorMessage: '请填写完整举报内容和选择举报原因'
+                errorMessage: '请填写完整反馈内容和选择反馈原因'
             });
             return;
         }
-
+        
         this.postReport({
             user_id: wx.getStorageSync('user_info').userid,
             content: '#' + reportReasons[selectedReasonIndex] + '\'' + this.data.reportContent,
