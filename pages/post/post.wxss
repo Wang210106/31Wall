@@ -4,8 +4,8 @@
 .container {
     display: flex;
     flex-direction: column;
-	padding: 0 20rpx;
-	padding-bottom: 150px;
+    padding: 0 20rpx;
+    padding-bottom: 150px;
 }
   
 /* 头像、用户名和发帖时间样式 */
@@ -51,7 +51,9 @@
 }
   
 .partition-wrapper, .title, .content, .image-grid, .like-comment, .comment-list {
-    padding: 0 20rpx;
+    padding: 0 8px; /* 缩进改为 8px */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* 标题样式 */
@@ -59,15 +61,15 @@
     font-size: 56rpx;
     font-weight: bold;
     color: #333;
-	line-height: 1.3;
-	margin-top: 16px;
+    line-height: 1.3;
+    margin-top: 16px;
 }
   
 /* 正文样式 */
 .content {
     font-size: 36rpx;
-	margin-top: -40rpx;		/*边距调不明白了我去，全是负的啊啊啊啊*/
-	margin-bottom: 24rpx;
+    margin-top: -40rpx;
+    margin-bottom: 24rpx;
     color: #666;
     line-height: 1.6;
 }
@@ -209,7 +211,7 @@
 .comment-item {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 20rpx;
+    margin-bottom: 10rpx; /* 缩小评论的上下间距 */
 }
   
 .comment-avatar {
@@ -262,4 +264,21 @@
 .show-comment-input {
     display: block;
     position: relative;
+}
+
+/* 评论的点赞、举报、评论区样式 */
+.comment-interaction {
+    margin-top: 0rpx;
+    display: flex;
+    justify-content: flex-end; /* 评论部分图标右侧对齐 */
+}
+
+/* 评论的评论列表样式 */
+.comment-on-comment-list {
+    margin-left: 0px; 
+}
+
+/* 评论的评论项样式 */
+.comment-on-comment-item {
+    margin-bottom: 8rpx; 
 }

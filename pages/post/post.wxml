@@ -21,14 +21,14 @@
     {{content}}
   </text>
 
-<!-- 图片（九宫格形式） -->
-<view class="image-grid">
-  <block wx:for="{{images}}" wx:key="index">
-    <view class="image-container">
-      <image src="{{item}}" mode="aspectFit" bindtap="previewImage" data-index="{{index}}" data-images="{{images}}"></image>
-    </view>
-  </block>
-</view>
+  <!-- 图片（九宫格形式） -->
+  <view class="image-grid">
+    <block wx:for="{{images}}" wx:key="index">
+      <view class="image-container">
+        <image src="{{item}}" mode="aspectFit" bindtap="previewImage" data-index="{{index}}" data-images="{{images}}"></image>
+      </view>
+    </block>
+  </view>
 
   <!-- 点赞以及评论区 -->
   <view class="like-comment">
@@ -78,8 +78,55 @@
             <text class="comment-time">{{item.created_at}}</text>
           </view>
           <text class="comment-content">{{item.comment}}</text>
+          <!-- 评论的点赞、举报、评论区 -->
+          <view class="like-comment comment-interaction">
+            <view class="like {{ item.isLiked ? 'redlike' : ''}}" bindtap="likeComment" data-index="{{index}}">
+              <text class="iconfont icon-24px">{{item.likes_count}}</text>
+            </view>
+            <view class="comment" bindtap="showCommentOnCommentInput" data-index="{{index}}">
+              <text class="iconfont icon-pinglunxiao"> {{item.comments_count}}</text>
+            </view>
+            <view class="comment" bindtap="reportComment" data-index="{{index}}">
+              <text class="iconfont icon-jubao"></text>
+            </view>
+          </view>
+          <!-- 评论评论的输入框 -->
+          <view class="comment-input {{ item.showCommentInput ? 'show-comment-input' : ''}}" data-index="{{index}}">
+            <input placeholder="说说你想说的吧~" bindinput="onCommentOnCommentInput" data-index="{{index}}" value="{{item.commentContent}}" class="input-full-width"></input>
+            <text class="iconfont icon-quxiao" bindtap="cancelCommentOnComment" data-index="{{index}}"></text>
+            <view class="anonymous-switch">
+              <radio-group bindchange="toggleAnonymousOnComment" data-index="{{index}}">
+                <label>
+                  <radio value="false" checked="{{!item.isAnonymous}}">实名</radio>
+                </label>
+                <label>
+                  <radio value="true" checked="{{item.isAnonymous}}">匿名</radio>
+                </label>
+              </radio-group>
+            </view>
+            <view class="comment-buttons">
+              <view>
+                <button bindtap="submitCommentOnComment" data-index="{{index}}">发表评论</button>
+              </view>
+            </view>
+          </view>
+          <!-- 评论的评论列表 -->
+          <view class="comment-list comment-on-comment-list">
+            <block wx:for="{{item.replies}}" wx:key="index2">
+              <view class="comment-item comment-on-comment-item">
+                <image class="comment-avatar" src="{{item.anonymous ? '/image/btnbar/gr1.png' : item.avatar_url}}" mode="aspectFit"></image>
+                <view class="comment-info">
+                  <view class="comment-header">
+                    <text class="comment-username">{{item.anonymous ? '匿名用户' : item.nickname}}</text>
+                    <text class="comment-time">{{item.created_at}}</text>
+                  </view>
+                  <text class="comment-content"><text style="font-weight: bold;">回复：</text>{{item.comment}}</text>
+                </view>
+              </view>
+            </block>
+          </view>
         </view>
       </view>
     </block>
   </view>
-</view>
+</view>    
