@@ -20,15 +20,10 @@
   <text class="content">
     {{content}}
   </text>
-
-  <!-- 图片（九宫格形式） -->
+  <!-- 引入图片展示组件 -->
   <view class="image-grid">
-    <block wx:for="{{images}}" wx:key="index">
-      <view class="image-container">
-        <image src="{{item}}" mode="aspectFit" bindtap="previewImage" data-index="{{index}}" data-images="{{images}}"></image>
-      </view>
-    </block>
-  </view>
+    <imageshow imgList="{{images}}"></imageshow>
+</view>
 
   <!-- 点赞以及评论区 -->
   <view class="like-comment">

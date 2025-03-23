@@ -15,7 +15,8 @@
     "pages/post/post",
     "pages/login/login",
     "pages/report/report",
-    "pages/activities/band/band"
+    "pages/activities/band/band",
+    "components/imageshow/imageshow"
   ],
   "window": {
     "navigationBarTextStyle": "black",

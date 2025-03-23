@@ -1,0 +1,49 @@
+.img-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+/* 单张图片样式 */
+.single-img {
+    width: 100%;
+    height: auto;
+}
+/* 两张图片样式 */
+.two-img {
+    width: calc(50% - 2.5px);
+    height: auto;
+}
+/* 三张图片样式 */
+.three-wrap {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.three-img {
+    width: calc(33.33% - 3.33px);
+    height: auto;
+}
+/* 四张图片样式 */
+.four-wrap {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.four-img {
+    width: calc(50% - 2.5px);
+    height: auto;
+}
+/* 九宫格样式 */
+.nine-wrap {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.nine-img {
+    width: calc(33.33% - 3.33px);
+    height: auto;
+}
+/* 图片数量大于9时的特殊样式 */

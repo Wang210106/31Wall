@@ -1,0 +1,36 @@
+<view class="img-wrap {{mode}}">
+    <!-- 单张图片 -->
+    <block wx:if="{{imgList.length === 1}}">
+        <image src="{{imgList[0]}}" mode="aspectFit" class="single-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+    </block>
+    <!-- 两张图片 -->
+    <block wx:elif="{{imgList.length === 2}}">
+        <image src="{{imgList[0]}}" mode="aspectFit" class="two-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+        <image src="{{imgList[1]}}" mode="aspectFit" class="two-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+    </block>
+    <!-- 三张图片 -->
+    <block wx:elif="{{imgList.length === 3}}">
+        <view class="three-wrap">
+            <image src="{{imgList[0]}}" mode="aspectFit" class="three-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+            <image src="{{imgList[1]}}" mode="aspectFit" class="three-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+            <image src="{{imgList[2]}}" mode="aspectFit" class="three-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+        </view>
+    </block>
+    <!-- 四张图片 -->
+    <block wx:elif="{{imgList.length === 4}}">
+        <view class="four-wrap">
+            <image src="{{imgList[0]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+            <image src="{{imgList[1]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+            <image src="{{imgList[2]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+            <image src="{{imgList[3]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+        </view>
+    </block>
+    <!-- 五张及以上图片 -->
+    <block wx:else>
+        <view class="nine-wrap">
+            <block wx:for="{{imgList}}" wx:key="*this">
+                <image src="{{item}}" mode="aspectFit" class="nine-img" binderror="handleImageError" bindtap="handleImageClick" data-index="{{index}}"></image>
+            </block>
+        </view>
+    </block>
+</view>
