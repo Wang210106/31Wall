@@ -1,11 +1,74 @@
 /* pages/my/likes/likes.wxss */
 @import '/static/wxss/iconfont.wxss';
 
-.wrap{
+.wrap {
     margin: 20rpx;
 }
 
-.none{
+.comment-container {
+    border: 1px solid #e5e5e5;
+    border-radius: 8rpx;
+    padding: 8rpx;
+	background-color: #f9f9f9;
+	width: 100%; /* 宽度占满屏幕 */
+    box-sizing: border-box;
+}
+
+.date-section {
+    margin-bottom: 16rpx; /* 天与天之间间隔加大 */
+    border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 8rpx;
+	display: flex; /* 使用 flex 布局 */
+}
+
+.date-box {
+    display: inline-block;
+    border: 1px solid #333;
+    border-radius: 4rpx;
+    padding: 5rpx 10rpx;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #ffffff;
+	margin-bottom: 10rpx;
+	width: 90rpx; 
+	height: 90rpx;
+	display: flex; /* 使用 flex 布局 */
+	text-align: center; /* 文字居中 */
+	align-items: center;
+	white-space: pre-line; /* 保留换行符并正常显示换行 */
+	border-radius: 35rpx;
+	background-color: #1E90FF
+}
+
+
+
+.comment-list {
+	padding-left: 20rpx;
+	width: 100%;
+}
+
+.comment-item {
+    font-size: 28rpx;
+    color: #666;
+    margin-bottom: 8rpx; /* 评论之间留出空隙 */
+    padding: 15rpx;
+    border: 1px solid #e5e5e5;
+    border-radius: 8rpx;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+	cursor: pointer;
+	border-radius: 10rpx;
+	width: auto;
+}
+
+.arrow {
+    font-size: 32rpx;
+    color: #999;
+}
+
+.none {
     position: relative;
     margin: 500rpx auto;
     height: 300rpx;
@@ -13,12 +76,12 @@
     text-align: center;
 }
 
-.icon{
+.icon {
     transform: scale(4);
     color: rgb(165, 165, 165);
 }
 
-.text{
+.text {
     margin-top: 80rpx;
     color: rgb(165, 165, 165);
 }

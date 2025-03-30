@@ -1,14 +1,25 @@
 <!--pages/my/likes/likes.wxml-->
 <view class="wrap">
-    <HeadImageTabs items="{{items}}" bind:itemtap="itemtap"/>
-
-    <block wx:if="{{items.length <= 0}}">
-        <view class="none">
-            <view class="icon">
-                <text class="iconfont icon-ico_meiyoushuju"></text>
+    <view class="comment-container" wx:if="{{options.type === 'comments'}}">
+        <view class="date-section" wx:for="{{groupedComments}}" wx:key="date">
+            <view class="date-box">
+                <text>{{item.date}}</text>
             </view>
-            
-            <view class="text">这里什么都没有呀</view>
+            <view class="comment-list">
+                <view class="comment-item" wx:for="{{item.comments}}" wx:key="index" bindtap="itemtap" data-id="{{item.post_id}}">
+                    <text>{{index + 1}}. {{item.content}}</text>
+                    <text class="arrow">→</text>
+                </view>
+            </view>
         </view>
-    </block>
+        <block wx:if="{{groupedComments.length === 0}}">
+            <view class="none">
+                <view class="icon">
+                    <text class="iconfont icon-ico_meiyoushuju"></text>
+                </view>
+                <view class="text">这里什么都没有呀</view>
+            </view>
+        </block>
+    </view>
+    <HeadImageTabs items="{{items}}" bind:itemtap="itemtap" wx:else/>
 </view>
