@@ -1,66 +1,66 @@
 <view class="container">
-  <!-- 头像、用户名和发帖时间 -->
-  <view class="user-info">
-    <image class="avatar" src="{{userinfo.avatar_url}}" mode="aspectFit"></image>
-    <view>
-      <text class="username">{{userinfo.nickname}}</text>
-      <text class="post-time">{{postTime}}</text>
+    <!-- 头像、用户名和发帖时间 -->
+    <view class="user-info">
+        <image class="avatar" src="{{userinfo.avatar_url}}" mode="aspectFit"></image>
+        <view>
+            <text class="username">{{userinfo.nickname}}</text>
+            <text class="post-time">{{postTime}}</text>
+        </view>
     </view>
-  </view>
 
-  <!-- 所在分区 -->
-  <view class="partition-wrapper" wx:if="{{selfPost}}">
-    <view class="partition">你自己的帖子</view>
-  </view>
+    <!-- 所在分区 -->
+    <view class="partition-wrapper" wx:if="{{selfPost}}">
+        <view class="partition">你自己的帖子</view>
+    </view>
 
-  <!-- 标题 -->
-  <view class="title">{{title}}</view>
+    <!-- 标题 -->
+    <view class="title">{{title}}</view>
 
-  <!-- 正文 -->
-  <text class="content">
-    {{content}}
-  </text>
-  <!-- 引入图片展示组件 -->
-  <view class="image-grid">
-    <imageshow imgList="{{images}}"></imageshow>
-</view>
+    <!-- 正文 -->
+    <text class="content">
+        {{content}}
+    </text>
+    <!-- 引入图片展示组件 -->
+    <view class="image-grid">
+        <imageshow imgList="{{images}}"></imageshow>
+    </view>
 
-  <!-- 点赞以及评论区 -->
-  <view class="like-comment">
-    <view class="like {{ isLiked ? 'redlike' : ''}}" bindtap="likePost">
-      <text class="iconfont icon-24px">{{likes_count}}</text>
+    <!-- 点赞以及评论区 -->
+    <view class="like-comment">
+        <view class="like {{ isLiked ? 'redlike' : ''}}" bindtap="likePost">
+            <text class="iconfont icon-24px">{{likes_count}}</text>
+        </view>
+        <view class="comment" bindtap="showCommentInput">
+            <text class="iconfont icon-pinglunxiao"> {{comments_count}}</text>
+        </view>
+        <view class="comment" bindtap="forwardPost">
+            <text class="iconfont icon-zhuanfa"></text>
+        </view>
+        <view class="comment" bindtap="reportPost">
+            <text class="iconfont {{ selfPost ? 'icon-shanchu' : 'icon-jubao'}}"></text>
+        </view>
     </view>
-    <view class="comment" bindtap="showCommentInput">
-      <text class="iconfont icon-pinglunxiao"> {{comments_count}}</text>
-    </view>
-    <view class="comment" bindtap="forwardPost">
-      <text class="iconfont icon-zhuanfa"></text>
-    </view>
-    <view class="comment" bindtap="reportPost">
-      <text class="iconfont {{ selfPost ? 'icon-shanchu' : 'icon-jubao'}}"></text>
-    </view>
-  </view>
 
-  <!-- 评论输入框 -->
-  <view class="comment-input {{ showCommentInput ? 'show-comment-input' : ''}}">
-    <input placeholder="说说你想说的吧~" bindinput="onCommentInput" value="{{commentContent}}" class="input-full-width"></input>
-    <text class="iconfont icon-quxiao" bindtap="cancelComment"></text>
-    <view class="anonymous-switch">
-      <radio-group bindchange="toggleAnonymous">
-        <label>
-          <radio value="false" checked="{{!isAnonymous}}">实名</radio>
-        </label>
-        <label>
-          <radio value="true" checked="{{isAnonymous}}">匿名</radio>
-        </label>
-      </radio-group>
+    <!-- 评论输入框 -->
+    <view class="comment-input {{ showCommentInput ? 'show-comment-input' : ''}}">
+        <input placeholder="说说你想说的吧~" bindinput="onCommentInput" value="{{commentContent}}" class="input-full-width"></input>
+        <text class="iconfont icon-quxiao" bindtap="cancelComment"></text>
+        <view class="anonymous-switch">
+        <radio-group bindchange="toggleAnonymous">
+            <label>
+            <radio value="false" checked="{{!isAnonymous}}">实名</radio>
+            </label>
+            <label>
+            <radio value="true" checked="{{isAnonymous}}">匿名</radio>
+            </label>
+        </radio-group>
+        </view>
+        <view class="comment-buttons">
+        <view>
+            <button bindtap="submitComment">发表评论</button>
+        </view>
+        </view>
     </view>
-    <view class="comment-buttons">
-      <view>
-        <button bindtap="submitComment">发表评论</button>
-      </view>
-    </view>
-  </view>
 
   <!-- 评论列表 -->
   <view class="comment-list">

@@ -82,6 +82,11 @@
     text-align: center;
 }
 
+.subt{
+    font-size: 40rpx;
+    margin-left: 8vw;
+}
+
 /* 帖子区样式 */
 .post-area {
     margin: 20px 8px;

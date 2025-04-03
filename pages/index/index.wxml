@@ -21,12 +21,16 @@
 <view class="kingkong-area" style="margin: 20px 8px;">
   <view class="kingkong-wrapper">
     <!-- 循环渲染 -->
-    <view class="kingkong-item" wx:for="{{kingkongList}}" wx:key="index" bindtap="navigateToPage"  data-url="{{item.url}}">
+    <view class="kingkong-item" wx:for="{{kingkongList}}" wx:key="index" bindtap="navigateToPage"  data-url="{{item.url}}" data-id="{{item.id}}">
       <!-- 显示图标 -->
       <image class="kingkong-icon iconfont {{item.icon}}"mode="aspectFill" />
       <text class="kingkong-text">{{item.text}}</text>
     </view>
   </view>
+</view>
+
+<view class="subt" wx:if="{{posts.length !== 0}}">
+    {{subtitle}}
 </view>
 
 <!-- 帖子区 -->
@@ -57,7 +61,6 @@
     </view>
     <!-- 点赞和评论按钮 -->
     <view class="interaction-buttons">
-      <!-- 点赞按钮，绑定点击事件 toggleLike -->
         <view class="likeandcomment">
             <view class="like-button" data-index="{{index}}">
                 <text class="iconfont icon-24px" ></text>
@@ -81,7 +84,7 @@
 
 <!-- 悬浮窗按钮 -->
 <view class="floating-btn" style="{{showBackTop? 'bottom: 150rpx;' : 'bottom: 50rpx;'}}" bindtap="handleFloatingBtnTap">
-  <image src="{{floatingBtnIcon}}" mode="aspectFill"></image>
+  <image src="/image/btnbar/tiezi2.png" mode="aspectFill"></image>
 </view>
 
 <block wx:if="{{nomore}}">
