@@ -3,17 +3,19 @@
     flex-wrap: wrap;
     gap: 5px;
 }
-/* 单张图片样式 */
+ 
 .single-img {
     width: 100%;
-    height: auto;
+    vertical-align: top; 
+    object-fit: cover; 
 }
-/* 两张图片样式 */
+ 
 .two-img {
     width: calc(50% - 2.5px);
-    height: auto;
+    vertical-align: top; 
+    object-fit: cover; 
 }
-/* 三张图片样式 */
+ 
 .three-wrap {
     width: 100%;
     display: flex;
@@ -21,9 +23,11 @@
     gap: 5px;
 }
 .three-img {
+    height: calc(33.33% - 3.33px);
     width: calc(33.33% - 3.33px);
-    height: auto;
+    object-fit: cover; 
 }
+ 
 /* 四张图片样式 */
 .four-wrap {
     width: 100%;
@@ -32,9 +36,12 @@
     gap: 5px;
 }
 .four-img {
+    display: block;
     width: calc(50% - 2.5px);
-    height: auto;
+    vertical-align: top; 
+    object-fit: cover; 
 }
+ 
 /* 九宫格样式 */
 .nine-wrap {
     width: 100%;
@@ -44,6 +51,6 @@
 }
 .nine-img {
     width: calc(33.33% - 3.33px);
-    height: auto;
+    vertical-align: top; 
+    object-fit: cover; 
 }
-/* 图片数量大于9时的特殊样式 */

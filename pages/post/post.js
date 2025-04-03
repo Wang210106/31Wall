@@ -25,27 +25,23 @@ Page({
         const postInfo = option.postid ?
             (await this.getPostById(option.postid)).data.result[0] :
 			JSON.parse(wx.getStorageSync('_post'));
-			
+            
         const { title, content, realname, user_id, post_id } = postInfo;
 		let images = postInfo.images;
-		console.log('原始图片数据:', images); // 打印原始图片数据
-        if (typeof images === 'string') {
-			try {
-				images = JSON.parse(images);
-				// 确保数据解析成功后设置到data中
-				this.setData({
-					images
-				});
-			} catch (error) {
-				console.error('解析图片数据出错:', error);
-			}
-		}
-		console.log('图片数据:', images);
-		console.log('post页面设置的images数据:', this.data.images);
+
+        try {
+            // 确保数据解析成功后设置到data中
+            this.setData({
+                images,
+            });
+        } catch (error) {
+            console.error('解析图片数据出错:', error);
+        }
+
         if (realname) {
             let userinfo = (await this.getUserById(user_id)).data;
             this.setData({
-                userinfo
+                userinfo,
             });
 		}
 		
