@@ -73,12 +73,18 @@ Page({
 
     const cuPage = this.data.currentPage
     //检查是否在tab状态
-    const pageNext = this.data.kStatus < 0 ? await this.getPosts(cuPage + 1) : 
-    await this.getPostsByTab(this.data.kingkongList[this.data.kStatus],cuPage + 1)
+    const pageNext = []
+    if (this.data.kStatus < 0){
+        pageNext[0] = await this.getPosts(cuPage + 1)
+    }
+    else{
+        pageNext[0] = await this.getPostsByTab(this.data.kingkongList[this.data.kStatus].text,cuPage + 1)
+        pageNext[0] = this.updatePostsData(pageNext[0].data)
+    }
 
     this.setData({
-      currentPage: cuPage + 1,
-      posts: pageNext,
+        currentPage: cuPage + 1,
+        posts: pageNext[0],
     })
 
     setTimeout(() => {
@@ -209,9 +215,17 @@ Page({
 
         const userInfoResult = data.userInfo
 
+        //昵称实名
         if (data.realname == 1) {
             thisData.avatar = userInfoResult.avatar_url
             thisData.username = userInfoResult.nickname
+        }
+        //全实名
+        else if (data.realname == 2){
+            thisData.avatar = userInfoResult.avatar_url
+            thisData.username = userInfoResult.grade + '' + 
+            (userInfoResult.class <= 9 ? '0' + userInfoResult.class : userInfoResult.class)
+            + userInfoResult.realname
         }
 
         return thisData;
