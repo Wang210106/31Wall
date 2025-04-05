@@ -37,6 +37,12 @@ App({
   },
 
   globalData: {
-    userInfo: null
+    userInfo: null,
+    kingkongList: [
+        { id: 0, icon: 'icon-biaobaiqiangpinglunqudianzan.png', text: '表白墙', active: false },
+        { id: 1, icon: 'icon-zizhuxuexi.png', text: '学习互助', active: false },
+        { id: 2, icon: 'icon-a-ziyuan5.png', text: '扩列', active: false },
+        { id: 3, icon: 'icon-shiwuzhaoling.png', text: '失物招领', active: false }
+    ],
   },
 })

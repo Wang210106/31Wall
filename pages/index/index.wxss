@@ -42,6 +42,7 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
+    overflow: hidden;
 }
 
 /* 每个金刚区项目样式 */
@@ -52,19 +53,26 @@
     width: 65px;
     flex-shrink: 0;
     cursor: pointer;
+    transition: 0.5s; 
+}
+
+.kingkong-item.expended {
+    width: 300rpx;
+}
+
+.kingkong-item.hidden {
+    opacity: 0.3;
+    pointer-events: none; 
+    transform: scale(0.7);
 }
 
 /* 金刚区图标样式 */
 .kingkong-icon {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     color: #007aff;
-    object-fit: cover;
     border: 1px solid #ddd;
-    padding: 4px;
-    font-size: 45rpx;
-    text-align: center;
-    line-height: 65rpx;
+    padding: 6px;   
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -82,9 +90,18 @@
     text-align: center;
 }
 
+.toPage image{
+    width: 24px;
+    height: 24px;
+    position: relative;
+    right: 20rpx;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .subt{
-    font-size: 40rpx;
-    margin-left: 8vw;
+    font-size: 36rpx;
+    margin: -6rpx 8vw;
 }
 
 /* 帖子区样式 */

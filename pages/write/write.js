@@ -7,16 +7,11 @@ Page({
         title: '',
         content: '',
         mediaList: [],
-        isRealname: 0, //1实名 0匿名
+        isRealname: 0, //2全实名 1半实名 0匿名
 
-        tabsList: [
-            { id : 1, text : '表白墙' },
-            { id : 2, text : '学习互助' },
-            { id : 3, text : '扩列' },
-            { id : 4, text : '失物招领' },
-        ],
+        tabsList: [],
 
-        tabed: 0,
+        tabed: -1,
     },
 
     onLoad(){
@@ -25,6 +20,12 @@ Page({
                 mediaList: wx.getStorageSync('post_image')
             })
         }
+
+        const app = getApp()
+
+        this.setData({
+            tabsList: app.globalData.kingkongList
+        })
     },
 
     // 标题输入事件处理
@@ -142,7 +143,7 @@ Page({
     sendPost() {
         const { title, content, mediaList, isRealname, tabsList, tabed } = this.data;
 
-        const tab = tabed === 0 ? '' : tabsList[tabed - 1].text
+        const tab = tabed === -1 ? '' : tabsList[tabed - 1].text
 
         const postData = {
             title,
@@ -231,7 +232,7 @@ Page({
 
         if(tapId === this.data.tabed){
             this.setData({
-                tabed: 0,
+                tabed: -1,
             })
         }
         else{

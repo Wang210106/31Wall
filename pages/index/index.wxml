@@ -19,18 +19,27 @@
 
 <!-- 金刚区 -->
 <view class="kingkong-area" style="margin: 20px 8px;">
-  <view class="kingkong-wrapper">
-    <!-- 循环渲染 -->
-    <view class="kingkong-item" wx:for="{{kingkongList}}" wx:key="index" bindtap="navigateToPage"  data-url="{{item.url}}" data-id="{{item.id}}">
-      <!-- 显示图标 -->
-      <image class="kingkong-icon iconfont {{item.icon}}"mode="aspectFill" />
-      <text class="kingkong-text">{{item.text}}</text>
+    <view class="kingkong-wrapper">
+            <!-- 循环渲染 -->
+            <view class="kingkong-item {{kStatus >= 0 ? ( kStatus === item.id ? 'expended' : 'hidden') : ''}}" 
+                wx:for="{{kingkongList}}" 
+                wx:key="index" 
+                bindtap="navigateToPage"  
+                data-id="{{item.id}}">
+
+            <!-- 显示图标 -->
+            <image class="kingkong-icon" src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/resourceImage/{{item.icon}}" mode="aspectFill" />
+            <text class="kingkong-text">{{item.text}}</text>
+            </view>
     </view>
-  </view>
+    <!-- 返回按钮 -->
+    <view class="toPage" wx:if="{{kStatus >= 0}}" bind:tap="toMainPage">
+        <image src="/image/return.png" mode=""/>
+    </view>
 </view>
 
 <view class="subt" wx:if="{{posts.length !== 0}}">
-    {{subtitle}}
+    你好，同学！
 </view>
 
 <!-- 帖子区 -->

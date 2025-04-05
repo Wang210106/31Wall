@@ -4,13 +4,8 @@ Page({
     data: {
         // 存储帖子数据
         posts: [],
-        // 金刚区导航列表
-        kingkongList: [
-            { id: 0, icon: 'icon-biaobaiqiangpinglunqudianzan', text: '表白墙', url: '表白墙捏：' },
-            { id: 1, icon: 'icon-zizhuxuexi', text: '学习互助', url: '学习学习捏：' },
-            { id: 2, icon: 'icon-a-ziyuan5', text: '扩列', url: '扩列捏：' },
-            { id: 3, icon: 'icon-shiwuzhaoling', text: '失物招领', url: '失物招领捏：' }
-        ],
+        // 金刚区导航列表(appdata中)
+        kingkongList: [],
 
         currentPage: 0,
         nomore: true,
@@ -20,7 +15,14 @@ Page({
         showBackTop: false,
         
         kStatus: -1,
-        subtitle: '正文捏：',
+    },
+
+    onLoad: function(){
+        const app = getApp();
+
+        this.setData({
+            kingkongList: app.globalData.kingkongList,
+        })
     },
 
   // 轮播图跳转
@@ -45,7 +47,6 @@ Page({
         initializing: false,
         currentPage: 0,
         kStatus: -1,
-        subtitle: '正文捏：',
     })
   },
 
@@ -59,7 +60,6 @@ Page({
         currentPage: 0,
         currentPage: 0,
         kStatus: -1,
-        subtitle: '正文捏：',
     })
   },
 
@@ -125,7 +125,6 @@ Page({
         posts: page0,
         currentPage: 0,
         kStatus: -1,
-        subtitle: '正文捏：',
     })
 
     setTimeout(() => {
@@ -154,23 +153,34 @@ Page({
         const postsdata = this.updatePostsData(res.data)
 
         this.setData({
-            subtitle: url,
             kStatus: id,
             posts: postsdata,
         })
     },
 
-  // 跳转到帖子详情页
-  navigateToPost(e) {
-    const post = this.data.posts.find(obj => obj.post_id === e.currentTarget.dataset.post);
-    const postStr = JSON.stringify(post);
+    //从分页回主页
+    async toMainPage(){
+        const page0 = await this.getPosts(0)
 
-    wx.setStorageSync('_post', postStr)
+        this.setData({
+            posts: page0,
+            initializing: false,
+            currentPage: 0,
+            kStatus: -1,
+        })
+    },
 
-    wx.navigateTo({
-      url: `/pages/post/post`,
-    });
-  },
+    // 跳转到帖子详情页
+    navigateToPost(e) {
+        const post = this.data.posts.find(obj => obj.post_id === e.currentTarget.dataset.post);
+        const postStr = JSON.stringify(post);
+
+        wx.setStorageSync('_post', postStr)
+
+        wx.navigateTo({
+            url: `/pages/post/post`,
+        });
+    },
 
   onPageScroll(e) {
     if (e.scrollTop > 800) {
