@@ -6,8 +6,46 @@
   <picker class="picker" mode="selector" range="{{reportReasons}}" bindchange="handleReasonChange" value="{{selectedReasonIndex}}">
     <view class="picker-view">{{reportReasons[selectedReasonIndex]}}</view>
   </picker>
- 
+
+  <!-- 当选择其他时显示输入框 -->
+  <input class="input-area" placeholder="请输入具体原因（选填）" wx:if="{{reportReasons[selectedReasonIndex] === '其他'}}" bindinput="handleOtherReasonInput" value="{{otherReason}}"/>
+
+
+
+<!--提交图片反馈，其实是照抄write.wxml，先占个位置，其他配套以后再写-->
+<!--太棒了，完全的不显示呢...-->
+  <view class="upload-area">
+    <block wx:for="{{mediaList}}" wx:key="*this">
+      <view class="media-item" bindtap="previewMedia" data-index="{{index}}">
+        <image src="{{item}}" mode="aspectFill" />
+        <view class="delete-icon" bindtap="deleteMedia" data-index="{{index}}" wx:if="{{!isUpdating}}">
+          <text>×</text>
+        </view>
+      </view>
+    </block>
+    <view class="add-icon" bindtap="chooseMedia" wx:if="{{mediaList.length < 9}}">
+      <text>+</text>
+    </view>
+  </view>
+
+
+
+
   <button class="submit-button" bindtap="submitReport">提交反馈</button>
  
   <view class="hint-text" wx:if="{{errorMessage}}">{{errorMessage}}</view>
+
+
+  <view class="qa-container">
+    <view class="qa-title">常见问题Q&A</view>
+    <block wx:for="{{qaList}}" wx:key="index">
+      <view class="qa-question" bindtap="toggleAnswer" data-index="{{index}}">
+        <text>{{index + 1}}. {{item.question}}</text>
+        <image class="qa-arrow" src="/image/right.png" style="transform: rotate({{item.isOpen? '90deg' : '0deg'}}); transition: transform 0.3s;"></image>
+      </view>
+      <view class="qa-answer" wx:if="{{item.isOpen}}">{{item.answer}}</view>
+    </block>
+  </view>
+
+
 </view>
