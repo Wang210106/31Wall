@@ -65,7 +65,8 @@
     margin-top: -40rpx;
     margin-bottom: 24rpx;
     color: #666;
-    line-height: 1.6;
+	line-height: 1.6;
+	user-select: text;	/* 允许复制 */
 }
 /* 点赞和评论区样式 */
 .like-comment {

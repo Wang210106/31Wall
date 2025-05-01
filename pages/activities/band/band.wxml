@@ -1,6 +1,16 @@
-<!--pages/activities/band/band.wxml-->
-<text>这个页面用来放张子萱他们乐队的宣传内容</text>
+<view class="page-container">
+  <view class="title-container">
+    <text class="page-title">Escape乐队</text>
+  </view>
+  <image class="band-image" src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/activities/band/band1.jpg" mode="aspectFit" bindtap="previewImage"></image>
 
-<text>现在暂时用来进行背景测试</text>
 
-<canvas canvas-id="particleCanvas" id="particleCanvas" style="width: 100%; height: 100vh;"></canvas>
+  <view class="band-intro">
+    <text class="intro-text">
+	七个有梦想的年轻人，因热爱而相聚于此。我们用音乐点亮夜空，用手中的乐器诠释我们的灵魂——这是一场心灵的逸旅。
+	我们是沈阳市第三十一中学Escape乐队，于2025年1月1日成立，现成员为队长兼吉他手2703LJh、主唱2704CYl、主吉他兼鼓手2704ZZx、贝斯手2706GJq、键盘手2714LY、鼓手兼摄影师2713ZBy、木吉他手2716TCk。
+	如有想要合作可以加w：18804050037，欢迎各位音乐爱好者一同交流合作！</text>
+  </view>
+  <image class="band-image full-width-image" src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/activities/band/band2.jpg" mode="aspectFit" bindtap="previewImage"></image>
+</view>
+    

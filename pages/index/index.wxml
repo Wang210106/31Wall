@@ -7,7 +7,7 @@
 <!-- 轮播图 -->
 <swiper class="swiper" indicator-dots="true" style="margin: 20px 8px;" autoplay="true" interval="5000" circular="true">
   <swiper-item>
-    <image class="swiper-image" src="/image/btnbar/home0.png" mode="aspectFill" bindtap="handleImageTap" data-url="/pages/activities/band/band" />
+    <image class="swiper-image" src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/activities/band/band-logo.jpg" mode="aspectFill" bindtap="handleImageTap" data-url="/pages/activities/band/band" />
   </swiper-item>
   <swiper-item>
     <image class="swiper-image" src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/about-us.png" mode="aspectFill" bindtap="handleImageTap" data-url="/pages/my/developer/developer" />
