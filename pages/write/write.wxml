@@ -1,12 +1,12 @@
 <view class="container">
 <!-- 标题输入框 -->
 <view class="input-wrapper">
-    <input type="text" placeholder="请输入标题 （选填）" bindinput="onTitleInput" value="{{title}}" />
+    <input type="text" placeholder="请输入标题 （选填）（最多40字）" bindinput="onTitleInput" value="{{title}}" />
 </view>
 
 <!-- 内容输入框 -->
 <view class="input-wrapper">
-    <textarea maxlength="-1" placeholder="说说你想说的吧~" bindinput="onContentInput" value="{{content}}"></textarea>
+    <textarea maxlength="-1" placeholder="说说你想说的吧~（最多4000字）" bindinput="onContentInput" value="{{content}}"></textarea>
 </view>
   
   <!-- 图片/视频上传区域 -->

@@ -6,6 +6,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	user-select: text;	/* 允许复制 */
   }
   
 /* 定义 fadeInDown 动画 */
@@ -123,6 +124,7 @@
 	font-size: 18px;
 	font-family: 'Microsoft YaHei', 'PingFang SC', 'SimHei', sans-serif;
 	font-weight: 500;
+	user-select: text;	/* 允许复制 */
   }
 
 

@@ -1,11 +1,68 @@
-/* pages/activities/band/band.wxss */
-/* 设置页面背景为白色 */
-page {
-	background-color: #fff;
-	margin: 0;
-	padding: 0;
+.page-container {
+	background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+	min-height: 100vh;
+	padding: 20px;
   }
   
-  canvas {
-	display: block;
+  .title-container {
+	text-align: center;
+	margin-bottom: 20px;
   }
+  
+  .page-title {
+	font-size: 32px;
+	color: #006064;
+	font-weight: bold;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+	animation: fadeIn 1s ease;
+  }
+  
+  .band-image {
+	width: 100%;
+	margin-bottom: 20px;
+	transition: transform 0.3s ease;
+  }
+  
+  .band-image:hover {
+	transform: scale(1.05);
+  }
+  
+  .full-width-image {
+	max-width: 100%; /* 最大宽度不超过父容器 */
+	display: block; /* 以块级元素显示 */
+  }
+  
+  .band-intro {
+	line-height: 1.5;
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 15px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	animation: slideIn 1s ease;
+  }
+  
+  .intro-text {
+	color: #333;
+	font-size: 16px;
+  }
+  
+  @keyframes fadeIn {
+	from {
+	  opacity: 0;
+	}
+	to {
+	  opacity: 1;
+	}
+  }
+  
+  @keyframes slideIn {
+	from {
+	  transform: translateY(20px);
+	  opacity: 0;
+	}
+	to {
+	  transform: translateY(0);
+	  opacity: 1;
+	}
+  }
+	  
