@@ -6,11 +6,14 @@ Page({
         content: '',
         images: [],
         postTime: '',
+
         commentContent: '',
         isAnonymous: false,
+
         comments: [],
         likes_count: 0,
         comments_count: 0,
+
         post_id: -1,
         userinfo: {
             nickname: '匿名捏',
@@ -18,16 +21,18 @@ Page({
         },
         selfPost: false,
         isLiked: false,
-        showCommentInput: false
+
+        showCommentInput: false,
 	},
 	
     async onLoad(option) {
+        //console.log(option.postid)
         const postInfo = option.postid ?
             (await this.getPostById(option.postid)).data.result[0] :
 			JSON.parse(wx.getStorageSync('_post'));
             
         const { title, content, realname, user_id, post_id } = postInfo;
-		let images = postInfo.images;
+        let images = postInfo.images[0] !== '[' ? postInfo.images : JSON.parse(postInfo.images);
 
         try {
             // 确保数据解析成功后设置到data中
@@ -38,12 +43,20 @@ Page({
             console.error('解析图片数据出错:', error);
         }
 
+        //帖子实匿名
         if (realname) {
             let userinfo = (await this.getUserById(user_id)).data;
+
+            if(realname === 2){
+                userinfo.nickname = userinfo.grade + '' + 
+                (userinfo.class <= 9 ? '0' + userinfo.class : userinfo.class)
+                + userinfo.realname
+            }
+
             this.setData({
                 userinfo,
             });
-		}
+        }
 		
         // 自己发的
         if (wx.getStorageSync('user_info').userid === user_id) {
@@ -228,16 +241,6 @@ Page({
                 });
             });
 	},
-	
-    // 取消评论
-    cancelComment() {
-        this.setData({
-            commentContent: '',
-            isAnonymous: false,
-            showCommentInput: false
-        });
-	},
-	
     // 转发帖子
     forwardPost() {
         wx.showShareMenu({
@@ -249,6 +252,18 @@ Page({
 	
     // 点击评论按钮显示输入框
     showCommentInput() {
+        //已经显示了的情况
+        if (this.data.showCommentInput){
+            this.setData({
+                commentContent: '',
+                isAnonymous: false,
+                showCommentInput: false
+            });
+
+            return
+        }
+
+        //未显示加载出来
         const newComments = this.data.comments.map(comment => ({
            ...comment,
             showCommentInput: false
@@ -418,10 +433,6 @@ Page({
             }
         };
 	},
-	
-
-
-	
     // 分享给好友
     onShareAppMessage() {
         return {
@@ -469,92 +480,6 @@ Page({
         // 模拟点赞操作
         const newLikesCount = comment.likes_count + 1;
         newComments[index].likes_count = newLikesCount;
-        this.setData({
-            comments: newComments
-        });
-	},
-	
-    // 显示评论评论的输入框
-    showCommentOnCommentInput(e) {
-        const index = e.currentTarget.dataset.index;
-        const newComments = this.data.comments.map((comment, i) => ({
-           ...comment,
-            showCommentInput: i === index
-        }));
-        this.setData({
-            showCommentInput: false,
-            comments: newComments
-        });
-	},
-	
-    // 输入评论评论的内容
-    onCommentOnCommentInput(e) {
-        const index = e.currentTarget.dataset.index;
-        const newComments = [...this.data.comments];
-        newComments[index].commentContent = e.detail.value;
-        this.setData({
-            comments: newComments
-        });
-	},
-	
-    // 切换评论评论的实名/匿名
-    toggleAnonymousOnComment(e) {
-        const index = e.currentTarget.dataset.index;
-        const value = e.detail.value === 'true';
-        const newComments = [...this.data.comments];
-        newComments[index].isAnonymous = value;
-        this.setData({
-            comments: newComments
-        });
-	},
-	
-    // 提交评论评论
-    submitCommentOnComment(e) {
-        const index = e.currentTarget.dataset.index;
-        const comment = this.data.comments[index];
-        const commentContent = comment.commentContent.trim();
-        if (commentContent === '') {
-            wx.showToast({
-                title: '评论内容不能为空',
-                icon: 'none',
-                duration: 2000
-            });
-            return;
-		}
-		
-        const newComment = {
-            userid: wx.getStorageSync('user_info').userid,
-            comment: commentContent,
-            anonymous: comment.isAnonymous? 1 : 0,
-            commentid: comment.id
-		};
-		
-        const newComments = [...this.data.comments];
-        newComments[index].commentContent = '';
-        newComments[index].isAnonymous = false;
-        newComments[index].showCommentInput = false;
-        newComments[index].replies = [
-           ...newComments[index].replies,
-            {
-               ...newComment,
-                created_at: new Date().toLocaleString(),
-                avatar_url: wx.getStorageSync('user_info').avatar_url,
-                nickname: wx.getStorageSync('user_info').nickname
-            }
-        ];
-        newComments[index].comments_count = newComments[index].replies.length;
-        this.setData({
-            comments: newComments
-        });
-	},
-	
-    // 取消评论评论
-    cancelCommentOnComment(e) {
-        const index = e.currentTarget.dataset.index;
-        const newComments = [...this.data.comments];
-        newComments[index].commentContent = '';
-        newComments[index].isAnonymous = false;
-        newComments[index].showCommentInput = false;
         this.setData({
             comments: newComments
         });

@@ -26,10 +26,20 @@ Page({
         groupedComments: []
     },
     itemtap: function (e) {
-        const id = e.currentTarget.dataset.id;
-        wx.navigateTo({
-            url: `/pages/post/post?postid=` + id,
-        });
+        if (this.data.options === 'comments'){
+            const id = e.currentTarget.dataset.id;
+
+            wx.navigateTo({
+                url: `/pages/post/post?postid=` + id,
+            });
+        }
+        else {
+            const id = e.detail.type;
+
+            wx.navigateTo({
+                url: `/pages/post/post?postid=` + id,
+            });
+        }
     },
     onLoad: async function (options) {
         this.setData({ options });
@@ -82,7 +92,8 @@ Page({
             } else if (options.type === 'posts') {
                 const res = await this.getPostsByUserid(userid);
                 const data = res.data;
-                console.log(data.sort((a, b) => parseISODate(b.created_at) - parseISODate(a.created_at)))
+
+                data.sort((a, b) => parseISODate(b.created_at) - parseISODate(a.created_at))
                 const itemData = data.map(SQLitem => {
                     const imageUrl = JSON.parse(SQLitem.images).length > 0 ? JSON.parse(SQLitem.images)[0] : '/image/hd1.png'
                     return {
@@ -97,6 +108,8 @@ Page({
                     SQLdata: data
                 })
             }
+
+            //console.log(this.data.SQLdata)
         } catch (error) {
             console.error('页面加载出错:', error);
         }

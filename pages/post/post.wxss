@@ -101,23 +101,43 @@
 }
 /* 评论输入框样式，默认隐藏 */
 .comment-input {
-    margin: 36rpx 0;
     display: none;
 }
+
+.inputer{
+    display: flex;
+    align-items: center;
+    margin: 10rpx 0;
+}
+
 .input-full-width {
-    width: calc(100% - 80rpx); /* 留出右侧取消图标的空间 */
+    width: calc(100% - 100px);
     border: 1rpx solid #ccc;
     height: 80rpx;
-    padding: 20rpx 15rpx;
-    margin-bottom: 15rpx;
     border-radius: 8rpx;
     font-size: 32rpx;
     box-sizing: border-box;
+    padding-left: 8px;
 }
+
+.comment-input button {
+    width: 80px;
+    padding: 15rpx 30rpx;
+    background-color: #007aff;
+    color: #fff;
+    border: none;
+    border-radius: 8rpx;
+    margin-left: 20rpx;
+    font-size: 28rpx;
+    cursor: pointer;
+}
+.comment-input button:active {
+    background-color: #0056b3;
+}
+
 .anonymous-switch {
     display: flex;
     width: 100%;
-    margin-bottom: 15rpx; /* 选择框与按钮留出间距 */
     align-items: center;
 }
 .anonymous-switch radio-group {
@@ -138,19 +158,6 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-}
-.comment-input button {
-    padding: 15rpx 30rpx;
-    background-color: #007aff;
-    color: #fff;
-    border: none;
-    border-radius: 8rpx;
-    margin-left: 20rpx;
-    font-size: 28rpx;
-    cursor: pointer;
-}
-.comment-input button:active {
-    background-color: #0056b3;
 }
 /* 评论列表样式 */
 .comment-list {
@@ -203,19 +210,17 @@
 /* 显示评论输入框的类 */
 .show-comment-input {
     display: block;
-    position: relative;
+    position: fixed;
+    bottom: 0;
+    border-top: 1px solid #ccc;
+    padding: 0 8px; /* 缩进改为 8px */
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
 }
 /* 评论的点赞、举报、评论区样式 */
 .comment-interaction {
     margin-top: 0rpx;
     display: flex;
     justify-content: flex-end; /* 评论部分图标右侧对齐 */
-}
-/* 评论的评论列表样式 */
-.comment-on-comment-list {
-    margin-left: 0px;
-}
-/* 评论的评论项样式 */
-.comment-on-comment-item {
-    margin-bottom: 8rpx;
 }
