@@ -26,7 +26,6 @@ Page({
 	},
 	
     async onLoad(option) {
-        //console.log(option.postid)
         const postInfo = option.postid ?
             (await this.getPostById(option.postid)).data.result[0] :
 			JSON.parse(wx.getStorageSync('_post'));
@@ -89,15 +88,13 @@ Page({
                 avatar_url, 
                 nickname,
                 isLiked: false,
-                showCommentInput: false,
-                commentContent: '',
-                isAnonymous: false,
                 likes_count: 0,
                 comments_count: 0,
                 replies: []
             };
 		}));
-		
+        
+        console.log(comments)
         this.setData({
             title,
             content,

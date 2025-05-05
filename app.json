@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/index/study/study",
     "pages/msg/msg",
     "pages/my/my",
     "pages/my/setting/setting",
@@ -16,7 +15,7 @@
     "pages/login/login",
     "pages/report/report",
     "pages/activities/band/band",
-    "components/imageshow/imageshow"
+    "pages/developer/developer"
   ],
   "window": {
     "navigationBarTextStyle": "black",

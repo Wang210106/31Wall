@@ -59,14 +59,14 @@
     <text class="post-content">{{item.content}}</text>
     <!-- 图片/视频预览 -->
     <view class="media-preview" style="{{item.mediaPreviewStyle}}">
-      <!-- 单张图片预览 -->
-      <image  src="{{item.images[0]}}" mode="aspectFill" wx:if="{{item.images.length === 1}}" bindtap="previewSingleImage" data-image="{{item.images[0]}}"></image>
-      <!-- 多张图片缩略图预览 -->
-      <view class="thumbnail-grid" wx:if="{{item.images.length > 1}}">
-        <!-- 循环渲染每张缩略图 -->
-        <block wx:for="{{item.images}}" wx:key="*this">
-          <image class="thumbnail-grid" src="{{item}}" mode="aspectFill" data-images="{{item.images}}" data-index="{{index}}"></image>
-        </block>
+        <!-- 单张图片预览 -->
+        <image  src="{{item.images[0]}}" mode="aspectFill" wx:if="{{item.images.length === 1}}" data-image="{{item.images[0]}}"></image>
+        <!-- 多张图片缩略图预览 -->
+        <view class="thumbnail-grid" wx:if="{{item.images.length > 1}}">
+            <!-- 循环渲染每张缩略图 -->
+            <block wx:for="{{item.images}}" wx:key="*this">
+            <image class="thumbnail-grid" src="{{item}}" mode="aspectFill" data-images="{{item.images}}" data-index="{{index}}"></image>
+            </block>
       </view>
     </view>
     <!-- 点赞和评论按钮 -->

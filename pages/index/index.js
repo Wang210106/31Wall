@@ -135,7 +135,7 @@ Page({
 
   // 处理金刚区导航跳转
     async navigateToPage(e) {
-        const { url, id } = e.currentTarget.dataset;
+        const { id } = e.currentTarget.dataset;
 
         //不在查看tab
         if (this.data.kStatus < 0){

@@ -25,7 +25,7 @@
         <imageshow imgList="{{images}}"></imageshow>
     </view>
 
-    <!-- 点赞以及评论区 -->
+    <!-- 点赞等 -->
     <view class="like-comment">
         <view class="like {{ isLiked ? 'redlike' : ''}}" bindtap="likePost">
             <text class="iconfont icon-24px">{{likes_count}}</text>

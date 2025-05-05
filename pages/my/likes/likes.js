@@ -26,18 +26,20 @@ Page({
         groupedComments: []
     },
     itemtap: function (e) {
-        if (this.data.options === 'comments'){
+        if (this.data.options.type === 'comments'){
             const id = e.currentTarget.dataset.id;
 
+            console.log(e)
             wx.navigateTo({
                 url: `/pages/post/post?postid=` + id,
             });
         }
         else {
             const id = e.detail.type;
+            wx.setStorageSync('_post', JSON.stringify(this.data.SQLdata.filter(item => item.post_id == id)[0]))
 
             wx.navigateTo({
-                url: `/pages/post/post?postid=` + id,
+                url: `/pages/post/post`,
             });
         }
     },

@@ -10,8 +10,8 @@ Page({
     itemtap: e => {
         const id = e.detail.type;
 
-
-        if(id.includes('no')){
+        //系统公告
+        if(id[0] == 'n'){
             return
         }
 

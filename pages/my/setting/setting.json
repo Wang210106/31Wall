@@ -1,5 +1,6 @@
 {
   "usingComponents": {
       "TabsWithIcons" : "/components/TabsWithIcons/TabsWithIcons"
-  }
+  },
+  "navigationBarTitleText": "设置"
 }

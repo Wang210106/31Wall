@@ -5,7 +5,7 @@ Page({
         "items" : [
             { id : 0 , text : "用户信息" , iconfont : "icon-yonghu" },
 			{ id : 1 , text : "退出登录" , iconfont : "icon-tuichudenglu" },
-			//{ id : 2 , text : "开发者模式" , iconfont : "icon-yonghu" },
+			{ id : 2 , text : "开发者模式" , iconfont : "icon-jishuzhichi" },
         ],
     },
 
@@ -26,6 +26,14 @@ Page({
                 console.log("logout")
               }
             })
+        }
+        else if (e.detail.type === 2){
+            //检测权限
+            if(wx.getStorageSync('user_info').status > 0){
+                wx.navigateTo({
+                    url: '/pages/developer/developer',
+                })
+            } 
         }
     }
 })

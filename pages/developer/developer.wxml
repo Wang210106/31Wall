@@ -1,0 +1,7 @@
+<!--pages/developer/developer.wxml-->
+<view class="wrap">
+	<view class="image">
+		<image src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/v2-ed0381dff142dc191e1610f19cc03658_r.png" mode=""/>
+	</view>
+	<TabsWithIcons items="{{items}}" bind:itemtap=''></TabsWithIcons>
+</view>
