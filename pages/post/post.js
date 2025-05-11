@@ -66,18 +66,18 @@ Page({
 		
         this.setData({
             isLiked: wx.getStorageSync('self_like').indexOf(post_id) >= 0
-		});
-		
+        });
+        
         const [likeResult, commentResult] = await Promise.all([
             this.getLikeAmount(post_id),
-            this.getCommentsByPostid(post_id)
-		]);
+            this.getCommentsByPostid(post_id,wx.getStorageSync('user_info').userid)
+        ]);
 		
         const likes_count = likeResult.data[0]['COUNT(*)'];
 		const originComments = commentResult.data.result;
 		
         const comments = await Promise.all(originComments.map(async value => {
-            const { created_at, user_id } = value;
+            const { created_at, user_id, isLiked, likes_count } = value;
             const newTime = formatDateString(created_at);
             const userInfo = await this.getUserById(user_id);
 			const { avatar_url, nickname } = userInfo.data;
@@ -87,14 +87,13 @@ Page({
                 created_at: newTime, 
                 avatar_url, 
                 nickname,
-                isLiked: false,
-                likes_count: 0,
+                isLiked, 
+                likes_count,
                 comments_count: 0,
                 replies: []
             };
 		}));
         
-        console.log(comments)
         this.setData({
             title,
             content,
@@ -208,7 +207,7 @@ Page({
            .then(async (res) => {
 				console.log('服务器响应:', res);
 				
-                const ocm = await this.getCommentsByPostid(this.data.post_id);
+                const ocm = await this.getCommentsByPostid(this.data.post_id,wx.getStorageSync('user_info').userid);
 				const originComments = ocm.data.result;
 				
                 const comments = await Promise.all(originComments.map(async value => {
@@ -393,14 +392,27 @@ Page({
             method: 'POST',
             data: comment
         });
-	},
-	
-    getCommentsByPostid(postid) {
+    },
+    
+    postCommentLike(userid, commentid) {
         return wx.cloud.callContainer({
             config: {
                 env: 'prod-9ggzinxb5b8ff0c5'
             },
-            path: `/post/comment/postid?postid=${postid}`,
+            path: `/post/commentLike?userid=${userid}&commentid=${commentid}`,
+            header: {
+                'X-WX-SERVICE': 'express-41pr'
+            },
+            method: 'POST',
+        });
+	},
+	
+    getCommentsByPostid(postid,userid) {
+        return wx.cloud.callContainer({
+            config: {
+                env: 'prod-9ggzinxb5b8ff0c5'
+            },
+            path: `/post/comment/postid?postid=${postid}&userid=${userid}`,
             header: {
                 'X-WX-SERVICE': 'express-41pr'
             },
@@ -443,13 +455,10 @@ Page({
         const index = e.currentTarget.dataset.index;
         const comment = this.data.comments[index];
         const userid = wx.getStorageSync('user_info').userid;
-		const commentid = comment.id;
-		
-        const like = {
-            userid,
-            commentid
-		};
-		
+        const commentid = comment.comments_id;
+        
+        this.postCommentLike(userid, commentid)
+
         // 取消点赞
         if (comment.isLiked) {
             const newComments = [...this.data.comments];

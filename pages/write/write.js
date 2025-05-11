@@ -143,7 +143,7 @@ Page({
     sendPost() {
         const { title, content, mediaList, isRealname, tabsList, tabed } = this.data;
 
-        const tab = tabed === -1 ? '' : tabsList[tabed - 1].text
+        const tab = tabed === -1 ? '' : tabsList[tabed].text
 
         const postData = {
             title,
