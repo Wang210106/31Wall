@@ -15,19 +15,15 @@
     vertical-align: top; 
     object-fit: cover; 
 }
- 
-.three-wrap {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-}
 .three-img {
-    height: calc(33.33% - 3.33px);
-    width: calc(33.33% - 3.33px);
-    object-fit: cover; 
+    aspect-ratio: 3/2; 
+    min-height: 150px;   
+    object-fit: cover;   
 }
- 
+  .three-img {
+    width: 100%;
+    object-fit: cover;
+  }
 /* 四张图片样式 */
 .four-wrap {
     width: 100%;
@@ -38,7 +34,6 @@
 .four-img {
     display: block;
     width: calc(50% - 2.5px);
-    vertical-align: top; 
     object-fit: cover; 
 }
  
@@ -50,7 +45,6 @@
     gap: 5px;
 }
 .nine-img {
-    width: calc(33.33% - 3.33px);
-    vertical-align: top; 
-    object-fit: cover; 
+    margin-left: 50%;
+    transform: translate(-50%, 0) ;
 }

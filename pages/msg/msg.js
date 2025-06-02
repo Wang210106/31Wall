@@ -45,7 +45,10 @@ Page({
         );
 
         const commentsPromises = postsID.map(
-            postId => this.getCommentsByPostid(postId).then(response => response.data.result)
+            postId => this.getCommentsByPostid(
+                postId,wx.getStorageSync('user_info').userid
+                )
+                .then(response => response.data.result)
         );
  
         const likesData = await Promise.all(likesPromises);
@@ -150,12 +153,12 @@ Page({
         })
     },
 
-    getCommentsByPostid(postid){
+    getCommentsByPostid(postid,userid){
         return wx.cloud.callContainer({
             "config": {
                 "env": "prod-9ggzinxb5b8ff0c5"
             },
-            "path": "/post/comment/postid?postid=" + postid,
+            "path": "/post/comment/postid?postid=" + postid + "&userid=" + userid,
             "header": {
                 "X-WX-SERVICE": "express-41pr"
             },
