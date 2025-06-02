@@ -24,9 +24,9 @@ Component({
         handleImageClick(e) {
             const index = e.currentTarget.dataset.index;
             const current = this.properties.imgList[index]; 
+
             wx.previewImage({
-                current,
-                urls: this.properties.imgList 
+                urls: [current]   
             });
         }
     },

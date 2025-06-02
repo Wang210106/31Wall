@@ -19,10 +19,10 @@
     <!-- 四张图片 -->
     <block wx:elif="{{imgList.length === 4}}">
         <view class="four-wrap">
-            <image src="{{imgList[0]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick"></image>
-            <image src="{{imgList[1]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick"></image>
-            <image src="{{imgList[2]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick"></image>
-            <image src="{{imgList[3]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick"></image>
+            <image src="{{imgList[0]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick" data-index='0'></image>
+            <image src="{{imgList[1]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick" data-index='1'></image>
+            <image src="{{imgList[2]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick" data-index='2'></image>
+            <image src="{{imgList[3]}}" mode="aspectFit" class="four-img" binderror="handleImageError" bindtap="handleImageClick" data-index='3'></image>
         </view>
     </block>
     <!-- 五张及以上图片 -->
