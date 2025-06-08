@@ -53,14 +53,11 @@
                 </view>
                 <text class="comment-content">{{item.comment}}</text>
                 <!-- 评论的点赞、举报、评论区 -->
-                <view class="like-comment comment-interaction">
-                    <view class="like {{ item.isLiked ? 'redlike' : ''}}" bindtap="likeComment" data-index="{{index}}">
+                <view class="like-comment comment-interaction" bind:tap="">
+                    <view class="like {{ item.isLiked ? 'redlike' : ''}}" catchtap="likeComment" data-index="{{index}}">
                         <text class="iconfont icon-24px">{{item.likes_count}}</text>
                     </view>
-                    <view class="comment" bindtap="showCommentOnCommentInput" data-index="{{index}}">
-                        <text class="iconfont icon-pinglunxiao"> {{item.comments_count}}</text>
-                    </view>
-                    <view class="comment" bindtap="reportComment" data-index="{{index}}">
+                    <view class="comment" catchtap="reportComment" data-index="{{index}}">
                         <text class="iconfont icon-jubao"></text>
                     </view>
                 </view>

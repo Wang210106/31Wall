@@ -9,12 +9,4 @@ Page({
             { id : 4, text : '推送消息', iconfont: 'icon-xitongxiaoxi' },
         ]
     },
-
-    onLoad(options) {
-        if (wx.getStorageSync('user_info').status >= 0){
-            wx.navigateBack({
-                delta: -1,
-            })
-        }
-    },
 })

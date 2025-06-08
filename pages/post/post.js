@@ -236,7 +236,8 @@ Page({
                     comments
                 });
             });
-	},
+    },
+    
     // 转发帖子
     forwardPost() {
         wx.showShareMenu({
@@ -312,7 +313,57 @@ Page({
             current,
             urls
         });
-	},
+    },
+    
+    // 点赞评论
+    async likeComment(e) {
+        const index = e.currentTarget.dataset.index;
+        const comment = this.data.comments[index];
+        const userid = wx.getStorageSync('user_info').userid;
+        const commentid = comment.comments_id;
+        
+        this.postCommentLike(userid, commentid)
+
+        // 取消点赞
+        if (comment.isLiked) {
+            const newComments = [...this.data.comments];
+            newComments[index].isLiked = false;
+            this.setData({
+                comments: newComments
+            });
+            
+            // 模拟取消评论点赞操作（没写后端，用AI整了一坨...）
+            const newLikesCount = comment.likes_count - 1;
+            newComments[index].likes_count = newLikesCount;
+            this.setData({
+                comments: newComments
+            });
+            
+            return;
+        }
+        
+        const newComments = [...this.data.comments];
+        newComments[index].isLiked = true;
+        this.setData({
+            comments: newComments
+        });
+        
+        // 模拟点赞操作
+        const newLikesCount = comment.likes_count + 1;
+        newComments[index].likes_count = newLikesCount;
+        this.setData({
+            comments: newComments
+        });
+    },
+    
+    // 举报评论
+    reportComment(e) {
+        const index = e.currentTarget.dataset.index;
+        const comment = this.data.comments[index];
+        wx.navigateTo({
+            url: '/pages/report/report?type=comments&id=' + comment.id,
+        })
+    },
 	
     getLikeAmount(postid) {
         return wx.cloud.callContainer({
@@ -449,54 +500,4 @@ Page({
             path: `/pages/postDetail/postDetail?postid=${this.data.post_id}`
         };
 	},
-	
-    // 点赞评论
-    async likeComment(e) {
-        const index = e.currentTarget.dataset.index;
-        const comment = this.data.comments[index];
-        const userid = wx.getStorageSync('user_info').userid;
-        const commentid = comment.comments_id;
-        
-        this.postCommentLike(userid, commentid)
-
-        // 取消点赞
-        if (comment.isLiked) {
-            const newComments = [...this.data.comments];
-            newComments[index].isLiked = false;
-            this.setData({
-                comments: newComments
-			});
-			
-            // 模拟取消评论点赞操作（没写后端，用AI整了一坨...）
-            const newLikesCount = comment.likes_count - 1;
-            newComments[index].likes_count = newLikesCount;
-            this.setData({
-                comments: newComments
-			});
-			
-            return;
-		}
-		
-        const newComments = [...this.data.comments];
-        newComments[index].isLiked = true;
-        this.setData({
-            comments: newComments
-		});
-		
-        // 模拟点赞操作
-        const newLikesCount = comment.likes_count + 1;
-        newComments[index].likes_count = newLikesCount;
-        this.setData({
-            comments: newComments
-        });
-	},
-	
-    // 举报评论
-    reportComment(e) {
-        const index = e.currentTarget.dataset.index;
-        const comment = this.data.comments[index];
-        wx.navigateTo({
-            url: '/pages/report/report?type=comments&id=' + comment.id,
-        })
-    }
 });

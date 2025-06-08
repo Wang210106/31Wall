@@ -155,7 +155,7 @@ Page({
         };
 
         //限制字数
-        if (postData.title.length > 40 || postData.content > 4000){
+        if (postData.title.length > 40 || postData.content.length > 4000){
             wx.showToast({
                 title: '字数太多了',
                 icon: 'none'
