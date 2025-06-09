@@ -86,19 +86,19 @@ Page({
             const userInfo = await this.getUserById(user_id);
 			const { avatar_url, nickname } = userInfo.data;
             
-           const replies = oriReply.map(value => {
+           const replies = await Promise.all(oriReply.map(async value => {
                 const replyTime = formatDateString(value.created_at)
+                const replyUser = await this.getUserById(value.user_id);
+
+                const { avatar_url, nickname } = replyUser.data;
 
                 return {
                     ...value, 
                     created_at: replyTime, 
                     avatar_url, 
                     nickname,
-                    isLiked, 
-                    likes_count,
-                    comments_count: 0,
                 }
-            })
+            }))
 
             return { 
                ...value, 
