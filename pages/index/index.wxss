@@ -241,8 +241,7 @@
     transition: all 0.3s ease;
 }
 
-.like-button:hover,
-.comment-button:hover {
+.like-button-active {
     color: #007aff;
 }
 

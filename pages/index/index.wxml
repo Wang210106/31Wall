@@ -1,3 +1,4 @@
+<wxs src="/utils/include.wxs" module="util"/>
 <!-- 搜索栏 
 <view class="search-bar" style="margin: 20px 8px;">
   <input type="text" placeholder="搜索" />
@@ -72,8 +73,8 @@
     <!-- 点赞和评论按钮 -->
     <view class="interaction-buttons">
         <view class="likeandcomment">
-            <view class="like-button" data-index="{{index}}">
-                <text class="iconfont icon-24px" ></text>
+            <view class="like-button {{util.includes(selfLike, item.post_id) ? 'like-button-active' : ''}}" catch:tap='pageLike' data-id="{{item.post_id}}">
+                <text class="iconfont icon-24px"></text>
                 <text>{{item.likes_count}}</text>
             </view>
             <view class="comment-button">
