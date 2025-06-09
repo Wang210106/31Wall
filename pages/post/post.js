@@ -2,6 +2,8 @@ import { formatDateString } from '../../utils/timeStamp'
 
 Page({
     data: {
+        currentUserId : wx.getStorageSync('user_info').userid,
+
         title: '',
         content: '',
         images: [],
@@ -60,7 +62,7 @@ Page({
         }
 		
         // 自己发的
-        if (wx.getStorageSync('user_info').userid === user_id) {
+        if (this.data.currentUserId === user_id) {
             this.setData({
                 selfPost: true
             });
@@ -72,7 +74,7 @@ Page({
         
         const [likeResult, commentResult] = await Promise.all([
             this.getLikeAmount(post_id),
-            this.getCommentsByPostid(post_id,wx.getStorageSync('user_info').userid)
+            this.getCommentsByPostid(post_id,this.data.currentUserId)
         ]);
 		
         const likes_count = likeResult.data[0]['COUNT(*)'];
@@ -124,7 +126,7 @@ Page({
 	
     // 点赞功能
     async likePost() {
-        const userid = wx.getStorageSync('user_info').userid;
+        const userid = this.data.currentUserId;
 		const postid = this.data.post_id;
 		
         const like = {
@@ -206,7 +208,7 @@ Page({
 		}
 		
         const comment = {
-            userid: wx.getStorageSync('user_info').userid,
+            userid: this.data.currentUserId,
             comment: commentContent,
             parentid: this.data.parentid >= 0 ? this.data.parentid : null,
             anonymous: this.data.isAnonymous? 1 : 0, 
@@ -242,7 +244,7 @@ Page({
     async commentRefresh(res) {
         console.log('服务器响应:', res);
         
-        const ocm = await this.getCommentsByPostid(this.data.post_id,wx.getStorageSync('user_info').userid);
+        const ocm = await this.getCommentsByPostid(this.data.post_id,this.data.currentUserId);
         const originComments = ocm.data.result;
         
         const comments = await Promise.all(originComments.map(async value => {
@@ -371,7 +373,7 @@ Page({
     async likeComment(e) {
         const index = e.currentTarget.dataset.index;
         const comment = this.data.comments[index];
-        const userid = wx.getStorageSync('user_info').userid;
+        const userid = this.data.currentUserId;
         const commentid = comment.comments_id;
         
         this.postCommentLike(userid, commentid)
@@ -411,6 +413,31 @@ Page({
     // 举报评论
     reportComment(e) {
         const index = e.currentTarget.dataset.id;
+
+        //删评
+        if ( e.currentTarget.dataset.userid === this.data.currentUserId ){
+            wx.showModal({
+                title: '删评',
+                content: '确定要删评吗',
+                confirmText: '删除',
+                cancelText: '取消',
+                success: (res) => {
+                    if(res.confirm){
+                        this.deleteComments(index)
+                            .then(res => {
+                                this.commentRefresh(res) 
+
+                                wx.showToast({
+                                    title: '删除成功',
+                                    icon: 'success',
+                                })
+                            })
+                    }
+                }
+            })
+            
+            return
+        }
 
         wx.navigateTo({
             url: '/pages/report/report?type=comments&id=' + index,
@@ -543,6 +570,19 @@ Page({
                 env: 'prod-9ggzinxb5b8ff0c5'
             },
             path: `/post/like?postid=${postid}&userid=${userid}`,
+            header: {
+                'X-WX-SERVICE': 'express-41pr'
+            },
+            method: 'DELETE'
+        });
+    },
+    
+    deleteComments(commentid) {
+        return wx.cloud.callContainer({
+            config: {
+                env: 'prod-9ggzinxb5b8ff0c5'
+            },
+            path: `/post/comment?commentid=${commentid}`,
             header: {
                 'X-WX-SERVICE': 'express-41pr'
             },

@@ -58,8 +58,8 @@
                     <view class="comment">
                         <text class="iconfont icon-pinglunxiao"> {{item.comments_count}}</text>
                     </view>
-                    <view class="comment" catchtap="reportComment" data-id="{{item.comments_id}}">
-                        <text class="iconfont icon-jubao"></text>
+                    <view class="comment" catchtap="reportComment" data-id="{{item.comments_id}}" data-userid="{{item.user_id}}">
+                        <text class="iconfont {{item.user_id == currentUserId ? 'icon-shanchu' : 'icon-jubao'}}"></text>
                     </view>
                 </view>
                 <!-- 评论的评论列表 -->
@@ -80,8 +80,8 @@
                                 <text style="font-weight: bold;">回复：</text>
                                 <text>{{reply.comment}}</text>
                             </text>
-                            <view class="cTocReport" catchtap="reportComment" data-id="{{reply.comments_id}}">
-                                <text class="iconfont icon-jubao"></text>
+                            <view class="cTocReport" catchtap="reportComment" data-id="{{reply.comments_id}}" data-userid="{{item.user_id}}">
+                                <text class="iconfont {{item.user_id == currentUserId ? 'icon-shanchu' : 'icon-jubao'}}"></text>
                             </view>
                         </view>
                     </view>
