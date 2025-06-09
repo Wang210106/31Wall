@@ -171,7 +171,7 @@
 .comment-avatar {
     width: 60rpx;
     height: 60rpx;
-    border-radius: 50%;
+    border-radius: 10px;
     margin-right: 20rpx;
     object-fit: cover;
 }
@@ -220,7 +220,23 @@
 }
 /* 评论的点赞、举报、评论区样式 */
 .comment-interaction {
-    margin-top: 0rpx;
+    margin-top: 0;
     display: flex;
     justify-content: flex-end; /* 评论部分图标右侧对齐 */
+}
+
+.comment-on-comment-item{
+    margin: 30rpx 0;
+    border-bottom: 1px solid rgb(235, 235, 235);
+    position: relative;
+}
+
+.comment-on-comment-list{
+    margin-bottom: 30rpx;
+}
+
+.cTocReport{
+    position: absolute;
+    right: 10rpx;
+    bottom: 5rpx;
 }

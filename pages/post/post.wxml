@@ -17,9 +17,7 @@
     <view class="title">{{title}}</view>
 
     <!-- 正文 -->
-    <text class="content">
-        {{content}}
-    </text>
+    <text class="content">{{content}}</text>
     <!-- 引入图片展示组件 -->
     <view class="image-grid">
         <imageshow imgList="{{images}}"></imageshow>
@@ -30,13 +28,13 @@
         <view class="like {{ isLiked ? 'redlike' : ''}}" bindtap="likePost">
             <text class="iconfont icon-24px">{{likes_count}}</text>
         </view>
-        <view class="comment" bindtap="showCommentInput">
+        <view class="comment" catchtap="showCommentInput" data-type="postComment">
             <text class="iconfont icon-pinglunxiao"> {{comments_count}}</text>
         </view>
-        <view class="comment" bindtap="forwardPost">
+        <view class="comment" catchtap="forwardPost">
             <text class="iconfont icon-zhuanfa"></text>
         </view>
-        <view class="comment" bindtap="reportPost">
+        <view class="comment" catchtap="reportPost">
             <text class="iconfont {{ selfPost ? 'icon-shanchu' : 'icon-jubao'}}"></text>
         </view>
     </view>
@@ -44,7 +42,7 @@
     <!-- 评论列表 -->
     <view class="comment-list">
         <block wx:for="{{comments}}" wx:key="index">
-        <view class="comment-item">
+        <view class="comment-item" bind:tap="showCommentInput" data-type="commentComment" data-id="{{item.comments_id}}">
             <image class="comment-avatar" src="{{item.anonymous ? '/image/btnbar/gr1.png' : item.avatar_url}}" mode="aspectFit"></image>
             <view class="comment-info">
                 <view class="comment-header">
@@ -53,28 +51,40 @@
                 </view>
                 <text class="comment-content">{{item.comment}}</text>
                 <!-- 评论的点赞、举报、评论区 -->
-                <view class="like-comment comment-interaction" bind:tap="">
+                <view class="like-comment comment-interaction">
                     <view class="like {{ item.isLiked ? 'redlike' : ''}}" catchtap="likeComment" data-index="{{index}}">
                         <text class="iconfont icon-24px">{{item.likes_count}}</text>
                     </view>
-                    <view class="comment" catchtap="reportComment" data-index="{{index}}">
+                    <view class="comment">
+                        <text class="iconfont icon-pinglunxiao"> {{item.comments_count}}</text>
+                    </view>
+                    <view class="comment" catchtap="reportComment" data-id="{{item.comments_id}}">
                         <text class="iconfont icon-jubao"></text>
                     </view>
                 </view>
                 <!-- 评论的评论列表 -->
-                <view class="comment-list comment-on-comment-list">
-                    <block wx:for="{{item.replies}}" wx:key="index2">
-                    <view class="comment-item comment-on-comment-item">
-                        <image class="comment-avatar" src="{{item.anonymous ? '/image/btnbar/gr1.png' : item.avatar_url}}" mode="aspectFit"></image>
+                <view class="comment-list comment-on-comment-list" catchtap='showCommentInput' data-type="nextComment">
+                    <view wx:for="{{item.replies}}" 
+                        wx:key="index2" 
+                        wx:for-item="reply" 
+                        class="comment-item comment-on-comment-item">
+                        <image class="comment-avatar" 
+                            src="{{reply.anonymous ? '/image/btnbar/gr1.png' : reply.avatar_url}}" 
+                            mode="aspectFit"></image>
                         <view class="comment-info">
                             <view class="comment-header">
-                                <text class="comment-username">{{item.anonymous ? '匿名用户' : item.nickname}}</text>
-                                <text class="comment-time">{{item.created_at}}</text>
+                                <text class="comment-username">{{reply.anonymous ? '匿名用户' : reply.nickname}}</text>
+                                <text class="comment-time">{{reply.created_at}}</text>
                             </view>
-                            <text class="comment-content"><text style="font-weight: bold;">回复：</text>{{item.comment}}</text>
+                            <text class="comment-content">
+                                <text style="font-weight: bold;">回复：</text>
+                                <text>{{reply.comment}}</text>
+                            </text>
+                            <view class="cTocReport" catchtap="reportComment" data-id="{{reply.comments_id}}">
+                                <text class="iconfont icon-jubao"></text>
+                            </view>
                         </view>
                     </view>
-                    </block>
                 </view>
             </view>
         </view>

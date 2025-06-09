@@ -22,6 +22,8 @@ Page({
         selfPost: false,
         isLiked: false,
 
+        commentType: '',//次级评论
+        parentid: -1,//次级评论父级id
         showCommentInput: false,
 	},
 	
@@ -77,11 +79,25 @@ Page({
 		const originComments = commentResult.data.result;
 		
         const comments = await Promise.all(originComments.map(async value => {
-            const { created_at, user_id, isLiked, likes_count } = value;
+            const { created_at, user_id, isLiked, likes_count, replies : oriReply } = value;
             const newTime = formatDateString(created_at);
             const userInfo = await this.getUserById(user_id);
 			const { avatar_url, nickname } = userInfo.data;
-			
+            
+           const replies = oriReply.map(value => {
+                const replyTime = formatDateString(value.created_at)
+
+                return {
+                    ...value, 
+                    created_at: replyTime, 
+                    avatar_url, 
+                    nickname,
+                    isLiked, 
+                    likes_count,
+                    comments_count: 0,
+                }
+            })
+
             return { 
                ...value, 
                 created_at: newTime, 
@@ -89,8 +105,8 @@ Page({
                 nickname,
                 isLiked, 
                 likes_count,
-                comments_count: 0,
-                replies: []
+                comments_count: replies.length,
+                replies,
             };
 		}));
         
@@ -176,6 +192,7 @@ Page({
 	
     // 提交评论
     submitComment() {
+        
         // 获取评论内容并去除首尾空格
         const commentContent = this.data.commentContent.trim();
         if (commentContent === '') {
@@ -191,7 +208,8 @@ Page({
         const comment = {
             userid: wx.getStorageSync('user_info').userid,
             comment: commentContent,
-            anonymous: this.data.isAnonymous? 1 : 0,
+            parentid: this.data.parentid >= 0 ? this.data.parentid : null,
+            anonymous: this.data.isAnonymous? 1 : 0, 
             postid: this.data.post_id
 		};
 		
@@ -199,45 +217,72 @@ Page({
         this.setData({
             commentContent: '',
             isAnonymous: false,
-            showCommentInput: false
-		});
-		
+            showCommentInput: false,
+            parentid: -1,
+        });
+        
+        //上传回复
+        if (this.data.commentType === 'commentComment'){
+            this.postReply(comment)
+            .then(res => {
+                this.commentRefresh(res) 
+            })
+
+            return
+        }
+            
         // 上传评论
         this.postComments(comment)
-           .then(async (res) => {
-				console.log('服务器响应:', res);
-				
-                const ocm = await this.getCommentsByPostid(this.data.post_id,wx.getStorageSync('user_info').userid);
-				const originComments = ocm.data.result;
-				
-                const comments = await Promise.all(originComments.map(async value => {
-                    const { created_at, user_id } = value;
-                    const newTime = formatDateString(created_at);
-                    const userInfo = await this.getUserById(user_id);
-					const { avatar_url, nickname } = userInfo.data;
-					
-                    return { 
-                       ...value, 
-                        created_at: newTime, 
-                        avatar_url, 
-                        nickname,
-                        isLiked: false,
-                        showCommentInput: false,
-                        commentContent: '',
-                        isAnonymous: false,
-                        likes_count: 0,
-                        comments_count: 0,
-                        replies: []
-                    };
-				}));
-				
-                this.setData({
-                    comments_count: comments.length,
-                    comments
-                });
+           .then(res => { 
+               this.commentRefresh(res) 
             });
     },
     
+    //发送后刷新
+    async commentRefresh(res) {
+        console.log('服务器响应:', res);
+        
+        const ocm = await this.getCommentsByPostid(this.data.post_id,wx.getStorageSync('user_info').userid);
+        const originComments = ocm.data.result;
+        
+        const comments = await Promise.all(originComments.map(async value => {
+            const { created_at, user_id, replies : oriReply } = value;
+            const newTime = formatDateString(created_at);
+            const userInfo = await this.getUserById(user_id);
+            const { avatar_url, nickname } = userInfo.data;
+            
+            const replies = oriReply.map(value => {
+                const replyTime = formatDateString(value.created_at)
+
+                return {
+                    ...value, 
+                    created_at: replyTime, 
+                    avatar_url, 
+                    nickname,
+                }
+            })
+
+            return { 
+               ...value, 
+                created_at: newTime, 
+                avatar_url, 
+                nickname,
+                isLiked: false,
+                showCommentInput: false,
+                commentContent: '',
+                isAnonymous: false,
+                likes_count: 0,
+                comments_count: 0,
+                replies,
+            };
+        }));
+        
+        this.setData({
+            comments_count: comments.length,
+            comments
+        });
+    },
+
     // 转发帖子
     forwardPost() {
         wx.showShareMenu({
@@ -248,13 +293,28 @@ Page({
 	},
 	
     // 点击评论按钮显示输入框
-    showCommentInput() {
+    showCommentInput(e) {
+        const { type, id } = e.currentTarget.dataset
+
+        //禁止第三级评论
+        if (type === 'nextComment') return
+
         //已经显示了的情况
         if (this.data.showCommentInput){
+            //切换状态
+            if (this.data.commentType !== type){
+                this.setData({
+                    commentType: type,
+                })
+
+                return
+            }
+
             this.setData({
                 commentContent: '',
                 isAnonymous: false,
-                showCommentInput: false
+                showCommentInput: false,
+                parentid: -1,
             });
 
             return
@@ -267,7 +327,9 @@ Page({
         }));
         this.setData({
             showCommentInput: true,
-            comments: newComments
+            comments: newComments,
+            commentType: type,
+            parentid: id ? id : -1,
         });
 	},
 	
@@ -305,16 +367,6 @@ Page({
         })
 	},
 	
-    // 预览图片
-    previewImage(e) {
-        const current = e.currentTarget.dataset.images[e.currentTarget.dataset.index];
-        const urls = e.currentTarget.dataset.images;
-        wx.previewImage({
-            current,
-            urls
-        });
-    },
-    
     // 点赞评论
     async likeComment(e) {
         const index = e.currentTarget.dataset.index;
@@ -358,10 +410,10 @@ Page({
     
     // 举报评论
     reportComment(e) {
-        const index = e.currentTarget.dataset.index;
-        const comment = this.data.comments[index];
+        const index = e.currentTarget.dataset.id;
+
         wx.navigateTo({
-            url: '/pages/report/report?type=comments&id=' + comment.id,
+            url: '/pages/report/report?type=comments&id=' + index,
         })
     },
 	
@@ -423,6 +475,20 @@ Page({
                 env: 'prod-9ggzinxb5b8ff0c5'
             },
             path: '/post/comment',
+            header: {
+                'X-WX-SERVICE': 'express-41pr'
+            },
+            method: 'POST',
+            data: comment
+        });
+    },
+
+    postReply(comment) {
+        return wx.cloud.callContainer({
+            config: {
+                env: 'prod-9ggzinxb5b8ff0c5'
+            },
+            path: '/comment/reply',
             header: {
                 'X-WX-SERVICE': 'express-41pr'
             },
