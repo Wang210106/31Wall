@@ -86,7 +86,7 @@ Page({
             const userInfo = await this.getUserById(user_id);
 			const { avatar_url, nickname } = userInfo.data;
             
-           const replies = await Promise.all(oriReply.map(async value => {
+            const replies = await Promise.all(oriReply.map(async value => {
                 const replyTime = formatDateString(value.created_at)
                 const replyUser = await this.getUserById(value.user_id);
 
@@ -240,42 +240,44 @@ Page({
             });
     },
     
-    //发送后刷新
     async commentRefresh(res) {
         console.log('服务器响应:', res);
         
-        const ocm = await this.getCommentsByPostid(this.data.post_id,this.data.currentUserId);
+        const ocm = await this.getCommentsByPostid(this.data.post_id, this.data.currentUserId);
         const originComments = ocm.data.result;
         
-        const comments = await Promise.all(originComments.map(async value => {
-            const { created_at, user_id, replies : oriReply } = value;
+        const comments = await Promise.all(originComments.map(async (comment) => {
+            const { created_at, user_id, replies: oriReply = [] } = comment;
             const newTime = formatDateString(created_at);
             const userInfo = await this.getUserById(user_id);
             const { avatar_url, nickname } = userInfo.data;
             
-            const replies = oriReply.map(value => {
-                const replyTime = formatDateString(value.created_at)
-
+            // 修复：使用Promise.all等待所有回复处理完成
+            const replies = await Promise.all(oriReply.map(async (reply) => {
+                const replyTime = formatDateString(reply.created_at);
+                const replyUserInfo = await this.getUserById(reply.user_id);
+                const { avatar_url: replyAvatar, nickname: replyNickname } = replyUserInfo.data;
+    
                 return {
-                    ...value, 
-                    created_at: replyTime, 
-                    avatar_url, 
-                    nickname,
-                }
-            })
-
-            return { 
-               ...value, 
-                created_at: newTime, 
-                avatar_url, 
+                    ...reply,
+                    created_at: replyTime,
+                    avatar_url: replyAvatar,
+                    nickname: replyNickname
+                };
+            }));
+    
+            return {
+                ...comment,
+                created_at: newTime,
+                avatar_url,
                 nickname,
                 isLiked: false,
                 showCommentInput: false,
                 commentContent: '',
                 isAnonymous: false,
-                likes_count: 0,
-                comments_count: 0,
-                replies,
+                likes_count: comment.likes_count || 0,  // 保留原始值
+                comments_count: comment.comments_count || 0,  // 保留原始值
+                replies  // 使用处理后的回复数组
             };
         }));
         
