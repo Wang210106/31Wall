@@ -1,407 +1,242 @@
-import { formatDateString } from '../../utils/timeStamp'
+import { formatDateString } from '../../utils/timeStamp';
+import { 
+	getPosts,
+	getPostsByTab,
+	postLike,
+	deleteLike,
+	getLikeAmount,
+	getUserInfo
+} from '../../utils/netRequest';
 
 Page({
-    data: {
-        // 存储帖子数据
-        posts: [],
-        // 金刚区导航列表(appdata中)
+	data: {
+		posts: [],
 		kingkongList: [],
 		selfLike: [],
+		currentPage: 0,
 
-        currentPage: 0,
-        nomore: true,
-        initializing: true,
-        
-        //回顶图标
-        showBackTop: false,
-        
-        kStatus: -1,
-    },
+		showBackTop: false,
+		kStatus: -1,
 
-    onLoad: function(){
-        const app = getApp();
+		nomore: false,
+		initializing: true,
+		loading: false, // 添加loading状态
+	},
 
-        this.setData({
+	onLoad: function() {
+		const app = getApp();
+		this.setData({
 			kingkongList: app.globalData.kingkongList,
-			selfLike: wx.getStorageSync('self_like'),
-        })
-    },
+			selfLike: wx.getStorageSync('self_like') || [],
+		});
+	},
 
 	// 轮播图跳转
-	handleImageTap: function (event) {
+	handleImageTap: function(event) {
 		const targetUrl = event.currentTarget.dataset.url;
 		wx.navigateTo({
 		url: targetUrl,
-		success: function () {
-			console.log('页面跳转成功');
-		},
-		fail: function (err) {
-			console.log('页面跳转失败', err);
-		}
+		success: () => console.log('页面跳转成功'),
+		fail: (err) => console.log('页面跳转失败', err)
 		});
 	},
 
 	async onReady() {
-		const page0 = await this.getPosts(0)
-
+		const page0 = await this.fetchPosts(0);
 		this.setData({
-			posts: page0,
-			initializing: false,
-			currentPage: 0,
-			kStatus: -1,
-		})
+		posts: page0,
+		initializing: false,
+		currentPage: 0,
+		kStatus: -1,
+		});
 	},
 
 	async onShow() {
-		if (this.data.initializing) return
-
-		const page0 = await this.getPosts(0)
-
+		if (this.data.initializing) return;
+		const page0 = await this.fetchPosts(0);
 		this.setData({
-			posts: page0,
-			currentPage: 0,
-			currentPage: 0,
-			kStatus: -1,
-		})
-	},
-
-	//到底了
-	async onReachBottom() {
-		if (this.data.loading) return
-
-		this.setData({
-		loading: true,
-		})
-
-		const cuPage = this.data.currentPage
-		//检查是否在tab状态
-		const pageNext = []
-		if (this.data.kStatus < 0){
-			pageNext[0] = await this.getPosts(cuPage + 1)
-		}
-		else{
-			pageNext[0] = await this.getPostsByTab(this.data.kingkongList[this.data.kStatus].text,cuPage + 1)
-			pageNext[0] = this.updatePostsData(pageNext[0].data)
-		}
-
-		this.setData({
-			currentPage: cuPage + 1,
-			posts: pageNext[0],
-		})
-
-		setTimeout(() => {
-		this.setData({
-			loading: false,
-		})
-		}, 1500); // 1.5秒之后才能刷新
-	},
-
-	async getPosts(page) {
-		const res = await wx.cloud.callContainer({
-			"config": {
-				"env": "prod-9ggzinxb5b8ff0c5"
-			},
-			"path": "/post/all?page=" + page,
-			"header": {
-				"X-WX-SERVICE": "express-41pr"
-			},
-			"method": "GET",
-		})
-
-		if (res.statusCode !== 200) {
-		return null;
-		}
-
-		const postsPromises = this.updatePostsData(res.data)
-
-		return await Promise.all(postsPromises);
-	},
-
-	//下拉刷新
-	onPullDownRefresh: async function () {
-		wx.showNavigationBarLoading();
-
-		const page0 = await this.getPosts(0)
-
-		this.setData({
-			posts: page0,
-			currentPage: 0,
-			kStatus: -1,
-		})
-
-		setTimeout(() => {
-		wx.stopPullDownRefresh();
-		wx.hideNavigationBarLoading();
-		}, 1000);
+		posts: page0,
+		currentPage: 0,
+		kStatus: -1,
+		});
 	},
 
 	// 处理金刚区导航跳转
-    async navigateToPage(e) {
-        const { id } = e.currentTarget.dataset;
+	async navigateToPage(e) {
+		const { id } = e.currentTarget.dataset;
+		const tabName = this.data.kingkongList[id].text;
+		
+		const res = await getPostsByTab(tabName, 0);
+		const postsdata = await this.processPostsData(res.data);
+		
+		this.setData({
+		kStatus: id,
+		currentPage: 0,
+		posts: postsdata,
+		});
+	},
 
-        //不在查看tab
-        if (this.data.kStatus < 0){
-            this.setData({
-                currentPage: 0,
-            })
-        }
-        else{
-            this.setData({
-                currentPage: this.data.currentPage + 1
-            })
-        }
+	// 从分页回主页
+	async toMainPage() {
+		const page0 = await this.fetchPosts(0);
+		this.setData({
+		posts: page0,
+		currentPage: 0,
+		kStatus: -1,
+		});
+	},
 
-        const res = await this.getPostsByTab(this.data.kingkongList[id].text, this.data.currentPage)
-        const postsdata = this.updatePostsData(res.data)
+	// 到底加载更多
+	async onReachBottom() {
+		if (this.data.loading || this.data.nomore) return;
+		
+		this.setData({ loading: true });
+		const nextPage = this.data.currentPage + 1;
+		
+		let newPosts = [];
+		if (this.data.kStatus < 0) {
+			newPosts = await this.fetchPosts(nextPage);
+		} else {
+			const tabName = this.data.kingkongList[this.data.kStatus].text;
+			const res = await getPostsByTab(tabName, nextPage);
+			newPosts = await this.processPostsData(res.data);
+		}
+		
+		// 检查是否还有更多数据
+		const nomore = newPosts.length === 0;
+		
+		this.setData({
+			currentPage: nextPage,
+			posts: newPosts,
+			loading: false,
+			nomore,
+		});
+	},
 
-        this.setData({
-            kStatus: id,
-            posts: postsdata,
-        })
-    },
+	// 下拉刷新
+	async onPullDownRefresh() {
+		wx.showNavigationBarLoading();
+		const page0 = await this.fetchPosts(0);
+		
+		this.setData({
+			posts: page0,
+			currentPage: 0,
+			kStatus: -1,
+			nomore: false,
+		});
+		
+		setTimeout(() => {
+			wx.stopPullDownRefresh();
+			wx.hideNavigationBarLoading();
+		}, 1000);
+	},
 
-    //从分页回主页
-    async toMainPage(){
-        const page0 = await this.getPosts(0)
+	// 获取并处理帖子数据
+	async fetchPosts(page) {
+		const res = await getPosts(page);
+		if (res.statusCode !== 200) return [];
+		return this.processPostsData(res.data);
+	},
 
-        this.setData({
-            posts: page0,
-            initializing: false,
-            currentPage: 0,
-            kStatus: -1,
-        })
-    },
+	// 处理帖子数据（异步获取用户信息）
+	async processPostsData(posts) {
+		const processedPosts = [];
+		
+		for (const post of posts) {
+			const thisData = this.formatPostData(post, post.userInfo);
+			processedPosts.push(thisData);
+		}
+		
+		return processedPosts;
+	},
 
-    // 跳转到帖子详情页
-    navigateToPost(e) {
-        const post = this.data.posts.find(obj => obj.post_id === e.currentTarget.dataset.post);
-        const postStr = JSON.stringify(post);
+	// 格式化帖子数据
+	formatPostData(post, userInfo) {
+		const formatted = {
+			post_id: post.post_id,
+			title: post.title,
+			content: post.content,
+			images: JSON.parse(post.images || '[]'),
+			post_time: formatDateString(post.created_at),
+			likes_count: post.likeAmount || 0,
+			comments_count: post.commentAmount || 0,
+			realname: post.realname,
+			user_id: post.user_id,
+			tab: post.tab,
+		};
+		
+		// 处理实名信息
+		if (post.realname == 1) {
+			formatted.avatar = userInfo.avatar_url;
+			formatted.username = userInfo.nickname;
+			} else if (post.realname == 2) {
+			formatted.avatar = userInfo.avatar_url;
+			formatted.username = `${userInfo.grade}${userInfo.class.toString().padStart(2, '0')}${userInfo.realname}`;
+		}
+		
+		return formatted;
+	},
 
-        wx.setStorageSync('_post', postStr)
+	// 点赞功能
+	async pageLike(e) {
+		const userid = wx.getStorageSync('user_info')?.userid;
+		const postid = e.currentTarget.dataset.id;
+		
+		if (!userid) {
+			wx.showToast({ title: '请先登录', icon: 'none' });
+			return;
+		}
+		
+		const selfLikes = wx.getStorageSync('self_like') || [];
+		const isLiked = selfLikes.includes(postid);
+		
+		try {
+			if (isLiked) {
+				// 取消点赞
+				await deleteLike(postid, userid);
+				const newLikes = selfLikes.filter(id => id !== postid);
+				wx.setStorageSync('self_like', newLikes);
+			} else {
+				// 点赞
+				await postLike({ userid, postid });
+				wx.setStorageSync('self_like', [...selfLikes, postid]);
+			}
+			
+			// 更新点赞数
+			const likeRes = await getLikeAmount(postid);
+			const newCount = likeRes.data[0]?.['COUNT(*)'] || 0;
+			
+			this.setData({
+				posts: this.data.posts.map(post => 
+					post.post_id === postid ? {...post, likes_count: newCount} : post
+				),
+				selfLike: wx.getStorageSync('self_like'),
+			});
+			
+		} catch (error) {
+			console.error('点赞操作失败:', error);
+			wx.showToast({ title: '操作失败', icon: 'none' });
+		}
+	},
 
-        wx.navigateTo({
-            url: `/pages/post/post`,
-        });
-    },
+	// 其他方法保持不变
+	navigateToPost(e) {
+		const post = this.data.posts.find(obj => obj.post_id === e.currentTarget.dataset.post);
+		wx.setStorageSync('_post', JSON.stringify(post));
+		wx.navigateTo({ url: '/pages/post/post' });
+	},
 
 	onPageScroll(e) {
-		if (e.scrollTop > 800) {
-		this.setData({
-			showBackTop: true
-		})
-		} else {
-		this.setData({
-			showBackTop: false
-		})
-		}
+		this.setData({ showBackTop: e.scrollTop > 800 });
 	},
 
 	backToTop() {
-		wx.pageScrollTo({
-		scrollTop: 0,
-		duration: 1000
-		})
+		wx.pageScrollTo({ scrollTop: 0, duration: 1000 });
 	},
 
-	//点赞了
-	async pageLike(e) {
-        const userid = wx.getStorageSync('user_info').userid;
-		const postid = e.currentTarget.dataset.id;
-		
-        const like = {
-            userid,
-            postid
-		};
-		const self_likes = wx.getStorageSync('self_like');
-		
-        // 取消点赞
-        if (self_likes.indexOf(postid) >= 0) {
-            self_likes.splice(self_likes.indexOf(postid), 1);
-			wx.setStorageSync('self_like', self_likes);
-			
-			await this.deleteLike(postid, userid);
-			
-			const likeAmount = await this.getLikeAmount(postid);
-			const newPosts = this.data.posts.map(value => {
-				let likes_count = value.likes_count
-
-				if (value.post_id == postid){
-					likes_count = likeAmount.data[0]['COUNT(*)']
-				}
-
-				return {
-					...value,
-					likes_count
-				}
-			})
-            this.setData({
-				posts: newPosts,
-				selfLike: wx.getStorageSync('self_like'),
-			});
-			
-            return;
-		}
-		
-        wx.setStorageSync('self_like', [
-           ...wx.getStorageSync('self_like'),
-            postid
-		]);
-		
-        await this.postLike(like).then(async res => {
-            if (res.data.error === 'User has already liked this post') {
-                wx.showToast({
-                    title: '已经点赞了哦'
-                });
-			}
-			
-            const likeAmount = await this.getLikeAmount(postid);
-            const newPosts = this.data.posts.map(value => {
-				let likes_count = value.likes_count
-
-				if (value.post_id == postid){
-					likes_count = likeAmount.data[0]['COUNT(*)']
-				}
-
-				return {
-					...value,
-					likes_count
-				}
-			})
-            this.setData({
-				posts: newPosts,
-				selfLike: wx.getStorageSync('self_like'),
-			});
-        });
-	},
-
-	// 处理悬浮窗按钮点击事件
 	handleFloatingBtnTap() {
-			wx.navigateTo({
-				url: '/pages/write/write',
-			});
-	},
-
-	updatePostsData: data => data.map(data => {
-			const thisData = {
-				post_id: data.post_id,
-				title: data.title,
-				content: data.content,
-				images: JSON.parse(data.images),
-				post_time: formatDateString(data.created_at),
-				likes_count: data.likeAmount, 
-				comments_count: data.commentAmount,
-				realname: data.realname,
-				user_id: data.user_id,
-				tab: data.tab,
-			};
-
-			const userInfoResult = data.userInfo
-
-			//昵称实名
-			if (data.realname == 1) {
-				thisData.avatar = userInfoResult.avatar_url
-				thisData.username = userInfoResult.nickname
-			}
-			//全实名
-			else if (data.realname == 2){
-				thisData.avatar = userInfoResult.avatar_url
-				thisData.username = userInfoResult.grade + '' + 
-				(userInfoResult.class <= 9 ? '0' + userInfoResult.class : userInfoResult.class)
-				+ userInfoResult.realname
-			}
-
-			return thisData;
-	}),
-
-	postLike(comment) {
-        return wx.cloud.callContainer({
-            config: {
-                env: 'prod-9ggzinxb5b8ff0c5'
-            },
-            path: '/post/like',
-            header: {
-                'X-WX-SERVICE': 'express-41pr'
-            },
-            method: 'POST',
-            data: comment
-        });
-	},
-
-	deleteLike(postid, userid) {
-        return wx.cloud.callContainer({
-            config: {
-                env: 'prod-9ggzinxb5b8ff0c5'
-            },
-            path: `/post/like?postid=${postid}&userid=${userid}`,
-            header: {
-                'X-WX-SERVICE': 'express-41pr'
-            },
-            method: 'DELETE'
-        });
-    },
-
-	getLikeAmount(postid) {
-		return wx.cloud.callContainer({
-		"config": {
-			"env": "prod-9ggzinxb5b8ff0c5"
-		},
-		"path": "/post/like/amount?postid=" + postid,
-		"header": {
-			"X-WX-SERVICE": "express-41pr"
-		},
-		"method": "GET",
-		})
-	},
-
-	getCommentAmount(postid) {
-		return wx.cloud.callContainer({
-		"config": {
-			"env": "prod-9ggzinxb5b8ff0c5"
-		},
-		"path": "/post/comment/amount?postid=" + postid,
-		"header": {
-			"X-WX-SERVICE": "express-41pr"
-		},
-		"method": "GET",
-		})
-	},
-
-	getUserById(userid) {
-		return wx.cloud.callContainer({
-		"config": {
-			"env": "prod-9ggzinxb5b8ff0c5"
-		},
-		"path": "/user/userid?userid=" + userid,
-		"header": {
-			"X-WX-SERVICE": "express-41pr"
-		},
-		"method": "GET",
-		})
-	},
-
-	getLikeByUserid(userid) {
-		return wx.cloud.callContainer({
-		"config": {
-			"env": "prod-9ggzinxb5b8ff0c5"
-		},
-		"path": "/post/like/userid?userid=" + userid,
-		"header": {
-			"X-WX-SERVICE": "express-41pr"
-		},
-		"method": "GET",
-		})
-	},
-
-	getPostsByTab(tab, page) {
-		return wx.cloud.callContainer({
-		"config": {
-			"env": "prod-9ggzinxb5b8ff0c5"
-		},
-		"path": "/post/tab?tab=" + encodeURIComponent(tab) + '&page=' + page,
-		"header": {
-			"X-WX-SERVICE": "express-41pr"
-		},
-		"method": "GET",
-		})
-	},
-})
+		wx.navigateTo({ 
+			url: '/pages/write/write' 
+		});
+	}
+});

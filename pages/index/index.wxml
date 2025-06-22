@@ -98,6 +98,4 @@
   <image src="/image/btnbar/tiezi2.png" mode="aspectFill"></image>
 </view>
 
-<block wx:if="{{nomore}}">
-    <view class="none">{{ loading ? '加载中加载中...' :  '没有更多了捏...'}}</view>
-</block>
+<view class="none">{{ (loading || initializing) ? '加载中加载中...' :  '没有更多了捏...'}}</view>
