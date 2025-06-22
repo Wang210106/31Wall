@@ -1,14 +1,8 @@
 <wxs src="/utils/include.wxs" module="util"/>
-<!-- 搜索栏 
-<view class="search-bar" style="margin: 20px 8px;">
-  <input type="text" placeholder="搜索" />
-</view>
--->
 
 <!-- 轮播图 -->
 <swiper class="swiper" indicator-dots="true" style="margin: 20px 8px;" autoplay="true" interval="5000" circular="true">
   <swiper-item>
-    
     <image class="swiper-image" src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/activities/band/band-logo.jpg" mode="aspectFill" bindtap="handleImageTap" data-url="/pages/activities/band/band" />
   </swiper-item>
   <swiper-item>
@@ -21,31 +15,43 @@
 
 <!-- 金刚区 -->
 <view class="kingkong-area" style="margin: 20px 8px;">
-    <view class="kingkong-wrapper">
-            <!-- 循环渲染 -->
-            <view class="kingkong-item {{kStatus >= 0 ? ( kStatus === item.id ? 'expended' : 'hidden') : ''}}" 
-                wx:for="{{kingkongList}}" 
-                wx:key="index" 
-                bindtap="navigateToPage"  
-                data-id="{{item.id}}">
+  <view class="kingkong-wrapper">
+    <!-- 循环渲染 -->
+    <view class="kingkong-item" 
+          wx:for="{{kingkongList}}" 
+          wx:key="index" 
+          bindtap="navigateToPage"  
+          data-id="{{item.id}}">
+      
+      <!-- 显示图标 -->
+      <image class="kingkong-icon {{kStatus === item.id ? 'expanded' : (kStatus >= 0 ? 'shrunk' : '')}}" src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/resourceImage/{{item.icon}}" mode="aspectFill" />
+      <text class="kingkong-text">{{item.text}}</text>
+    </view>
+  </view>
+</view>
 
-            <!-- 显示图标 -->
-            <image class="kingkong-icon" src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/resourceImage/{{item.icon}}" mode="aspectFill" />
-            <text class="kingkong-text">{{item.text}}</text>
-            </view>
+<!-- 下滑后显示的分区导航栏 -->
+<view class="tab-navbar {{showTabBar ? 'show' : 'hide'}}" style="z-index: 9999;">
+  <scroll-view scroll-x="true" class="tab-scroll-view">
+    <view class="tab-item {{kStatus === -1 ? 'active' : ''}}" bindtap="toMainPage">
+      <text>全部</text>
     </view>
-    <!-- 返回按钮 -->
-    <view class="toPage" wx:if="{{kStatus >= 0}}" bind:tap="toMainPage">
-        <image src="/image/return.png" mode=""/>
+    <view class="tab-item {{kStatus === index ? 'active' : ''}}" 
+          wx:for="{{kingkongList}}" 
+          wx:key="index" 
+          bindtap="navigateToPage"  
+          data-id="{{index}}">
+      <text>{{item.text}}</text>
     </view>
+  </scroll-view>
 </view>
 
 <view class="subt" wx:if="{{posts.length !== 0}}">
-    你好，同学！
+  你好，同学！
 </view>
 
 <!-- 帖子区 -->
-<view class="post-area" style="margin: 20px 8px;">
+<view class="post-area" style="margin: 20px 8px; padding-bottom: {{kStatus >= 0 ? '100px' : '50px'}}">
   <!-- 循环渲染每个帖子 -->
   <view class="post-preview" wx:for="{{posts}}" wx:key="post_id" bindtap="navigateToPost" data-post="{{item.post_id}}">
     <!-- 用户信息：头像、用户名和发帖时间 -->
@@ -61,12 +67,12 @@
     <!-- 图片/视频预览 -->
     <view class="media-preview" style="{{item.mediaPreviewStyle}}">
         <!-- 单张图片预览 -->
-        <image  src="{{item.images[0]}}" mode="aspectFill" wx:if="{{item.images.length === 1}}" data-image="{{item.images[0]}}"></image>
+        <image class="media-preview-image" src="{{item.images[0]}}" mode="aspectFill" wx:if="{{item.images.length === 1}}" data-image="{{item.images[0]}}"></image>
         <!-- 多张图片缩略图预览 -->
         <view class="thumbnail-grid" wx:if="{{item.images.length > 1}}">
             <!-- 循环渲染每张缩略图 -->
             <block wx:for="{{item.images}}" wx:key="*this">
-            <image class="thumbnail-grid" src="{{item}}" mode="aspectFill" data-images="{{item.images}}" data-index="{{index}}"></image>
+              <image class="thumbnail-image" src="{{item}}" mode="aspectFill" data-images="{{item.images}}" data-index="{{index}}"></image>
             </block>
       </view>
     </view>
@@ -96,6 +102,22 @@
 <!-- 悬浮窗按钮 -->
 <view class="floating-btn" style="{{showBackTop? 'bottom: 150rpx;' : 'bottom: 50rpx;'}}" bindtap="handleFloatingBtnTap">
   <image src="/image/btnbar/tiezi2.png" mode="aspectFill"></image>
+</view>
+
+<!-- 新的返回主页悬浮窗按钮 -->
+<view class="new-back-home-btn" bindtap="toMainPage" style="{{kStatus >= 0 && !showTabBar ? 'left: 20rpx; opacity: 1;' : 'left: -100rpx; opacity: 0;'}}">
+  <text class="back-home-text">返回</text>
+  <text class="back-home-text">主页</text>
+</view>
+
+<!-- 加载提示 -->
+<view class="loading-mask" wx:if="{{loadingPage}}">
+  <view class="loading-container">
+    <view class="loading-icon">
+      <image src="cloud://prod-9ggzinxb5b8ff0c5.7072-prod-9ggzinxb5b8ff0c5-1340903048/logo.jpg" mode="aspectFit"></image>
+    </view>
+    <text class="loading-text">加载中...</text>
+  </view>
 </view>
 
 <view class="none">{{ (loading || initializing) ? '加载中加载中...' :  '没有更多了捏...'}}</view>
