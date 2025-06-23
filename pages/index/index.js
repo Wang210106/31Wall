@@ -7,6 +7,7 @@ import {
 	getLikeAmount,
 	getUserInfo
 } from '../../utils/netRequest';
+import { throttle } from '../../utils/throttle'
 
 Page({
 	data: {
@@ -21,6 +22,10 @@ Page({
 		nomore: false,
 		initializing: true,
 		loading: false, // 添加loading状态
+
+		showTabBar: false, // 是否显示下滑后的分区导航栏 
+		navHeight: 44, 
+		statusBarHeight: 0, 
 	},
 
 	onLoad: function() {
@@ -29,25 +34,65 @@ Page({
 			kingkongList: app.globalData.kingkongList,
 			selfLike: wx.getStorageSync('self_like') || [],
 		});
+
+		//根据系统修改状态
+		const statusBarHeight = wx.getWindowInfo().statusBarHeight
+		this.setData({
+			statusBarHeight,
+			navHeight: statusBarHeight + this.data.navHeight
+		})
 	},
+	 
+	// 页面滚动事件处理 
+	onPageScroll: throttle(function(e) { 
+		// 添加导航栏高度的偏移量 
+		const scrollThreshold = 300 + this.data.statusBarHeight; 
+		
+		if (e.scrollTop > 760){
+			wx.setNavigationBarColor({ 
+				frontColor: '#ffffff', 
+				backgroundColor: '#007aff', 
+				animation: { 
+					duration: 400, 
+					timingFunc: 'easeIn' 
+				} 
+			}); 
+		}
+		else if(e.scrollTop < 760){
+			wx.setNavigationBarColor({ 
+				frontColor: '#000000', 
+				backgroundColor: '#ffffff', 
+				animation: { 
+					duration: 400, 
+					timingFunc: 'easeIn' 
+				} 
+			}); 
+		}
+
+		// 确保导航栏在下滑到一定距离后显示 
+		this.setData({  
+			showBackTop: e.scrollTop > 800, 
+			showTabBar: e.scrollTop > scrollThreshold 
+		}); 
+	},100), 
 
 	// 轮播图跳转
 	handleImageTap: function(event) {
 		const targetUrl = event.currentTarget.dataset.url;
 		wx.navigateTo({
-		url: targetUrl,
-		success: () => console.log('页面跳转成功'),
-		fail: (err) => console.log('页面跳转失败', err)
+			url: targetUrl,
+			success: () => console.log('页面跳转成功'),
+			fail: (err) => console.log('页面跳转失败', err)
 		});
 	},
 
 	async onReady() {
 		const page0 = await this.fetchPosts(0);
 		this.setData({
-		posts: page0,
-		initializing: false,
-		currentPage: 0,
-		kStatus: -1,
+			posts: page0,
+			initializing: false,
+			currentPage: 0,
+			kStatus: -1,
 		});
 	},
 
@@ -55,35 +100,44 @@ Page({
 		if (this.data.initializing) return;
 		const page0 = await this.fetchPosts(0);
 		this.setData({
-		posts: page0,
-		currentPage: 0,
-		kStatus: -1,
+			posts: page0,
+			currentPage: 0,
+			kStatus: -1,
 		});
 	},
 
 	// 处理金刚区导航跳转
-	async navigateToPage(e) {
-		const { id } = e.currentTarget.dataset;
-		const tabName = this.data.kingkongList[id].text;
+	async navigateToPage(e) { 
+		const { id } = e.currentTarget.dataset; 
+		const tabName = this.data.kingkongList[id].text; 
+		 
+		// 修改导航栏标题 
+		wx.setNavigationBarTitle({ 
+		  	title: tabName 
+		}); 
+
+		const res = await getPostsByTab(tabName, 0); 
+		const postsdata = await this.processPostsData(res.data); 
 		
-		const res = await getPostsByTab(tabName, 0);
-		const postsdata = await this.processPostsData(res.data);
-		
-		this.setData({
-		kStatus: id,
-		currentPage: 0,
-		posts: postsdata,
-		});
-	},
+		this.setData({ 
+			kStatus: id, 
+			currentPage: 0, 
+			posts: postsdata, 
+		}); 
+	}, 
 
 	// 从分页回主页
 	async toMainPage() {
 		const page0 = await this.fetchPosts(0);
 		this.setData({
-		posts: page0,
-		currentPage: 0,
-		kStatus: -1,
+			posts: page0,
+			currentPage: 0,
+			kStatus: -1,
 		});
+
+		wx.setNavigationBarTitle({ 
+			title: '三十一中墙' 
+		}); 
 	},
 
 	// 到底加载更多
@@ -138,7 +192,7 @@ Page({
 		return this.processPostsData(res.data);
 	},
 
-	// 处理帖子数据（异步获取用户信息）
+	// 处理帖子数据
 	async processPostsData(posts) {
 		const processedPosts = [];
 		
@@ -224,10 +278,6 @@ Page({
 		const post = this.data.posts.find(obj => obj.post_id === e.currentTarget.dataset.post);
 		wx.setStorageSync('_post', JSON.stringify(post));
 		wx.navigateTo({ url: '/pages/post/post' });
-	},
-
-	onPageScroll(e) {
-		this.setData({ showBackTop: e.scrollTop > 800 });
 	},
 
 	backToTop() {

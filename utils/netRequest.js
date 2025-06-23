@@ -102,3 +102,135 @@ export function getPosts(page) {
 		"method": "GET",
 	})
 }
+
+export function getPostById(postid) {
+	return wx.cloud.callContainer({
+		config: {
+			env: 'prod-9ggzinxb5b8ff0c5'
+		},
+		path: `/post?postid=${postid}`,
+		header: {
+			'X-WX-SERVICE': 'express-41pr'
+		},
+		method: 'GET'
+	});
+}
+
+export function deletePostById(postid) {
+	return wx.cloud.callContainer({
+		config: {
+			env: 'prod-9ggzinxb5b8ff0c5'
+		},
+		path: `/post?postid=${postid}`,
+		header: {
+			'X-WX-SERVICE': 'express-41pr'
+		},
+		method: 'DELETE'
+	});
+}
+
+export function postComments(comment) {
+	return wx.cloud.callContainer({
+		config: {
+			env: 'prod-9ggzinxb5b8ff0c5'
+		},
+		path: '/post/comment',
+		header: {
+			'X-WX-SERVICE': 'express-41pr'
+		},
+		method: 'POST',
+		data: comment
+	});
+}
+
+export function postReply(comment) {
+	return wx.cloud.callContainer({
+		config: {
+			env: 'prod-9ggzinxb5b8ff0c5'
+		},
+		path: '/comment/reply',
+		header: {
+			'X-WX-SERVICE': 'express-41pr'
+		},
+		method: 'POST',
+		data: comment
+	});
+}
+
+export function postCommentLike(userid, commentid) {
+	return wx.cloud.callContainer({
+		config: {
+			env: 'prod-9ggzinxb5b8ff0c5'
+		},
+		path: `/post/commentLike?userid=${userid}&commentid=${commentid}`,
+		header: {
+			'X-WX-SERVICE': 'express-41pr'
+		},
+		method: 'POST',
+	});
+}
+
+export function getCommentsByPostid(postid,userid) {
+	return wx.cloud.callContainer({
+		config: {
+			env: 'prod-9ggzinxb5b8ff0c5'
+		},
+		path: `/post/comment/postid?postid=${postid}&userid=${userid}`,
+		header: {
+			'X-WX-SERVICE': 'express-41pr'
+		},
+		method: 'GET'
+	});
+}
+
+export function deleteComments(commentid) {
+	return wx.cloud.callContainer({
+		config: {
+			env: 'prod-9ggzinxb5b8ff0c5'
+		},
+		path: `/post/comment?commentid=${commentid}`,
+		header: {
+			'X-WX-SERVICE': 'express-41pr'
+		},
+		method: 'DELETE'
+	});
+}
+
+export function getPostsByUserid(userid){
+	return wx.cloud.callContainer({
+		"config": {
+			"env": "prod-9ggzinxb5b8ff0c5"
+		},
+		"path": "/post/userid?userid=" + userid,
+		"header": {
+			"X-WX-SERVICE": "express-41pr"
+		},
+		"method": "GET",
+	})
+}
+
+export function getLikesByPostid(postid){
+	return wx.cloud.callContainer({
+		"config": {
+			"env": "prod-9ggzinxb5b8ff0c5"
+		},
+		"path": "/post/like/postid?postid=" + postid,
+		"header": {
+			"X-WX-SERVICE": "express-41pr"
+		},
+		"method": "GET",
+	})
+}
+
+export function getNoticeByUserid(userid){
+	return wx.cloud.callContainer({
+		"config": {
+			"env": "prod-9ggzinxb5b8ff0c5"
+		},
+		"path": "/report/notice?userid=" + userid,
+		"header": {
+			"X-WX-SERVICE": "express-41pr"
+		},
+		"method": "GET",
+	})
+}

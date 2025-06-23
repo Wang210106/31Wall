@@ -1,5 +1,6 @@
 import { convertUtcToUtcPlus8 } from '../../utils/timeStamp'
-
+import { getNoticeByUserid, getPostsByUserid, getCommentsByPostid, getLikesByPostid } from '../../utils/netRequest'
+ 
 const pageDic = {
     0 : "system",
     1 : "notice",
@@ -33,19 +34,19 @@ Page({
     },
 
     async update(){
-        const systemRes = (await this.getNoticeByUserid(wx.getStorageSync('user_info').userid)).data
-        const noticeRes = (await this.getPostsByUserid(NoticeID)).data
+        const systemRes = (await getNoticeByUserid(wx.getStorageSync('user_info').userid)).data
+        const noticeRes = (await getPostsByUserid(NoticeID)).data
 
         const userInfo = wx.getStorageSync('user_info');
-        const posts = await this.getPostsByUserid(userInfo.userid);
+        const posts = await getPostsByUserid(userInfo.userid);
         const postsID = posts.data.map(post => post.post_id);
  
         const likesPromises = postsID.map(postId => 
-            this.getLikesByPostid(postId).then(response => response.data.result)
+            getLikesByPostid(postId).then(response => response.data.result)
         );
 
         const commentsPromises = postsID.map(
-            postId => this.getCommentsByPostid(
+            postId => getCommentsByPostid(
                 postId,wx.getStorageSync('user_info').userid
                 )
                 .then(response => response.data.result)
@@ -113,69 +114,4 @@ Page({
      
         return count;
     },
-
-    getPostsByUserid(userid){
-        return wx.cloud.callContainer({
-            "config": {
-                "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/post/userid?userid=" + userid,
-            "header": {
-                "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-    },
-
-    getPostsByUserid(userid){
-        return wx.cloud.callContainer({
-            "config": {
-                "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/post/userid?userid=" + userid,
-            "header": {
-                "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-    },
-
-    getLikesByPostid(postid){
-        return wx.cloud.callContainer({
-            "config": {
-                "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/post/like/postid?postid=" + postid,
-            "header": {
-                "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-    },
-
-    getCommentsByPostid(postid,userid){
-        return wx.cloud.callContainer({
-            "config": {
-                "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/post/comment/postid?postid=" + postid + "&userid=" + userid,
-            "header": {
-                "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-    },
-
-    getNoticeByUserid(userid){
-        return wx.cloud.callContainer({
-            "config": {
-                "env": "prod-9ggzinxb5b8ff0c5"
-            },
-            "path": "/report/notice?userid=" + userid,
-            "header": {
-                "X-WX-SERVICE": "express-41pr"
-            },
-            "method": "GET",
-        })
-    },
-  });
+});
